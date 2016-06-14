@@ -24,8 +24,8 @@ public class DBHelper {
 
     public DBHelper(DBConfig dbConfig) {
         this.dbConfig = dbConfig;
-        if(LOGGER.isInfoEnabled()){
-            LOGGER.info("Try to connect to database server: {}:{}, charset: {}",dbConfig.getIp(),dbConfig.getPort(),dbConfig.getCharset());
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Try to connect to database server: {}:{}, charset: {}", dbConfig.getIp(), dbConfig.getPort(), dbConfig.getCharset());
         }
         connection = createConnection(dbConfig);
     }
@@ -52,7 +52,7 @@ public class DBHelper {
         try {
             Class.forName(dbConfig.getDriverPackage());
             url = dbConfig.getProtocalPrefix() + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig.getDatabase() + "?characterEncoding=" + dbConfig.getCharset();
-            connection = DriverManager.getConnection(url);
+            connection = DriverManager.getConnection(url, dbConfig.getUsername(), dbConfig.getPassword());
         } catch (ClassNotFoundException e) {
             LOGGER.error("Cannot resolve driver class from {}, Class not found", dbConfig.getDriverPackage());
         } catch (SQLException e) {
@@ -98,7 +98,7 @@ public class DBHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close(resultSet);
         }
 
@@ -107,19 +107,19 @@ public class DBHelper {
 
     private boolean isTableEnabled(String table) {
         List<String> excludeTables = dbConfig.getExcludeTables();
-        if(excludeTables != null && excludeTables.size()>0) {
+        if (excludeTables != null && excludeTables.size() > 0) {
             if (excludeTables.contains(table)) {
                 return false;
             }
         }
 
         String tablePrefix = dbConfig.getTablePrefix();
-        if(tablePrefix!=null && !table.startsWith(tablePrefix)){
+        if (tablePrefix != null && !table.startsWith(tablePrefix)) {
             return false;
         }
 
         List<String> includeTables = dbConfig.getIncludeTables();
-        if (includeTables != null && includeTables.size()>0) {
+        if (includeTables != null && includeTables.size() > 0) {
             for (String includeTable : includeTables) {
                 if ("*".equalsIgnoreCase(includeTable) || table.equalsIgnoreCase(includeTable)) {
                     return true;
@@ -148,7 +148,7 @@ public class DBHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close(resultSet);
         }
 
@@ -187,7 +187,7 @@ public class DBHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close(resultSet);
         }
 
@@ -195,14 +195,29 @@ public class DBHelper {
     }
 
     private String getTableComment(String table) {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement("select table_comment from information_schema.tables where table_schema=? and TABLE_name =?");
+            stmt.setString(1,dbConfig.getDatabase());
+            stmt.setString(2,table);
+            resultSet = stmt.executeQuery();
+
+            if (resultSet.next()){
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+          close(resultSet);
+        }
         return null;
     }
 
-    private static void close(ResultSet rs){
-        if(rs != null){
-            try{
+    private static void close(ResultSet rs) {
+        if (rs != null) {
+            try {
                 rs.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 LOGGER.error("Cannot close ResultSet", e);
             }
         }
