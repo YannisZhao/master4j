@@ -24,6 +24,9 @@ public class DBHelper {
 
     public DBHelper(DBConfig dbConfig) {
         this.dbConfig = dbConfig;
+        if(LOGGER.isInfoEnabled()){
+            LOGGER.info("Try to connect to database server: {}:{}, charset: {}",dbConfig.getIp(),dbConfig.getPort(),dbConfig.getCharset());
+        }
         connection = createConnection(dbConfig);
     }
 

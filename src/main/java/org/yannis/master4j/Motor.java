@@ -17,6 +17,8 @@ public class Motor {
     public void fire(ProjectConfig projectConfig){
         DatabaseMeta dbMeta = new DBHelper(projectConfig.getDbConfig()).getDatabaseMeta();
 
+        System.out.println(dbMeta);
+
         Generator springMVCGenerator = classGeneratorFactory.newInstance();
         Generator viewGenerator = viewGeneratorFactory.newInstance();
         Generator configGenerator = configGeneratorFactory.newInstance();

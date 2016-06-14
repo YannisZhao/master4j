@@ -19,7 +19,14 @@ public class AppTest
         motor.setConfigGeneratorFactory(new ConfigGeneratorFactory());
         motor.setViewGeneratorFactory(new ViewGeneratorFactory());
         ProjectConfig projectConfig = new ProjectConfig();
-        projectConfig.setDbConfig(new DBConfig());
+        DBConfig dbConfig = new DBConfig();
+        dbConfig.setDatabase("lianshang");
+        dbConfig.setIp("10.21.11.111");
+        dbConfig.setDriverPackage("com.yannis.test");
+        dbConfig.setUsername("lssite");
+        dbConfig.setPassword("dftxbZik5ah3Zrv3");
+        projectConfig.setDbConfig(dbConfig);
+        projectConfig.setOutputPath("/");
 
         motor.fire(projectConfig);
     }

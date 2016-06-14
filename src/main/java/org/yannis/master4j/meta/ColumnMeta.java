@@ -61,4 +61,10 @@ public class ColumnMeta {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString(){
+        return String.format("columnName: %s, columnType: %s, columnSize: %s, isAutoIncrement: %s, isNullable: %s, comment: %s",
+                columnName, columnType, columnSize, isAutoIncrement, isNullable, comment);
+    }
 }
