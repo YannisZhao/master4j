@@ -4,8 +4,8 @@ import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.core.GeneratorFactory;
 import org.yannis.master4j.core.generator.Generator;
 import org.yannis.master4j.meta.DatabaseMeta;
-import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.DBHelper;
+import org.yannis.master4j.util.DirecotryCreator;
 
 public class Motor {
 
@@ -16,6 +16,9 @@ public class Motor {
     private GeneratorFactory configGeneratorFactory;
 
     public void fire(ProjectConfig projectConfig){
+
+        DirecotryCreator.createDirs(projectConfig.getDirConfig());
+
         DatabaseMeta dbMeta = new DBHelper(projectConfig.getDbConfig()).getDatabaseMeta();
 
         Generator springMVCGenerator = classGeneratorFactory.newInstance();

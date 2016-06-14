@@ -9,6 +9,8 @@ public class ProjectConfig {
 
     private DBConfig dbConfig;
 
+    private DirConfig dirConfig;
+
     private String groupName;
 
     private String projectName;
@@ -29,6 +31,14 @@ public class ProjectConfig {
 
     public void setDbConfig(DBConfig dbConfig) {
         this.dbConfig = dbConfig;
+    }
+
+    public DirConfig getDirConfig() {
+        return dirConfig;
+    }
+
+    public void setDirConfig(DirConfig dirConfig) {
+        this.dirConfig = dirConfig;
     }
 
     public String getGroupName() {
