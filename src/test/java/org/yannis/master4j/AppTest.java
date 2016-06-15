@@ -14,6 +14,17 @@ import org.yannis.master4j.core.generator.springmvc.SpringMVCGeneratorFactory;
 public class AppTest
     extends TestCase
 {
+
+    static {
+       /* Properties props = new Properties();
+        try {
+            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("log4j.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PropertyConfigurator.configure(props);*/
+    }
+
     public void test(){
 
         Motor motor = new Motor();

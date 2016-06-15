@@ -5,7 +5,7 @@ package org.yannis.master4j.config;
  */
 public interface TemplateDir {
 
-    String basePath = Thread.currentThread().getContextClassLoader().getResource("/").getPath();;
+    String basePath = Thread.currentThread().getContextClassLoader().getResource("/").getPath();
     String staticBasePath = basePath + "/static";
     String springmvcBasePath = basePath + "/springmvc";
     String sshBasePath = basePath + "/ssh";

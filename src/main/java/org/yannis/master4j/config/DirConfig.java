@@ -10,6 +10,7 @@ public class DirConfig {
     private String apiModulePath;
     private String implModulePath;
 
+    private String webinfPath;
     private String srcRelativePath;
     private String resourceRelativePath;
     private String testRelativePath;
@@ -35,11 +36,11 @@ public class DirConfig {
         implModulePath = basePath  + "/"+projectName;
 
         String packagePath = basePackage.replaceAll("\\.", "/");
+        webinfPath = webModulePath + "/src/main/webapp/WEB-INF";
         srcRelativePath = "src/main/java/" + packagePath;
-        resourceRelativePath = "src/main/resource";
+        resourceRelativePath = "src/main/resources";
         testRelativePath = "src/test/java/" + packagePath;
-        System.out.println(basePackage);
-        System.out.println(packagePath);
+
         /*controllerModulePath = webModulePath + "/src/main/java/controller";
         serviceModulePath = apiModulePath + "/src/main/java//service";
         serviceImplModulePath = implModulePath + "/src/main/java//service";
@@ -69,6 +70,10 @@ public class DirConfig {
 
     public String getImplModulePath() {
         return implModulePath;
+    }
+
+    public String getWebinfPath() {
+        return webinfPath;
     }
 
     public String getSrcRelativePath() {

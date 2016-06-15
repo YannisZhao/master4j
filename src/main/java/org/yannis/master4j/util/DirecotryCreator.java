@@ -27,6 +27,7 @@ public class DirecotryCreator {
         FileUtils.mkdir(dirConfig.getServiceImplModulePath());
         FileUtils.mkdir(dirConfig.getDaoModulePath());*/
 
+        FileUtils.mkdirs(dirConfig.getWebinfPath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getSrcRelativePath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestRelativePath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getResourceRelativePath());

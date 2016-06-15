@@ -8,5 +8,6 @@ public abstract class AbstractSpringMVCBuilder extends AbstractBuilder {
 	public abstract boolean buildController();
 	public abstract boolean buildService();
 	public abstract boolean buildDao();
+	public abstract boolean buildTest();
 
 }
