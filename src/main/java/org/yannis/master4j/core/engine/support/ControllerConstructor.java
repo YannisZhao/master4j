@@ -6,6 +6,9 @@ import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by yannis on 6/15/16.
  */
@@ -14,8 +17,13 @@ public class ControllerConstructor {
         String templatePath = TemplateUtils.getTemplateBasePath() + "/class/Controller.ms";
 
         String template = FileUtils.read(templatePath);
-        String className = getClassName(meta);
-        FileUtils.newFile(controllerPath + "/" + className + ".java", template);
+        final String className = getClassName(meta);
+        Map<String,String> root = new HashMap<String,String>(){
+            {
+                put("className", className);
+            }
+        };
+        FileUtils.newFile(controllerPath + "/" + className + ".java", TemplateUtils.process(template, root));
     }
 
     private static String getClassName(TableMeta meta) {
