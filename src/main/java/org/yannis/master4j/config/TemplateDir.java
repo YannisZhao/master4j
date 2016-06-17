@@ -6,10 +6,10 @@ package org.yannis.master4j.config;
 public interface TemplateDir {
 
     String basePath = Thread.currentThread().getContextClassLoader().getResource("/").getPath();
-    String staticBasePath = basePath + "/static";
-    String springmvcBasePath = basePath + "/springmvc";
-    String sshBasePath = basePath + "/ssh";
-    String ssmBasePath = basePath + "ssm";
+    String staticBasePath = basePath + "/templates/static";
+    String springmvcBasePath = basePath + "/templates/springmvc";
+    String sshBasePath = basePath + "/templates/ssh";
+    String ssmBasePath = basePath + "templates/ssm";
 
     String AddOnsPath = staticBasePath + "/add-ons";
     String cssPath = staticBasePath + "/css";

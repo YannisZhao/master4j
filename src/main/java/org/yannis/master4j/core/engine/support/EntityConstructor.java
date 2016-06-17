@@ -11,7 +11,7 @@ import org.yannis.master4j.util.TemplateUtils;
  */
 public class EntityConstructor {
     public static void construct(String domainPath, ProjectConfig projectConfig, TableMeta meta) {
-        String templatePath = TemplateUtils.getTemplateBasePath() + "/class/Domain.ms";
+        String templatePath = TemplateUtils.getTemplateBasePath() + "/springmvc/class/Domain.ftl";
 
         String template = FileUtils.read(templatePath);
         String className = getClassName(meta);

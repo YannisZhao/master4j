@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ControllerConstructor {
     public static void construct(String controllerPath, ProjectConfig projectConfig, TableMeta meta) {
-        String templatePath = TemplateUtils.getTemplateBasePath() + "/class/Controller.ms";
+        String templatePath = TemplateUtils.getTemplateBasePath() + "/class/Controller.ftl";
 
         String template = FileUtils.read(templatePath);
         final String className = getClassName(meta);

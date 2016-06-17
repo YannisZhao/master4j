@@ -8,7 +8,7 @@ import java.util.Map;
 public class TemplateUtils {
 
     public static String getTemplateBasePath(){
-        return Thread.currentThread().getContextClassLoader().getResource("springmvc").getPath();
+        return Thread.currentThread().getContextClassLoader().getResource("templates").getPath();
     }
 
     public static String process(String template, Map<String, String> root) {
