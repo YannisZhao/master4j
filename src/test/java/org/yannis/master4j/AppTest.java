@@ -42,7 +42,7 @@ public class AppTest
         dbConfig.setPassword("dftxbZik5ah3Zrv3");
         projectConfig.setDbConfig(dbConfig);
 
-        projectConfig.setOutputPath("/home/yannis/development/stuff");
+        projectConfig.setOutputPath("D:\\test");
         projectConfig.setProjectName("ranstol");
         projectConfig.setBasePackageName("org.yannis.test");
 

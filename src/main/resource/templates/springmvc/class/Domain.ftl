@@ -7,16 +7,17 @@ ${classDoc}
 */
 public Class ${className} {
 
-<#list properties as prop>
-    private ${prop.type} ${prop.name};
+<#list fields as field>
+    /** ${field.comment} */
+    private ${field.type} ${field.name};
 </#list>
 
-<#list properties as prop>
-    public ${prop.type} get${prop.name?cap_first}(){
-        return ${prop.name};
+<#list fields as field>
+    public ${field.type} get${field.name?cap_first}(){
+        return ${field.name};
     }
-    public void set${prop.name?cap_first}(${prop.type} ${prop.name}){
-        this.${prop.name} = ${prop.name};
+    public void set${field.name?cap_first}(${field.type} ${field.name}){
+        this.${field.name} = ${field.name};
     }
 </#list>
 
