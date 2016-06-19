@@ -4,7 +4,7 @@ public class ColumnMeta {
 
     private String columnName;
 
-    private Class<?> columnType;
+    private String columnType;
 
     private int columnSize;
 
@@ -22,11 +22,11 @@ public class ColumnMeta {
         this.columnName = columnName;
     }
 
-    public Class<?> getColumnType() {
+    public String getColumnType() {
         return columnType;
     }
 
-    public void setColumnType(Class<?> columnType) {
+    public void setColumnType(String columnType) {
         this.columnType = columnType;
     }
 

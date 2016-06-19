@@ -1,11 +1,11 @@
-${package}
+package ${package}
 
+import java.io.Serializable;
 ${imports}
-
 /**
 ${classDoc}
 */
-public Class ${className} {
+public class ${className} implements Serializable {
 
 <#list fields as field>
     /** ${field.comment} */
@@ -23,6 +23,10 @@ public Class ${className} {
 
     @Override
     public String toString(){
-        ${toStringBody}
+        return "{"+
+        <#list fields as field>
+            "${field.name}:" + this.${field.name}<#if field_has_next> +"," </#if> +
+        </#list>
+        "}";
     }
 }

@@ -35,14 +35,14 @@ public class AppTest
         ProjectConfig projectConfig = new ProjectConfig();
 
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("lianshang");
-        dbConfig.setIp("10.21.11.111");
+        dbConfig.setDatabase("zkorder");
+        dbConfig.setIp("139.196.21.84");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
-        dbConfig.setUsername("lssite");
-        dbConfig.setPassword("dftxbZik5ah3Zrv3");
+        dbConfig.setUsername("root");
+        dbConfig.setPassword("5467354673");
         projectConfig.setDbConfig(dbConfig);
 
-        projectConfig.setOutputPath("D:\\test");
+        projectConfig.setOutputPath("/home/yannis/Development");
         projectConfig.setProjectName("ranstol");
         projectConfig.setBasePackageName("org.yannis.test");
 

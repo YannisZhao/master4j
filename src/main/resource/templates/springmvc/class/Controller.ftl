@@ -5,7 +5,7 @@ ${imports}
 /**
 ${classDoc}
 */
-public Class ${className} {
+public class ${className} {
 
 
 }
