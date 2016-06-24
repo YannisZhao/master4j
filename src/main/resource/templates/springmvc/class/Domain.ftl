@@ -9,7 +9,7 @@ public Class ${className} {
 
 <#list fields as field>
     /** ${field.comment} */
-    private ${field.type} ${field.name};
+    private ${field.type} ${field.name}s;
 </#list>
 
 <#list fields as field>
