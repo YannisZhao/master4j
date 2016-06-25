@@ -36,51 +36,45 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${org.springframework.version}</version>
+            <version>${r'org.springframework.version'}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211</version>
         </dependency>
 
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
+            <version>${r'slf4j.version'}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
+            <version>${r'slf4j.version'}</version>
         </dependency>
 
         <dependency>

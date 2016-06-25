@@ -15,6 +15,7 @@
     <modules>
         <module>${module}-api</module>
         <module>${module}</module>
+        <module>${module}-web</module>
     </modules>
 
     <properties>

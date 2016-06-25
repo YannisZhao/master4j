@@ -2,6 +2,7 @@ package org.yannis.master4j.core.engine.config.impl;
 
 import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.core.engine.config.AbstractConfigBuilder;
+import org.yannis.master4j.core.engine.config.constructor.springmvc.PomConstructor;
 import org.yannis.master4j.util.FileUtils;
 
 public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
@@ -14,13 +15,12 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
 //		String srcRelativePath = dirConfig.getSrcRelativePath();
 //		String testRelativePath = dirConfig.getTestRelativePath();
 
-		// Build parent pom
-		String content = "pom";
-		FileUtils.newFile(dirConfig.getBasePath()+"/pom.xml",content);
+		// Build pom
+		PomConstructor.construct(projectConfig);
 
 		// Build web module configuration
 		String webModulePath = dirConfig.getWebModulePath();
-		FileUtils.newFile(webModulePath +"/pom.xml","");
+		//FileUtils.newFile(webModulePath +"/pom.xml","");
 		String webinfPath = dirConfig.getWebinfPath();
 		FileUtils.newFile(webinfPath +"/web.xml","");
 		FileUtils.mkdir(webinfPath+"/lib");
@@ -41,7 +41,7 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
 
 		//Build service api module configuration
 		String apiModulePath = dirConfig.getApiModulePath();
-		FileUtils.newFile(apiModulePath +"/pom.xml","");
+		//FileUtils.newFile(apiModulePath +"/pom.xml","");
 		FileUtils.mkdirs(apiModulePath+"/"+resourceRelativePath+"/i18n/message");
 		FileUtils.mkdirs(apiModulePath+"/"+resourceRelativePath+"/i18n/label");
 
@@ -52,7 +52,7 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
 
 		//Build service impl module configuration
 		String implModulePath = dirConfig.getImplModulePath();
-		FileUtils.newFile(implModulePath +"/pom.xml","");
+		//FileUtils.newFile(implModulePath +"/pom.xml","");
 		FileUtils.mkdirs(implModulePath+"/"+resourceRelativePath+"/i18n/message");
 		FileUtils.mkdirs(implModulePath+"/"+resourceRelativePath+"/i18n/label");
 
