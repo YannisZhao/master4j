@@ -1,11 +1,13 @@
-${package}
+package ${package};
 
 ${imports}
+
+import org.yannis.test.dao.${baseClassName};
 
 /**
 ${classDoc}
 */
-public Class ${className} {
+public class ${className} implements ${baseClassName} {
 
 
 }

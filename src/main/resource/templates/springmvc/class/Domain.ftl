@@ -1,11 +1,11 @@
-${package}
+${package};
 
 ${imports}
 
 /**
 ${classDoc}
 */
-public Class ${className} {
+public class ${className} {
 
 <#list fields as field>
     /** ${field.comment} */

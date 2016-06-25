@@ -1,11 +1,11 @@
-${package}
+package ${package};
 
 ${imports}
 
 /**
 ${classDoc}
 */
-public Class ${className} {
+public class ${className} {
 
 
 }

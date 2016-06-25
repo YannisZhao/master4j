@@ -20,6 +20,7 @@ public class DaoImplConstructor {
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
+                put("baseClassName", className.substring(0,className.indexOf("Impl")));
             }
         };
 
