@@ -82,7 +82,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 	@Override
 	public boolean buildServiceImpl() {
 		if(LOGGER.isInfoEnabled()) {
-			LOGGER.info("Starting building services impl...");
+			LOGGER.info("Starting building service impls...");
 		}
 
 		String serviceImplPath = implModulePath + "/" + srcRelativePath + "/service/impl";
@@ -116,7 +116,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 	@Override
 	public boolean buildDaoImpl() {
 		if(LOGGER.isInfoEnabled()) {
-			LOGGER.info("Starting building daos...");
+			LOGGER.info("Starting building dao impls...");
 		}
 
 		String daoImplPath = implModulePath + "/" + srcRelativePath + "/dao/impl";

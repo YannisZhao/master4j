@@ -21,6 +21,8 @@ public class ServiceImplConstructor {
                 put("classDoc",meta.getComment());
                 put("className", className);
                 put("baseClassName", className.substring(0,className.indexOf("Impl")));
+                put("daoName", className.substring(0,className.lastIndexOf("ServiceImpl"))+"Dao");
+                put("domainName", className.substring(0,className.lastIndexOf("ServiceImpl")));
             }
         };
 

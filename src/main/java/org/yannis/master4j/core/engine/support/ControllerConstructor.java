@@ -24,6 +24,9 @@ public class ControllerConstructor {
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
+                put("baseClassName", "BaseController");
+                put("serviceName", className.substring(0,className.lastIndexOf("Controller"))+"Service");
+                put("domainName", className.substring(0,className.lastIndexOf("Controller")));
             }
         };
 
