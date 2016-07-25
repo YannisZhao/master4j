@@ -25,13 +25,13 @@ public class DtoConstructor {
                 put("package", projectConfig.getBasePackageName()+".dto");
                 put("imports","");
                 put("classDoc",meta.getComment());
-                put("className", className+"DTO");
+                put("className", className);
                 put("fields",fields);
                 put("toStringBody","");
             }
         };
 
-        TemplateUtils.process("/springmvc/class/Domain.ftl", root, domainPath + "/" + className + ".java");
+        TemplateUtils.process("/springmvc/class/Dto.ftl", root, domainPath + "/" + className + ".java");
     }
 
     private static String getClassName(TableMeta meta) {
@@ -40,7 +40,7 @@ public class DtoConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName);
+        return ClassUtils.getCamelCaseName(tableName)+"DTO";
     }
 
     private static List<Field> getFields(TableMeta meta) {

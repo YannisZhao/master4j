@@ -27,6 +27,7 @@ public class EntityConstructor {
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
+                put("dtoClassName", className+"DTO");
                 put("fields",fields);
                 put("toStringBody","");
             }

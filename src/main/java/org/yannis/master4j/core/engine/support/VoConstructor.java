@@ -25,13 +25,13 @@ public class VoConstructor {
                 put("package", projectConfig.getBasePackageName()+".vo");
                 put("imports","");
                 put("classDoc",meta.getComment());
-                put("className", className+"VO");
+                put("className", className);
                 put("fields",fields);
                 put("toStringBody","");
             }
         };
 
-        TemplateUtils.process("/springmvc/class/Domain.ftl", root, domainPath + "/" + className + ".java");
+        TemplateUtils.process("/springmvc/class/Vo.ftl", root, domainPath + "/" + className + ".java");
     }
 
     private static String getClassName(TableMeta meta) {
@@ -40,7 +40,7 @@ public class VoConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName);
+        return ClassUtils.getCamelCaseName(tableName)+"VO";
     }
 
     private static List<Field> getFields(TableMeta meta) {

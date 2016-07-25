@@ -1,4 +1,4 @@
-${package};
+package ${package};
 
 ${imports}
 
@@ -25,4 +25,5 @@ this.${field.name} = ${field.name};
 public String toString(){
 ${toStringBody}
 }
+
 }
