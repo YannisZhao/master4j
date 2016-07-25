@@ -34,12 +34,46 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
             LOGGER.info("Starting building domain objects...");
         }
 
-		String domainPath = apiModulePath + "/" + srcRelativePath + "/domain";
+		String domainPath = implModulePath + "/" + srcRelativePath + "/domain";
 		FileUtils.mkdir(domainPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
 			// Construct domain bean
 			EntityConstructor.construct(domainPath, projectConfig, meta);
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean buildDto() {
+		if(LOGGER.isInfoEnabled()) {
+			LOGGER.info("Starting building dto objects...");
+		}
+
+		String domainPath = apiModulePath + "/" + srcRelativePath + "/dto";
+		FileUtils.mkdir(domainPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct dto bean
+			DtoConstructor.construct(domainPath, projectConfig, meta);
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean buildVo() {
+		if(LOGGER.isInfoEnabled()) {
+			LOGGER.info("Starting building vo objects...");
+		}
+
+		String domainPath = webModulePath + "/" + srcRelativePath + "/vo";
+		FileUtils.mkdir(domainPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct vo bean
+			VoConstructor.construct(domainPath, projectConfig, meta);
 		}
 
 		return false;
@@ -139,6 +173,8 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 	public boolean build() {
         init();
 		buildDomain();
+		buildDto();
+		buildVo();
 		buildController();
 		buildService();
 		buildServiceImpl();

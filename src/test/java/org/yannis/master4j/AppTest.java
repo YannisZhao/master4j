@@ -8,6 +8,8 @@ import org.yannis.master4j.core.generator.ConfigGeneratorFactory;
 import org.yannis.master4j.core.generator.ViewGeneratorFactory;
 import org.yannis.master4j.core.generator.springmvc.SpringMVCGeneratorFactory;
 
+import java.util.Arrays;
+
 /**
  * Unit test for simple App.
  */
@@ -35,16 +37,17 @@ public class AppTest
         ProjectConfig projectConfig = new ProjectConfig();
 
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("lianshang");
-        dbConfig.setIp("10.21.11.111");
+        dbConfig.setDatabase("uaas");
+        dbConfig.setIp("192.168.71.129");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
-        dbConfig.setUsername("lssite");
-        dbConfig.setPassword("dftxbZik5ah3Zrv3");
+        dbConfig.setUsername("root");
+        dbConfig.setPassword("111111");
+        dbConfig.setExcludeTables(Arrays.asList("sys_resource","sys_role","sys_user","user_group"));
         projectConfig.setDbConfig(dbConfig);
 
         projectConfig.setOutputPath("D:\\test");
-        projectConfig.setProjectName("ranstol");
-        projectConfig.setBasePackageName("org.yannis.test");
+        projectConfig.setProjectName("uaas");
+        projectConfig.setBasePackageName("org.yannis.uaas");
 
         projectConfig.setDirConfig(new DirConfig(projectConfig.getOutputPath(),projectConfig.getProjectName(),projectConfig.getBasePackageName()));
 
