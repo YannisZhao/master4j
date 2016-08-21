@@ -6,7 +6,6 @@ import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
-import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 import java.util.ArrayList;
@@ -15,25 +14,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by yannis on 6/15/16.
+ * Created by dell on 2016/7/25.
  */
-public class EntityConstructor {
+public class DtoConstructor {
     public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
         final List<Field> fields = getFields(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
+        Map<String,Object> root = new HashMap<String,Object>(){
             {
-                put("package", projectConfig.getBasePackageName() + ".domain");
-                put("imports", getImportList(fields));
-                put("classDoc", meta.getComment());
+                put("package", projectConfig.getBasePackageName()+".dto");
+                put("imports","");
+                put("classDoc",meta.getComment());
                 put("className", className);
-                put("fields", fields);
-                put("dtoClassName", className+"DTO");
                 put("fields",fields);
+                put("toStringBody","");
             }
         };
 
-        TemplateUtils.process("/springmvc/class/Domain.ftl", root, domainPath + "/" + className + ".java");
+        TemplateUtils.process("/springmvc/class/Dto.ftl", root, domainPath + "/" + className + ".java");
     }
 
     private static String getClassName(TableMeta meta) {
@@ -42,15 +40,15 @@ public class EntityConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName);
+        return ClassUtils.getCamelCaseName(tableName)+"DTO";
     }
 
     private static List<Field> getFields(TableMeta meta) {
         List<Field> fields = new ArrayList<>();
-        for (ColumnMeta columnMeta : meta.getColumnMetas()) {
+        for(ColumnMeta columnMeta : meta.getColumnMetas()){
             Field field = new Field();
             field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
-            field.setType(columnMeta.getColumnType());
+            field.setType("int");
             field.setSize(Integer.toString(columnMeta.getColumnSize()));
             field.setComment(columnMeta.getComment());
             fields.add(field);
