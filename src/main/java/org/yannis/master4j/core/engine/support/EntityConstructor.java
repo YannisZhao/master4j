@@ -36,6 +36,32 @@ public class EntityConstructor {
         TemplateUtils.process("/springmvc/class/Domain.ftl", root, domainPath + "/" + className + ".java");
     }
 
+    private static String getImportList(List<Field> fields) {
+        StringBuilder builder = new StringBuilder("");
+        for (Field field : fields) {
+            String type = field.getType();
+            if (builder.indexOf(type) >= 0) {
+                continue;
+            }
+            switch (type) {
+                case "BigDecimal":
+                    builder.append("import java.math.BigDecimal;\n");
+                    break;
+                case "Date":
+                    builder.append("import java.sql.Date;\n");
+                    break;
+                case "Time":
+                    builder.append("import java.sql.Time;\n");
+                    break;
+                case "Timestamp":
+                    builder.append("import java.sql.Timestamp;\n");
+                    break;
+            }
+        }
+
+        return builder.toString();
+    }
+
     private static String getClassName(TableMeta meta) {
         String tableName = meta.getTableName();
         if (meta.getPrefixName() != null) {

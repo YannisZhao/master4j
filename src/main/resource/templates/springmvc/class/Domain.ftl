@@ -6,7 +6,6 @@ ${imports}
 /**
 ${classDoc}
 */
-public class ${className} {
 public class ${className} implements Serializable {
 
 <#list fields as field>
@@ -30,13 +29,5 @@ public class ${className} implements Serializable {
             "${field.name}:" + this.${field.name}<#if field_has_next> +"," </#if> +
         </#list>
         "}";
-    }
-
-    public ${dtoClassName} toDto(){
-        return  null;
-    }
-
-    public ${className} fromDto(${dtoClassName} dto){
-        return null;
     }
 }
