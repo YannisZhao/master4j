@@ -23,10 +23,14 @@ public class VOConverterConstructor {
         Map<String,Object> root = new HashMap<String,Object>(){
             {
                 put("package", projectConfig.getBasePackageName()+".converter");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
                 put("fields",fields);
+                put("formName", className.substring(0,className.lastIndexOf("Converter"))+"Form");
+                put("voName", className.substring(0,className.lastIndexOf("Converter"))+"VO");
+                put("dtoName", className.substring(0,className.lastIndexOf("Converter"))+"DTO");
             }
         };
 
@@ -39,7 +43,7 @@ public class VOConverterConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName)+"VO";
+        return ClassUtils.getCamelCaseName(tableName)+"Converter";
     }
 
     private static List<Field> getFields(TableMeta meta) {

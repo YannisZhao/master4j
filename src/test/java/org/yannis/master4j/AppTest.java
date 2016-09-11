@@ -38,7 +38,7 @@ public class AppTest
 
         DBConfig dbConfig = new DBConfig();
         dbConfig.setDatabase("uaas");
-        dbConfig.setIp("192.168.71.129");
+        dbConfig.setIp("127.0.0.1");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
         dbConfig.setUsername("root");
         dbConfig.setPassword("111111");

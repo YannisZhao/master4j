@@ -7,6 +7,7 @@ public abstract class AbstractSpringMVCBuilder extends AbstractBuilder {
 	public abstract boolean buildDomain();
 	public abstract boolean buildDto();
 	public abstract boolean buildVo();
+	public abstract boolean buildConverter();
 	public abstract boolean buildController();
 	public abstract boolean buildService();
 	public abstract boolean buildServiceImpl();

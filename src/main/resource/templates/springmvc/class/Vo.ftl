@@ -1,11 +1,12 @@
 package ${package};
 
+import java.io.Serializable;
 ${imports}
 
 /**
 ${classDoc}
  */
-public class ${className} {
+public class ${className}  implements Serializable {
 
     <#list fields as field>
     /** ${field.comment} */

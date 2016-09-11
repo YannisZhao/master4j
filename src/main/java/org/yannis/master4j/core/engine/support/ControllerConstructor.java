@@ -27,6 +27,9 @@ public class ControllerConstructor {
                 put("baseClassName", "BaseController");
                 put("serviceName", className.substring(0,className.lastIndexOf("Controller"))+"Service");
                 put("domainName", className.substring(0,className.lastIndexOf("Controller")));
+                put("formName", className.substring(0,className.lastIndexOf("Controller"))+"Form");
+                put("voName", className.substring(0,className.lastIndexOf("Controller"))+"VO");
+                put("beanConverter", className.substring(0,className.lastIndexOf("Controller"))+"Converter");
             }
         };
 
