@@ -24,6 +24,7 @@ public class EntityConstructor {
         Map<String, Object> root = new HashMap<String, Object>() {
             {
                 put("package", projectConfig.getBasePackageName() + ".domain");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports", getImportList(fields));
                 put("classDoc", meta.getComment());
                 put("className", className);

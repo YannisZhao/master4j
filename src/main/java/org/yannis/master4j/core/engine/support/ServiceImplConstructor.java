@@ -17,12 +17,14 @@ public class ServiceImplConstructor {
         Map<String,Object> root = new HashMap<String,Object>(){
             {
                 put("package", projectConfig.getBasePackageName()+".service.impl");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
                 put("baseClassName", className.substring(0,className.indexOf("Impl")));
                 put("daoName", className.substring(0,className.lastIndexOf("ServiceImpl"))+"Dao");
-                put("domainName", className.substring(0,className.lastIndexOf("ServiceImpl")));
+                put("converterName", className.substring(0,className.lastIndexOf("ServiceImpl"))+"Converter");
+                put("dtoName", className.substring(0,className.lastIndexOf("ServiceImpl"))+"DTO");
             }
         };
 

@@ -1,32 +1,35 @@
 package ${package};
 
 ${imports}
+import java.util.List;
+
+import org.yannis.commons.web.page.PageBean;
+import org.yannis.commons.web.page.Paginator;
+import org.yannis.commons.web.request.http.GeneralQueryRequest;
+
+import ${basePackageName}.dto.${dtoName};
 
 /**
 ${classDoc}
 */
 public interface ${className} {
 
-    ${domainName} findById(String id);
+    ${dtoName} findById(String id);
 
-    boolean delete(String[] ids);
+    List<${dtoName}> findAll(GeneralQueryRequest request);
 
-    boolean save(WaybillMaster obj);
+    PageBean<?> findByPage(Paginator paginator);
 
-    int batchSave(List<${domainName}> objs);
+    boolean save(${dtoName} obj);
+    
+    int batchSave(List<${dtoName}> objs);
+    
+    boolean remove(String id);
 
-    boolean remove(${domainName} obj);
+    int batchRemove(List<${dtoName}> objs);
 
-    int batchRemove(List<${domainName}> objs);
+    boolean update(${dtoName} obj);
 
-    boolean update(WaybillMaster obj);
-
-    int batchUpdate(List<${domainName}> objs);
-
-    WaybillMaster findById(WaybillMaster objs);
-
-    List<${domainName}> findAll(SqlParamWrapper[] params);
-
-    PageBean<${domainName}> findByPage(SqlParamWrapper[] params, Paginator paginator);
+    int batchUpdate(List<${dtoName}> objs);
 
 }

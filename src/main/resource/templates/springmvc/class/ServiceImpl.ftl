@@ -1,8 +1,16 @@
 package ${package};
 
 ${imports}
+import java.util.List;
 
-import org.yannis.test.service.${baseClassName};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.yannis.commons.web.page.PageBean;
+import org.yannis.commons.web.page.Paginator;
+import org.yannis.commons.web.request.http.GeneralQueryRequest;
+
+import ${basePackageName}.api.service.${baseClassName};
+import ${basePackageName}.api.dto.${dtoName};
+import ${basePackageName}.dao.${daoName};
 
 /**
 ${classDoc}
@@ -12,60 +20,51 @@ public class ${className} implements ${baseClassName} {
     @Autowired
     private ${daoName} ${daoName?uncap_first};
 
-    public ${domainName} findById(String id) {
+    public ${dtoName} findById(String id) {
         return ${daoName?uncap_first}.findById(id);
     }
 
-    public boolean delete(String[] ids) {
-        return ${daoName?uncap_first}.delete(ids);
+    @Override
+    public List<${dtoName}> findAll(SqlParamWrapper[] params) {
+        return ${daoName?uncap_first}.findAll(params);
     }
 
     @Override
-    public boolean save(WaybillMaster obj) {
-       return ${daoName?uncap_first}.save(obj);
-    }
-
-    @Override
-    public int batchSave(List<${domainName}> objs) {
-        return ${daoName?uncap_first}.batchSave(objs);
-    }
-
-    @Override
-    public boolean remove(${domainName} obj) {
-       return ${daoName?uncap_first}.remove(obj);
-    }
-
-    @Override
-    public int batchRemove(List<${domainName}> objs) {
-       return ${daoName?uncap_first}.batchRemove(objs);
-    }
-
-    @Override
-    public boolean update(WaybillMaster obj) {
-        return ${daoName?uncap_first}.update(obj);
-    }
-
-    @Override
-    public int batchUpdate(List<${domainName}> objs) {
-       return ${daoName?uncap_first}.batchUpdate(objs);
-    }
-
-    @Override
-    public WaybillMaster findById(WaybillMaster objs) {
-       return ${daoName?uncap_first}.findById(objs);
-    }
-
-    @Override
-    public List<${domainName}> findAll(SqlParamWrapper[] params) {
-       return ${daoName?uncap_first}.findAll(params);
-    }
-
-    @Override
-    public PageBean<${domainName}> findByPage(SqlParamWrapper[] params, Paginator paginator) {
-        PageBean<${domainName}> responseVO = new PageBean<${domainName}>();
+    public PageBean<${dtoName}> findByPage(SqlParamWrapper[] params, Paginator paginator) {
+        PageBean<${dtoName}> responseVO = new PageBean<${dtoName}>();
         responseVO.setTotal(${daoName?uncap_first}.getTotalRows(params));
         responseVO.setRows(${daoName?uncap_first}.findByPage(params,paginator));
         return responseVO;
+    }
+
+    @Override
+    public boolean save(${dtoName} obj) {
+       return ${daoName?uncap_first}.save(${converterName}.dto2entity(obj));
+    }
+
+    @Override
+    public int batchSave(List<${dtoName}> objs) {
+        return ${daoName?uncap_first}.batchSave(${converterName}.dto2entity(objs));
+    }
+
+    @Override
+    public boolean remove(${dtoName} obj) {
+       return ${daoName?uncap_first}.remove(${converterName}.dto2entity(obj));
+    }
+
+    @Override
+    public int batchRemove(List<${dtoName}> objs) {
+       return ${daoName?uncap_first}.batchRemove(${converterName}.dto2entity(objs));
+    }
+
+    @Override
+    public boolean update(${dtoName}> obj) {
+        return ${daoName?uncap_first}.update(${converterName}.dto2entity(obj));
+    }
+
+    @Override
+    public int batchUpdate(List<${dtoName}> objs) {
+       return ${daoName?uncap_first}.batchUpdate(${converterName}.dto2entity(objs));
     }
 
 }
