@@ -14,6 +14,7 @@ public class DirConfig {
     private String srcRelativePath;
     private String resourceRelativePath;
     private String testRelativePath;
+    private String testResourceRelativePath;
 
     /*private String controllerModulePath;
     private String serviceModulePath;
@@ -39,6 +40,7 @@ public class DirConfig {
         webinfPath = webModulePath + "/src/main/webapp/WEB-INF";
         srcRelativePath = "src/main/java/" + packagePath;
         resourceRelativePath = "src/main/resources";
+        testResourceRelativePath = "src/test/resources";
         testRelativePath = "src/test/java/" + packagePath;
 
         /*controllerModulePath = webModulePath + "/src/main/java/controller";
@@ -86,5 +88,13 @@ public class DirConfig {
 
     public String getTestRelativePath() {
         return testRelativePath;
+    }
+
+    public String getTestResourceRelativePath() {
+        return testResourceRelativePath;
+    }
+
+    public void setTestResourceRelativePath(String testResourceRelativePath) {
+        this.testResourceRelativePath = testResourceRelativePath;
     }
 }

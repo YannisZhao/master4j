@@ -38,4 +38,17 @@ public class FieldUtils {
         return builder.toString();
     }
 
+    public static List<Field> getFields(TableMeta meta) {
+        List<Field> fields = new ArrayList<>();
+        for (ColumnMeta columnMeta : meta.getColumnMetas()) {
+            Field field = new Field();
+            field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
+            field.setType(columnMeta.getColumnType());
+            field.setSize(Integer.toString(columnMeta.getColumnSize()));
+            field.setComment(columnMeta.getComment());
+            fields.add(field);
+        }
+        return fields;
+    }
+
 }

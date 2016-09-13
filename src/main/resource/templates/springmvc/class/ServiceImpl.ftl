@@ -48,13 +48,13 @@ public class ${className} implements ${baseClassName} {
     }
 
     @Override
-    public boolean remove(${dtoName} obj) {
-       return ${daoName?uncap_first}.remove(${converterName}.dto2entity(obj));
+    public boolean remove(String id) {
+       return ${daoName?uncap_first}.remove(id);
     }
 
     @Override
-    public int batchRemove(List<${dtoName}> objs) {
-       return ${daoName?uncap_first}.batchRemove(${converterName}.dto2entity(objs));
+    public int batchRemove(String[] ids) {
+       return ${daoName?uncap_first}.batchRemove(ids);
     }
 
     @Override

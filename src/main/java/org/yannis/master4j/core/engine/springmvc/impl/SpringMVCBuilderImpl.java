@@ -85,12 +85,18 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building converter objects...");
 		}
 
-		String beanConverterPath = webModulePath + "/" + srcRelativePath + "/converter";
-		FileUtils.mkdir(beanConverterPath);
+		String voConverterPath = webModulePath + "/" + srcRelativePath + "/converter";
+		FileUtils.mkdir(voConverterPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
-			// Construct vo bean
-			VOConverterConstructor.construct(beanConverterPath, projectConfig, meta);
+			VOConverterConstructor.construct(voConverterPath, projectConfig, meta);
+		}
+
+		String entityConverterPath = implModulePath + "/" + srcRelativePath + "/converter";
+		FileUtils.mkdir(entityConverterPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			EntityConverterConstructor.construct(entityConverterPath, projectConfig, meta);
 		}
 
 		return false;

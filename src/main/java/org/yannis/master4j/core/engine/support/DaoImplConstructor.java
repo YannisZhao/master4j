@@ -1,11 +1,16 @@
 package org.yannis.master4j.core.engine.support;
 
 import org.yannis.master4j.config.ProjectConfig;
+import org.yannis.master4j.entity.Field;
+import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.util.FieldUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,10 +23,13 @@ public class DaoImplConstructor {
             {
                 put("package", projectConfig.getBasePackageName()+".dao.impl");
                 put("imports","");
+                put("fields", FieldUtils.getFields(meta));
                 put("classDoc",meta.getComment());
                 put("className", className);
                 put("baseClassName", className.substring(0,className.indexOf("Impl")));
                 put("domainName", className.substring(0,className.lastIndexOf("DaoImpl")));
+                put("dtoName", className.substring(0,className.lastIndexOf("DaoImpl"))+"DTO");
+                put("convertName", className.substring(0,className.lastIndexOf("DaoImpl"))+"Converter");
             }
         };
 
@@ -36,4 +44,5 @@ public class DaoImplConstructor {
 
         return ClassUtils.getCamelCaseName(tableName) + "DaoImpl";
     }
+
 }

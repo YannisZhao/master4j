@@ -26,7 +26,7 @@ public interface ${className} {
     
     boolean remove(String id);
 
-    int batchRemove(List<${dtoName}> objs);
+    int batchRemove(String[] ids);
 
     boolean update(${dtoName} obj);
 

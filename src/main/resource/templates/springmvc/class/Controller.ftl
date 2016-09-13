@@ -64,11 +64,11 @@ public class ${className} extends ${baseClassName} {
     }
 
     @RequestMapping("batch-delete")
-    public ResponseMsg batchDelete(@RequestBody List<${formName}> objs){
+    public ResponseMsg batchDelete(@RequestBody List<String> ids){
 
         ResponseMsg responseVO = new ResponseMsg();
 
-        if(${serviceName?uncap_first}.batchRemove(${beanConverter}.parseForm(objs)) == objs.size()){
+        if(${serviceName?uncap_first}.batchRemove(ids) == objs.size()){
             responseVO.setStatus(true);
             responseVO.setMessage(Message.OPT_SUCCESSED);
         }else{

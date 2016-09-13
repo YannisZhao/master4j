@@ -20,7 +20,7 @@ import java.util.Map;
 public class EntityConstructor {
     public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
-        final List<Field> fields = getFields(meta);
+        final List<Field> fields = FieldUtils.getFields(meta);
         Map<String, Object> root = new HashMap<String, Object>() {
             {
                 put("package", projectConfig.getBasePackageName() + ".domain");
@@ -70,19 +70,6 @@ public class EntityConstructor {
         }
 
         return ClassUtils.getCamelCaseName(tableName);
-    }
-
-    private static List<Field> getFields(TableMeta meta) {
-        List<Field> fields = new ArrayList<>();
-        for (ColumnMeta columnMeta : meta.getColumnMetas()) {
-            Field field = new Field();
-            field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
-            field.setType(columnMeta.getColumnType());
-            field.setSize(Integer.toString(columnMeta.getColumnSize()));
-            field.setComment(columnMeta.getComment());
-            fields.add(field);
-        }
-        return fields;
     }
 
 }

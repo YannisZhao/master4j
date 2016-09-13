@@ -29,6 +29,7 @@ public class EntityConverterConstructor {
                 put("className", className);
                 put("fields",fields);
                 put("dtoName", className.substring(0,className.lastIndexOf("Converter"))+"DTO");
+                put("entityName", className.substring(0,className.lastIndexOf("Converter")));
             }
         };
 

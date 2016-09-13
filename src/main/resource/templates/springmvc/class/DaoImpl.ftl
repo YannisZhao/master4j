@@ -43,7 +43,7 @@ public class ${className} implements ${baseClassName} {
 
         <#list fields as field>
         if(entity.get${field.name?cap_first}()!=0){
-            insertion.append("id,");
+            insertion.append("${field.name},");
             placeHolder.append("?,");
             values.add(entity.get${field.name?cap_first}());
         }
@@ -74,7 +74,7 @@ public class ${className} implements ${baseClassName} {
     }
 
     @Override
-    public abstract boolean remove(${domainName} obj) throws DaoException {
+    public abstract boolean remove(String id) throws DaoException {
         int affectedRows = jdbcTemplate.update("DELETE FROM application WHERE id = ?", new Object[]{id});
         if(1 == affectedRows){
             return true;
@@ -83,7 +83,7 @@ public class ${className} implements ${baseClassName} {
     }
 
     @Override
-    public abstract int batchRemove(List<${domainName}> objs) throws DaoException {
+    public abstract int batchRemove(String[] ids) throws DaoException {
         return 0;
     }
 

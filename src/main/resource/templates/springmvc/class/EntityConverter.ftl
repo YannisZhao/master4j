@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import ${basePackageName}.api.dto.${dtoName};
-import ${basePackageName}.entity.${className};
+import ${basePackageName}.domain.${entityName};
 ${imports}
 
 /**
@@ -12,12 +12,12 @@ ${classDoc}
 */
 public class ${className} {
 
-    public static ${className} dto2Entity(${dtoName} dto){
+    public static ${entityName} dto2Entity(${dtoName} dto){
 
         if(dto == null)
             return null;
 
-        ${className} entity = new ${className}();
+        ${entityName} entity = new ${entityName}();
 
         <#list fields as field>
         entity.set${field.name?cap_first}(dto.get${field.name?cap_first}());
@@ -26,19 +26,19 @@ public class ${className} {
         return entity;
     }
 
-    public static List<${className}> dto2Entity(List<${dtoName}> dtos){
+    public static List<${entityName}> dto2Entity(List<${dtoName}> dtos){
 
         if(dtos == null)
             return null;
 
-        List<${className}> entities = new ArrayList<>();
+        List<${entityName}> entities = new ArrayList<>();
 
         for(${dtoName} dto : dtos){
 
-            ${className} entity = new ${className}();
+            ${entityName} entity = new ${entityName}();
 
             <#list fields as field>
-            vo.set${field.name?cap_first}(dto.get${field.name?cap_first}());
+            entity.set${field.name?cap_first}(dto.get${field.name?cap_first}());
             </#list>
 
             entities.add(entity);
@@ -47,9 +47,9 @@ public class ${className} {
         return entities;
     }
 
-    public static ${dtoName} entity2DTO(${className} entity){
+    public static ${dtoName} entity2DTO(${entityName} entity){
 
-        if(form == null)
+        if(entity == null)
             return null;
 
         ${dtoName} dto = new ${dtoName}();
@@ -61,14 +61,14 @@ public class ${className} {
         return dto;
     }
 
-    public static List<${dtoName}> entity2DTO(List<${className}> entity){
+    public static List<${dtoName}> entity2DTO(List<${entityName}> entities){
 
-        if(forms == null)
+        if(entities == null)
             return null;
 
         List<${dtoName}> dtos = new ArrayList<>();
 
-        for(${className} entity : entities){
+        for(${entityName} entity : entities){
 
             ${dtoName} dto = new ${dtoName}();
 

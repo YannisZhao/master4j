@@ -20,7 +20,7 @@ public class DaoConstructor {
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
-                put("domainName", className.substring(0,className.lastIndexOf("Dao")));
+                put("dtoName", className.substring(0,className.lastIndexOf("Dao")));
             }
         };
 

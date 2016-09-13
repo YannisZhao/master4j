@@ -31,14 +31,17 @@ public class DirecotryCreator {
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getSrcRelativePath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestRelativePath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
         FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getSrcRelativePath());
-        FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestRelativePath());
+        //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestRelativePath());
         FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getResourceRelativePath());
+        //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
         FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getSrcRelativePath());
         FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getTestRelativePath());
         FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
     }
 }
