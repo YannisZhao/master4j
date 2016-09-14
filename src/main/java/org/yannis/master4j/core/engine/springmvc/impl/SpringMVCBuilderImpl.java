@@ -51,12 +51,12 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building dto objects...");
 		}
 
-		String domainPath = apiModulePath + "/" + srcRelativePath + "/api/dto";
-		FileUtils.mkdir(domainPath);
+		String dtoPath = apiModulePath + "/" + srcRelativePath + "/api/dto";
+		FileUtils.mkdir(dtoPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
 			// Construct dto bean
-			DtoConstructor.construct(domainPath, projectConfig, meta);
+			DtoConstructor.construct(dtoPath, projectConfig, meta);
 		}
 
 		return false;
@@ -68,12 +68,12 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building vo objects...");
 		}
 
-		String domainPath = webModulePath + "/" + srcRelativePath + "/web/vo";
-		FileUtils.mkdir(domainPath);
+		String voPath = webModulePath + "/" + srcRelativePath + "/web/vo";
+		FileUtils.mkdir(voPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
 			// Construct vo bean
-			VoConstructor.construct(domainPath, projectConfig, meta);
+			VoConstructor.construct(voPath, projectConfig, meta);
 		}
 
 		return false;
