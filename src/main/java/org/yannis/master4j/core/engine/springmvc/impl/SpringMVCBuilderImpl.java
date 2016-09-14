@@ -51,7 +51,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building dto objects...");
 		}
 
-		String domainPath = apiModulePath + "/" + srcRelativePath + "/dto";
+		String domainPath = apiModulePath + "/" + srcRelativePath + "/api/dto";
 		FileUtils.mkdir(domainPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -68,7 +68,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building vo objects...");
 		}
 
-		String domainPath = webModulePath + "/" + srcRelativePath + "/vo";
+		String domainPath = webModulePath + "/" + srcRelativePath + "/web/vo";
 		FileUtils.mkdir(domainPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -85,7 +85,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building converter objects...");
 		}
 
-		String voConverterPath = webModulePath + "/" + srcRelativePath + "/converter";
+		String voConverterPath = webModulePath + "/" + srcRelativePath + "/web/converter";
 		FileUtils.mkdir(voConverterPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -108,7 +108,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
             LOGGER.info("Starting building controllers...");
         }
 
-        String controllerPath = webModulePath + "/" + srcRelativePath + "/controller";
+        String controllerPath = webModulePath + "/" + srcRelativePath + "/web/controller";
         FileUtils.mkdir(controllerPath);
 
         for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -125,7 +125,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building services...");
 		}
 
-		String servicePath = apiModulePath + "/" + srcRelativePath + "/service";
+		String servicePath = apiModulePath + "/" + srcRelativePath + "/api/service";
 		FileUtils.mkdir(servicePath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -190,6 +190,34 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 
 	@Override
 	public boolean buildTest(){
+		if(LOGGER.isInfoEnabled()) {
+			LOGGER.info("Starting building tests...");
+		}
+
+		String daoTestPath = implModulePath + "/" + testRelativePath + "/dao";
+		FileUtils.mkdirs(daoTestPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct Api Test
+			//ApiTestConstructor.construct(apiTestPath, projectConfig, meta);
+		}
+
+		String serviceTestPath = implModulePath + "/" + testRelativePath + "/service";
+		FileUtils.mkdirs(serviceTestPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct Api Test
+			//ApiTestConstructor.construct(apiTestPath, projectConfig, meta);
+		}
+
+		String controllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller";
+		FileUtils.mkdirs(controllerTestPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct Web Test
+			//WebTestConstructor.construct(webTestPath, projectConfig, meta);
+		}
+
 		return false;
 	}
 

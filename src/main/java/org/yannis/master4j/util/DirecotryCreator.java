@@ -28,12 +28,12 @@ public class DirecotryCreator {
         FileUtils.mkdir(dirConfig.getDaoModulePath());*/
 
         FileUtils.mkdirs(dirConfig.getWebinfPath());
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getSrcRelativePath());
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestRelativePath());
+        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getSrcRelativePath()+"/web");
+        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestRelativePath()+"/web");
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getResourceRelativePath());
         FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
-        FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getSrcRelativePath());
+        FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getSrcRelativePath()+"/api");
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestRelativePath());
         FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getResourceRelativePath());
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestResourceRelativePath());
