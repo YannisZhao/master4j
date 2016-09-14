@@ -198,8 +198,8 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 		FileUtils.mkdirs(daoTestPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
-			// Construct Api Test
-			//ApiTestConstructor.construct(apiTestPath, projectConfig, meta);
+			// Construct Dao Test
+			DaoTestConstructor.construct(daoTestPath, projectConfig, meta);
 		}
 
 		String serviceTestPath = implModulePath + "/" + testRelativePath + "/service";
