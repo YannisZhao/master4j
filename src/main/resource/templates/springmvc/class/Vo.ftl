@@ -6,7 +6,7 @@ ${imports}
 /**
 ${classDoc}
  */
-public class ${className}  implements Serializable {
+public class ${className} implements Serializable {
 
     <#list fields as field>
     /** ${field.comment} */
@@ -24,6 +24,10 @@ public class ${className}  implements Serializable {
 
     @Override
     public String toString(){
-        ${toStringBody}
+        return "{"+
+            <#list fields as field>
+            "${field.name}:" + this.${field.name}<#if field_has_next> +"," </#if> +
+            </#list>
+            "}";
     }
 }

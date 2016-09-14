@@ -46,6 +46,23 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 	}
 
 	@Override
+	public boolean buildForm() {
+		if(LOGGER.isInfoEnabled()) {
+			LOGGER.info("Starting building form objects...");
+		}
+
+		String formPath = webModulePath + "/" + srcRelativePath + "/web/form";
+		FileUtils.mkdir(formPath);
+
+		for(TableMeta meta : dbMeta.getTableMetaList()) {
+			// Construct form bean
+			FormConstructor.construct(formPath, projectConfig, meta);
+		}
+
+		return false;
+	}
+
+	@Override
 	public boolean buildDto() {
 		if(LOGGER.isInfoEnabled()) {
 			LOGGER.info("Starting building dto objects...");
@@ -225,6 +242,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 	public boolean build() {
         init();
 		buildDomain();
+		buildForm();
 		buildDto();
 		buildVo();
 		buildConverter();

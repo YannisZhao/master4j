@@ -5,6 +5,7 @@ import org.yannis.master4j.core.engine.AbstractBuilder;
 public abstract class AbstractSpringMVCBuilder extends AbstractBuilder {
 
 	public abstract boolean buildDomain();
+	public abstract boolean buildForm();
 	public abstract boolean buildDto();
 	public abstract boolean buildVo();
 	public abstract boolean buildConverter();

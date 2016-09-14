@@ -20,7 +20,8 @@ public class ControllerConstructor {
         final String className = getClassName(meta);
         Map<String,Object> root = new HashMap<String,Object>(){
             {
-                put("package", projectConfig.getBasePackageName()+".controller");
+                put("package", projectConfig.getBasePackageName()+".web.controller");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);

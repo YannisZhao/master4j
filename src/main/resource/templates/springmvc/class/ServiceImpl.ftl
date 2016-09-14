@@ -39,12 +39,12 @@ public class ${className} implements ${baseClassName} {
 
     @Override
     public boolean save(${dtoName} obj) {
-       return ${daoName?uncap_first}.save(${converterName}.dto2entity(obj));
+       return ${daoName?uncap_first}.save(${converterName}.dto2Entity(obj));
     }
 
     @Override
     public int batchSave(List<${dtoName}> objs) {
-        return ${daoName?uncap_first}.batchSave(${converterName}.dto2entity(objs));
+        return ${daoName?uncap_first}.batchSave(${converterName}.dto2Entity(objs));
     }
 
     @Override
@@ -58,13 +58,13 @@ public class ${className} implements ${baseClassName} {
     }
 
     @Override
-    public boolean update(${dtoName}> obj) {
-        return ${daoName?uncap_first}.update(${converterName}.dto2entity(obj));
+    public boolean update(${dtoName} obj) {
+        return ${daoName?uncap_first}.update(${converterName}.dto2Entity(obj));
     }
 
     @Override
     public int batchUpdate(List<${dtoName}> objs) {
-       return ${daoName?uncap_first}.batchUpdate(${converterName}.dto2entity(objs));
+       return ${daoName?uncap_first}.batchUpdate(${converterName}.dto2Entity(objs));
     }
 
 }

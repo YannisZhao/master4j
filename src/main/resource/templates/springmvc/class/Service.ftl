@@ -7,7 +7,7 @@ import org.yannis.commons.web.page.PageBean;
 import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.http.GeneralQueryRequest;
 
-import ${basePackageName}.dto.${dtoName};
+import ${basePackageName}.api.dto.${dtoName};
 
 /**
 ${classDoc}

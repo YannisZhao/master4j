@@ -1,9 +1,14 @@
 package ${package};
 
-${imports}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.yannis.test.base.${baseClassName};
-import org.yannis.test.service.${serviceName};
+${imports}
+import ${basePackageName}.web.converter.${beanConverter};
+import ${basePackageName}.web.base.${baseClassName};
+import ${basePackageName}.api.service.${serviceName};
 
 /**
 ${classDoc}

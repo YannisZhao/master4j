@@ -51,4 +51,30 @@ public class FieldUtils {
         return fields;
     }
 
+    public static String getImportList(List<Field> fields) {
+        StringBuilder builder = new StringBuilder("");
+        for (Field field : fields) {
+            String type = field.getType();
+            if (builder.indexOf(type) >= 0) {
+                continue;
+            }
+            switch (type) {
+                case "BigDecimal":
+                    builder.append("import java.math.BigDecimal;\n");
+                    break;
+                case "Date":
+                    builder.append("import java.sql.Date;\n");
+                    break;
+                case "Time":
+                    builder.append("import java.sql.Time;\n");
+                    break;
+                case "Timestamp":
+                    builder.append("import java.sql.Timestamp;\n");
+                    break;
+            }
+        }
+
+        return builder.toString();
+    }
+
 }

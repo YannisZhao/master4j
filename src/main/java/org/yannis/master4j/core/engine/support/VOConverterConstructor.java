@@ -22,7 +22,7 @@ public class VOConverterConstructor {
         final List<Field> fields = getFields(meta);
         Map<String,Object> root = new HashMap<String,Object>(){
             {
-                put("package", projectConfig.getBasePackageName()+".converter");
+                put("package", projectConfig.getBasePackageName()+".web.converter");
                 put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());

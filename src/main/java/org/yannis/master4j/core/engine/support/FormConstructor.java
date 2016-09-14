@@ -12,23 +12,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dell on 2016/7/25.
+ * Created by yannis on 9/14/16.
  */
-public class DtoConstructor {
+public class FormConstructor {
     public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
         final List<Field> fields = FieldUtils.getFields(meta);
-        Map<String,Object> root = new HashMap<String,Object>(){
+        Map<String, Object> root = new HashMap<String, Object>() {
             {
-                put("package", projectConfig.getBasePackageName()+".api.dto");
+                put("package", projectConfig.getBasePackageName() + ".web.form");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports", FieldUtils.getImportList(fields));
-                put("classDoc",meta.getComment());
+                put("classDoc", meta.getComment());
                 put("className", className);
-                put("fields",fields);
+                put("fields", fields);
             }
         };
 
-        TemplateUtils.process("/springmvc/class/Dto.ftl", root, domainPath + "/" + className + ".java");
+        TemplateUtils.process("/springmvc/class/Form.ftl", root, domainPath + "/" + className + ".java");
     }
 
     private static String getClassName(TableMeta meta) {
@@ -37,7 +38,6 @@ public class DtoConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName)+"DTO";
+        return ClassUtils.getCamelCaseName(tableName)+"Form";
     }
-
 }

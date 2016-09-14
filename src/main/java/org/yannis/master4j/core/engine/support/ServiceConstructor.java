@@ -1,13 +1,11 @@
 package org.yannis.master4j.core.engine.support;
 
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +16,7 @@ public class ServiceConstructor {
         final String className = getClassName(meta);
         Map<String,Object> root = new HashMap<String,Object>(){
             {
-                put("package", projectConfig.getBasePackageName()+".service");
+                put("package", projectConfig.getBasePackageName()+".api.service");
                 put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());

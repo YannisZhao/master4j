@@ -22,6 +22,7 @@ public class DaoImplConstructor {
         Map<String,Object> root = new HashMap<String,Object>(){
             {
                 put("package", projectConfig.getBasePackageName()+".dao.impl");
+                put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("fields", FieldUtils.getFields(meta));
                 put("classDoc",meta.getComment());
