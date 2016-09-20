@@ -15,6 +15,7 @@
         <useDefaultDelimiters>false</useDefaultDelimiters>
         <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
         <slf4j.version>1.7.5</slf4j.version>
+        <org.yannis.commons.version>1.0-SNAPSHOT</org.yannis.commons.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.20</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yannis.commons</groupId>
+            <artifactId>common-web</artifactId>
+            <version>${org.yannis.commons.version}</version>
         </dependency>
 
         <!-- spring -->

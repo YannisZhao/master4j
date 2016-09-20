@@ -10,6 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.yannis.commons.version>1.0-SNAPSHOT</org.yannis.commons.version>
     </properties>
 
     <dependencies>
@@ -18,6 +19,11 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.yannis.commons</groupId>
+            <artifactId>common-web</artifactId>
+            <version>${r'${org.yannis.commons.version}'}</version>
         </dependency>
     </dependencies>
 

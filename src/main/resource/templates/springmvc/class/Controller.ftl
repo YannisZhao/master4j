@@ -1,9 +1,15 @@
 package ${package};
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.yannis.commons.web.page.PageBean;
+import org.yannis.commons.web.request.data.json.JsonQueryAdapter;
+import org.yannis.commons.web.response.enums.Message;
+import org.yannis.commons.web.response.vo.ResponseMsg;
 
 ${imports}
 import ${basePackageName}.web.converter.${beanConverter};
@@ -16,6 +22,8 @@ ${classDoc}
 @RestController
 @RequestMapping("/${domainName?uncap_first}")
 public class ${className} extends ${baseClassName} {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(${className}.class);
 
     @Autowired
     public ${serviceName} ${serviceName?uncap_first};
@@ -73,7 +81,7 @@ public class ${className} extends ${baseClassName} {
 
         ResponseMsg responseVO = new ResponseMsg();
 
-        if(${serviceName?uncap_first}.batchRemove(ids) == objs.size()){
+        if(${serviceName?uncap_first}.batchRemove(ids) == ids.size()){
             responseVO.setStatus(true);
             responseVO.setMessage(Message.OPT_SUCCESSED);
         }else{
