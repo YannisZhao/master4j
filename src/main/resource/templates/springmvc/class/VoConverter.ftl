@@ -74,7 +74,7 @@ public class ${className} {
             ${dtoName} dto = new ${dtoName}();
 
             <#list fields as field>
-            dto.set${field.name?cap_first}(dto.get${field.name?cap_first}());
+            dto.set${field.name?cap_first}(form.get${field.name?cap_first}());
             </#list>
 
             dtos.add(dto);

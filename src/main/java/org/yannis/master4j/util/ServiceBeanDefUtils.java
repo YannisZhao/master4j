@@ -16,31 +16,31 @@
  *
  * Also with any question can email zhaoyjun0222@gmail.com
  */
-package org.yannis.master4j.core.engine;
+package org.yannis.master4j.util;
 
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.meta.TableMeta;
 
-public abstract class AbstractBuilder implements Builder{
+import java.util.List;
 
-    protected DatabaseMeta dbMeta;
+public class ServiceBeanDefUtils {
+    public static String getDef(ProjectConfig projectConfig, DatabaseMeta dbMeta) {
+        String basePackage = projectConfig.getBasePackageName();
+        List<TableMeta> tblMetas = dbMeta.getTableMetaList();
 
-    protected ProjectConfig projectConfig;
+        StringBuilder serviceDefs = new StringBuilder();
 
-    public DatabaseMeta getDbMeta() {
-        return dbMeta;
+        for (TableMeta meta : tblMetas){
+            String serviceShort = uncap(ClassUtils.getClassName(meta));
+            String serviceFullName = basePackage+".service.impl."+ClassUtils.getClassName(meta);
+            serviceDefs.append(String.format("\t<bean id=\"%s\" class=\"%s\" />\n", serviceShort, serviceFullName));
+        }
+
+        return serviceDefs.toString();
     }
 
-    public void setDbMeta(DatabaseMeta dbMeta) {
-        this.dbMeta = dbMeta;
-    }
-
-    public ProjectConfig getProjectConfig() {
-        return projectConfig;
-    }
-
-    @Override
-    public void setProjectConfig(ProjectConfig projectConfig) {
-        this.projectConfig = projectConfig;
+    private static String uncap(String className) {
+        return className.substring(0,1).toLowerCase()+className.substring(1);
     }
 }

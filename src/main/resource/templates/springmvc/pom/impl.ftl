@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.yannis.commons</groupId>
             <artifactId>common-web</artifactId>
-            <version>${org.yannis.commons.version}</version>
+            <version>${r'${org.yannis.commons.version}'}</version>
         </dependency>
 
         <!-- spring -->

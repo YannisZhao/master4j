@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Also with any question can email zhaoyjun0222@gmail.com
+ */
 package org.yannis.master4j.util;
 
 import org.yannis.master4j.entity.Field;
@@ -7,9 +25,6 @@ import org.yannis.master4j.meta.TableMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dell on 2016/6/18.
- */
 public class FieldUtils {
     public static String getCamelCaseName(String name) {
         StringBuilder builder = new StringBuilder();
@@ -44,8 +59,10 @@ public class FieldUtils {
             Field field = new Field();
             field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
             field.setType(columnMeta.getColumnType());
+            field.setComparedDefaultValue(getTypeString(field));
             field.setSize(Integer.toString(columnMeta.getColumnSize()));
             field.setComment(columnMeta.getComment());
+            field.setPrimary(columnMeta.isPrimary());
             fields.add(field);
         }
         return fields;
@@ -75,6 +92,40 @@ public class FieldUtils {
         }
 
         return builder.toString();
+    }
+
+    private static String getTypeString(Field field) {
+        switch (field.getType()) {
+            case "String":
+                return "null";
+            case "int":
+                return "0";
+            case "float":
+                return "0";
+            case "long":
+                return "0";
+            case "double":
+                return "0";
+            case "decimal":
+                return "0";
+            case "Timestamp":
+                return null;
+            case "Time":
+                return null;
+            case "Date":
+                return null;
+        }
+        return null;
+    }
+
+    public static List<Field> getPKList(List<Field> fields) {
+        List<Field> pkList = new ArrayList<>();
+        for (Field field : fields){
+            if(field.isPrimary()) {
+                pkList.add(field);
+            }
+        }
+        return pkList;
     }
 
 }

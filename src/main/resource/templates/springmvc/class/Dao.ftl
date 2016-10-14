@@ -1,8 +1,11 @@
+<#include "../../lib/data.ftl"/>
 package ${package};
 
 import java.util.List;
+<#if pks?size gt 1>
+import java.util.Map;
+</#if>
 
-import org.yannis.commons.web.page.PageBean;
 import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.http.GeneralQueryRequest;
 
@@ -14,26 +17,59 @@ ${classDoc}
 */
 public interface ${className} {
 
-    public abstract ${domainName} findById(String id) throws DaoException;
-
-    public abstract List<${domainName}> findByPage(SqlParamWrapper[] params, Paginator paginator) throws DaoException;
+    /**
+     * Find entity by id
+     * @param id
+     * @return Entity or null if not found
+     */
+    <@compress_single_line>
+    ${domainName} findById(${idParams});
+    </@compress_single_line>
 
     /**
-    * Statistic with filter(s)
-    * @return total rows number in filtered condition
-    */
+     * Find entities by page
+     * @param paginator
+     * @return
+     */
+    List<${domainName}> findByPage(Paginator paginator);
+
+    /**
+     * Search records
+     * @return List of filtered records
+     */
+    List<${domainName}> search(GeneralQueryRequest request);
+
+    /**
+     * Statistic with no filter
+     * @return total rows number
+     */
+    long getTotalRows();
+
+    /**
+     * Statistic with filter(s)
+     * @return total rows number in filtered condition
+     */
     long getTotalRows(GeneralQueryRequest request);
 
-    public abstract boolean save(${domainName} obj) throws DaoException;
+    boolean save(${domainName} obj);
 
-    public abstract int batchSave(List<${domainName}> objs) throws DaoException;
+    int batchSave(List<${domainName}> objs);
 
-    public abstract boolean remove(String id) throws DaoException;
+    /**
+    * Remove entity with specified id
+    * @param id
+    * @return
+    */
+    <@compress_single_line>
+    boolean remove(${idParams});
+    </@compress_single_line>
 
-    public abstract int batchRemove(String[] ids) throws DaoException;
+    <@compress_single_line>
+    int batchRemove(${batchRemoveParams});
+    </@compress_single_line>
 
-    public abstract boolean update(${domainName} obj) throws DaoException;
+    boolean update(${domainName} obj);
 
-    public abstract int batchUpdate(List<${domainName}> objs) throws DaoException;
+    int batchUpdate(List<${domainName}> objs);
 
 }

@@ -36,6 +36,7 @@ public class AppTest
 
         ProjectConfig projectConfig = new ProjectConfig();
 
+        /* configure database information */
         DBConfig dbConfig = new DBConfig();
         dbConfig.setDatabase("uaas");
         dbConfig.setIp("127.0.0.1");
@@ -45,12 +46,14 @@ public class AppTest
         dbConfig.setExcludeTables(Arrays.asList("sys_resource","sys_role","sys_user","user_group"));
         projectConfig.setDbConfig(dbConfig);
 
+        /* configure project & output path information */
         projectConfig.setOutputPath("/home/yannis/Development");
         projectConfig.setProjectName("uaas");
         projectConfig.setBasePackageName("org.yannis.uaas");
 
         projectConfig.setDirConfig(new DirConfig(projectConfig.getOutputPath(),projectConfig.getProjectName(),projectConfig.getBasePackageName()));
 
+        /* bootstrap the app */
         motor.fire(projectConfig);
     }
 }

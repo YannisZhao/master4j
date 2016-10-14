@@ -1,10 +1,29 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Also with any question can email zhaoyjun0222@gmail.com
+ */
 package org.yannis.master4j.util;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.regex.Pattern;
 
-/**
- * Created by yannis on 6/14/16.
- */
 public final class FileUtils {
 
     public static boolean mkdir(String path){
@@ -17,14 +36,51 @@ public final class FileUtils {
         return (dir.exists() && dir.isDirectory())?true:dir.mkdirs();
     }
 
+    public static boolean copyTo(String src, String dist) throws IOException {
+        long bytes = Files.copy(Paths.get(src), new FileOutputStream(dist));
+        return bytes > 0 ? true : false;
+    }
+
+    public static boolean copyTo(String src, OutputStream dist) throws IOException {
+        long bytes = Files.copy(Paths.get(src), dist);
+        return bytes > 0 ? true : false;
+    }
+
+    public static boolean copyTo(String src, String dist, Map<String, String> data) throws IOException {
+        File file = new File(src);
+        Long size = file.length();
+        byte[] bytes = new byte[size.intValue()];
+        try(FileInputStream is = new FileInputStream(src)) {
+            is.read(bytes);
+        }
+        String content = new String(bytes, "UTF-8");
+
+        for(String key : data.keySet()) {
+            content = Pattern.compile("\\$\\{"+key+"\\}").matcher(content).replaceAll(data.get(key));
+        }
+
+        newFile(dist, content);
+
+        return false;
+    }
+
     public static void newFile(String fileName, String content) {
+        FileOutputStream out =null;
         try {
-            FileOutputStream out = new FileOutputStream(fileName);
+            out = new FileOutputStream(fileName);
             out.write(content.getBytes());
         } catch (FileNotFoundException e) {
             System.out.println("Generating file "+fileName+" error.");
         } catch (IOException e) {
             System.out.println("Generating file "+fileName+" error.");
+        }finally {
+            if(out != null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

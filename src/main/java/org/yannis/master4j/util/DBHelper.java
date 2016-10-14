@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Also with any question can email zhaoyjun0222@gmail.com
+ */
 package org.yannis.master4j.util;
 
 import org.slf4j.Logger;
@@ -15,10 +33,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by yannis on 6/13/16.
- */
 public class DBHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DBHelper.class);
@@ -38,6 +54,7 @@ public class DBHelper {
     public DatabaseMeta getDatabaseMeta() {
         DatabaseMeta meta = new DatabaseMeta();
         meta.setTableMetaList(getTableMetas());
+        close(this.connection);
         return meta;
     }
 
@@ -79,8 +96,8 @@ public class DBHelper {
         TableMeta meta = new TableMeta();
 
         meta.setTableName(table);
-        meta.setPrimaryKeys(getTablePrimaryKeys(table));
-        meta.setColumnMetas(getColumnMetas(table));
+        List<String> tablePrimaryKeys = getTablePrimaryKeys(table);
+        meta.setColumnMetas(getColumnMetas(table, tablePrimaryKeys));
         meta.setComment(getTableComment(table));
 
         return meta;
@@ -148,7 +165,6 @@ public class DBHelper {
 
             resultSet = dbMetaData.getPrimaryKeys(null, "%", table);
             while (resultSet.next()) {
-
                 primaryKeys.add(resultSet.getString(4));
             }
         } catch (SQLException e) {
@@ -160,7 +176,7 @@ public class DBHelper {
         return primaryKeys;
     }
 
-    private List<ColumnMeta> getColumnMetas(String table) {
+    private List<ColumnMeta> getColumnMetas(String table, List<String> tablePrimaryKeys) {
 
         List<ColumnMeta> columnMetas = new ArrayList<>();
 
@@ -187,6 +203,13 @@ public class DBHelper {
                 columnMeta.setColumnSize(columnSize);
                 columnMeta.setNullable(isNullable > 0);
                 columnMeta.setComment(comment);
+
+                for(String pk : tablePrimaryKeys){
+                    if(columnName.equals(pk)){
+                        columnMeta.setPrimary(true);
+                        break;
+                    }
+                }
 
                 columnMetas.add(columnMeta);
             }
