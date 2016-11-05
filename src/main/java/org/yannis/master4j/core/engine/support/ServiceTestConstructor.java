@@ -27,20 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceTestConstructor {
-    public static void construct(final String daoPath, final ProjectConfig projectConfig, final TableMeta meta) {
+    public static void construct(final String servicePath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
         Map<String,Object> root = new HashMap<String,Object>(){
             {
-                put("package", projectConfig.getBasePackageName()+".dao.impl");
+                put("package", projectConfig.getBasePackageName()+".service.impl");
                 put("basePackageName", projectConfig.getBasePackageName());
                 put("imports","");
                 put("classDoc",meta.getComment());
                 put("className", className);
-                put("domainName", className.substring(0,className.lastIndexOf("DaoImplTest")));
+                put("domainName", className.substring(0,className.lastIndexOf("ServiceImplTest")));
             }
         };
 
-        TemplateUtils.process("/springmvc/class/DaoTest.ftl", root, daoPath + "/" + className + ".java");
+        TemplateUtils.process("/springmvc/class/ServiceTest.ftl", root, servicePath + "/" + className + ".java");
     }
 
     private static String getClassName(TableMeta meta) {
@@ -49,6 +49,6 @@ public class ServiceTestConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName) + "DaoImplTest";
+        return ClassUtils.getCamelCaseName(tableName) + "ServiceImplTest";
     }
 }

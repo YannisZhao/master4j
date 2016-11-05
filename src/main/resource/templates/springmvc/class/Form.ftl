@@ -2,6 +2,7 @@ package ${package};
 
 import java.io.Serializable;
 ${imports}
+import javax.validation.constraints.NotNull;
 
 /**
 ${classDoc}
@@ -10,7 +11,11 @@ public class ${className} implements Serializable {
 
 <#list fields as field>
     /** ${field.comment} */
+    <#if !field.nullable>@NotNull(message="{${domainName?uncap_first}.${field.name}.empty}")
     private ${field.type} ${field.name};
+    <#else>
+private ${field.type} ${field.name};
+    </#if>
 </#list>
 
 <#list fields as field>

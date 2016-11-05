@@ -27,7 +27,6 @@ import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-import java.io.FileOutputStream;
 import java.util.HashMap;
 
 public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
@@ -68,6 +67,24 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			// builder base dao
 			String baseDaoPath = implModulePath + "/" + srcRelativePath + "/dao/BaseDao.java";
 			FileUtils.copyTo(metaPath + "BaseDao.m4", baseDaoPath, new HashMap<String, String>(){{
+				put("package", projectConfig.getBasePackageName()+".dao");
+			}});
+
+			// builder basis test of controller
+			String baseControllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller/BaseTest.java";
+			FileUtils.copyTo(metaPath + "BaseControllerTest.m4", baseControllerTestPath, new HashMap<String, String>(){{
+				put("package", projectConfig.getBasePackageName()+".web.controller");
+			}});
+
+			// builder basis test of service
+			String baseServiceTestPath = implModulePath + "/" + testRelativePath + "/service/BaseTest.java";
+			FileUtils.copyTo(metaPath + "BaseServiceTest.m4", baseServiceTestPath, new HashMap<String, String>(){{
+				put("package", projectConfig.getBasePackageName()+".service");
+			}});
+
+			// builder basis test of dao
+			String baseDaoTestPath = implModulePath + "/" + testRelativePath + "/dao/BaseTest.java";
+			FileUtils.copyTo(metaPath + "BaseDaoTest.m4", baseDaoTestPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".dao");
 			}});
 		}catch (Exception e) {
@@ -261,7 +278,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			LOGGER.info("Starting building tests...");
 		}
 
-		String daoTestPath = implModulePath + "/" + testRelativePath + "/dao";
+		String daoTestPath = implModulePath + "/" + testRelativePath + "/dao/impl";
 		FileUtils.mkdirs(daoTestPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
@@ -269,12 +286,12 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 			DaoTestConstructor.construct(daoTestPath, projectConfig, meta);
 		}
 
-		String serviceTestPath = implModulePath + "/" + testRelativePath + "/service";
+		String serviceTestPath = implModulePath + "/" + testRelativePath + "/service/impl";
 		FileUtils.mkdirs(serviceTestPath);
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
-			// Construct Api Test
-			//ApiTestConstructor.construct(apiTestPath, projectConfig, meta);
+			// Construct Service Test
+			ServiceTestConstructor.construct(serviceTestPath, projectConfig, meta);
 		}
 
 		String controllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller";
@@ -282,7 +299,7 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 
 		for(TableMeta meta : dbMeta.getTableMetaList()) {
 			// Construct Web Test
-			//WebTestConstructor.construct(webTestPath, projectConfig, meta);
+			ControllerTestConstructor.construct(controllerTestPath, projectConfig, meta);
 		}
 
 		return false;

@@ -18,5 +18,38 @@
  */
 package org.yannis.master4j.core.engine.support;
 
+import org.yannis.master4j.config.ProjectConfig;
+import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.util.TemplateUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class ControllerTestConstructor {
+
+    public static void construct(final String controllerTestPath, final ProjectConfig projectConfig, final TableMeta meta) {
+        final String className = getClassName(meta);
+        Map<String,Object> root = new HashMap<String,Object>(){
+            {
+                put("package", projectConfig.getBasePackageName()+".web.controller");
+                put("basePackageName", projectConfig.getBasePackageName());
+                put("imports","");
+                put("classDoc",meta.getComment());
+                put("className", className);
+                put("domainName", className.substring(0,className.lastIndexOf("ControllerTest")));
+            }
+        };
+
+        TemplateUtils.process("/springmvc/class/ControllerTest.ftl", root, controllerTestPath + "/" + className + ".java");
+    }
+
+    private static String getClassName(TableMeta meta) {
+        String tableName = meta.getTableName();
+        if (meta.getPrefixName() != null) {
+            tableName.replace(meta.getPrefixName(), "");
+        }
+
+        return ClassUtils.getCamelCaseName(tableName) + "ControllerTest";
+    }
 }

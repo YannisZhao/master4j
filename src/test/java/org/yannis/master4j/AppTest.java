@@ -38,7 +38,7 @@ public class AppTest
 
         /* configure database information */
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("uaas");
+        dbConfig.setDatabase("snail");
         dbConfig.setIp("127.0.0.1");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
         dbConfig.setUsername("root");
@@ -48,8 +48,8 @@ public class AppTest
 
         /* configure project & output path information */
         projectConfig.setOutputPath("/home/yannis/Development");
-        projectConfig.setProjectName("uaas");
-        projectConfig.setBasePackageName("org.yannis.uaas");
+        projectConfig.setProjectName("snail");
+        projectConfig.setBasePackageName("org.yannis.snail");
 
         projectConfig.setDirConfig(new DirConfig(projectConfig.getOutputPath(),projectConfig.getProjectName(),projectConfig.getBasePackageName()));
 

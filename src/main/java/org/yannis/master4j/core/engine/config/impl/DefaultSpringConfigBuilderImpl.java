@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.core.engine.config.AbstractConfigBuilder;
+import org.yannis.master4j.core.engine.config.constructor.springmvc.MessageResourceConstructor;
 import org.yannis.master4j.core.engine.config.constructor.springmvc.PomConstructor;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.ServiceBeanDefUtils;
@@ -54,6 +55,7 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
 		FileUtils.mkdir(webinfPath+ "/templates/springmvc/lib");
 		FileUtils.mkdir(webinfPath+"/pages");
 		FileUtils.mkdirs(webModulePath+"/"+resourceRelativePath+"/i18n/message");
+		MessageResourceConstructor.construct(webModulePath+"/"+resourceRelativePath+"/i18n/message/messages.properties", dbMeta);
 		FileUtils.mkdirs(webModulePath+"/"+resourceRelativePath+"/i18n/label");
 
 		FileUtils.copyTo(metaPath+"web.xml.m4", webinfPath +"/web.xml");

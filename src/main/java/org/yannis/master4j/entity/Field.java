@@ -26,6 +26,7 @@ public class Field {
     private String defaultValue;
     private String comparedDefaultValue;
     private boolean isPrimary;
+    private boolean isNullable;
 
     public Field(){}
 
@@ -83,5 +84,13 @@ public class Field {
 
     public void setPrimary(boolean primary) {
         isPrimary = primary;
+    }
+
+    public boolean isNullable() {
+        return isNullable;
+    }
+
+    public void setNullable(boolean nullable) {
+        isNullable = nullable;
     }
 }

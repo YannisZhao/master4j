@@ -195,10 +195,12 @@ public class DBHelper {
                 int isNullable = resultSet.getInt("NULLABLE");
                 boolean isAutoIncrement = resultSet.getBoolean("IS_AUTOINCREMENT");
                 String comment = resultSet.getString("REMARKS");
+                String defaultValue = null;
 
                 ColumnMeta columnMeta = new ColumnMeta();
                 columnMeta.setColumnName(columnName);
                 columnMeta.setColumnType(SqlTypeMapper.getType(columnType));
+                columnMeta.setDefaultValue(defaultValue);
                 columnMeta.setAutoIncrement(isAutoIncrement);
                 columnMeta.setColumnSize(columnSize);
                 columnMeta.setNullable(isNullable > 0);

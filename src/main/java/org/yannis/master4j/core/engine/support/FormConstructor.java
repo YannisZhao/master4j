@@ -41,6 +41,7 @@ public class FormConstructor {
                 put("classDoc", meta.getComment());
                 put("className", className);
                 put("fields", fields);
+                put("domainName", className.substring(0,className.lastIndexOf("Form")));
             }
         };
 

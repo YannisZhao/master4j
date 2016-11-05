@@ -13,20 +13,25 @@
 	<context:component-scan base-package="${package}" />
 	<!--<context:component-scan base-package="org.yannis.xscheduler.web" />-->
 	<!-- 注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean -->
-	<mvc:annotation-driven /> 
+	<mvc:annotation-driven validator="validator" />
 
 	<!-- <mvc:default-servlet-handler/>   -->
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+    		<property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 	
-	<!-- <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="msg">
-			<list>value 为资源文件的basename
-				<value>messages</value>
-				<value>labels</value>
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>i18n/message/messages</value>
+                <value>i18n/label/labels</value>
 			</list>
 		</property>
 	</bean>
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver">
-	</bean> -->
+	</bean>
 	
 	<!-- <bean id="servletHandlerAdapter"
 		class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" /> -->

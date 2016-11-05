@@ -53,6 +53,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.data.QueryBuilder;
@@ -66,6 +67,7 @@ import ${basePackageName}.domain.${domainName};
 /**
 ${classDoc}
 */
+@Repository
 public class ${className} extends BaseDao implements ${baseClassName} {
 
     private final BeanPropertyRowMapper<${domainName}> rowMapper = BeanPropertyRowMapper.newInstance(${domainName}.class);

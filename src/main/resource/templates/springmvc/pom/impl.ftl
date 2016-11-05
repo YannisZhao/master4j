@@ -32,6 +32,11 @@
             <version>5.1.20</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.15</version>
+        </dependency>
 
         <dependency>
             <groupId>org.yannis.commons</groupId>

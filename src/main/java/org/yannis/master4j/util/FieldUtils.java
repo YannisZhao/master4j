@@ -59,10 +59,12 @@ public class FieldUtils {
             Field field = new Field();
             field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
             field.setType(columnMeta.getColumnType());
-            field.setComparedDefaultValue(getTypeString(field));
+            field.setDefaultValue(columnMeta.getDefaultValue());
+            field.setComparedDefaultValue(getTypeDefault(field));
             field.setSize(Integer.toString(columnMeta.getColumnSize()));
             field.setComment(columnMeta.getComment());
             field.setPrimary(columnMeta.isPrimary());
+            field.setNullable(columnMeta.isNullable());
             fields.add(field);
         }
         return fields;
@@ -94,8 +96,12 @@ public class FieldUtils {
         return builder.toString();
     }
 
-    private static String getTypeString(Field field) {
-        switch (field.getType()) {
+    private static boolean isImported(StringBuilder builder, String s) {
+        return builder.indexOf(s) >= 0;
+    }
+
+    private static String getTypeDefault(Field field) {
+        /*switch (field.getType()) {
             case "String":
                 return "null";
             case "int":
@@ -114,7 +120,7 @@ public class FieldUtils {
                 return null;
             case "Date":
                 return null;
-        }
+        }*/
         return null;
     }
 
