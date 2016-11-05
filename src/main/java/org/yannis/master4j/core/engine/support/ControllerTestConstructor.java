@@ -18,5 +18,5 @@
  */
 package org.yannis.master4j.core.engine.support;
 
-public class WebTestConstructor {
+public class ControllerTestConstructor {
 }
