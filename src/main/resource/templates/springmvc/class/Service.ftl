@@ -1,3 +1,4 @@
+<#include "../../lib/declare.ftl"/>
 <#include "../../lib/data.ftl"/>
 package ${package};
 

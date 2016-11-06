@@ -27,6 +27,8 @@ import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
@@ -57,35 +59,44 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 
 		String metaPath = TemplateUtils.getTemplateBasePath()+"/springmvc/meta/";
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		final String date = sdf.format(new Date());
+
 		try {
 			// build base controller
+			FileUtils.mkdirs(webModulePath + "/" + srcRelativePath + "/web/basis");
 			String baseControllerPath = webModulePath + "/" + srcRelativePath + "/web/basis/BaseController.java";
 			FileUtils.copyTo(metaPath + "BaseController.m4", baseControllerPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".web.basis");
+				put("date", date);
 			}});
 
 			// builder base dao
 			String baseDaoPath = implModulePath + "/" + srcRelativePath + "/dao/BaseDao.java";
 			FileUtils.copyTo(metaPath + "BaseDao.m4", baseDaoPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".dao");
+				put("date", date);
 			}});
 
 			// builder basis test of controller
 			String baseControllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller/BaseTest.java";
 			FileUtils.copyTo(metaPath + "BaseControllerTest.m4", baseControllerTestPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".web.controller");
+				put("date", date);
 			}});
 
 			// builder basis test of service
 			String baseServiceTestPath = implModulePath + "/" + testRelativePath + "/service/BaseTest.java";
 			FileUtils.copyTo(metaPath + "BaseServiceTest.m4", baseServiceTestPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".service");
+				put("date", date);
 			}});
 
 			// builder basis test of dao
 			String baseDaoTestPath = implModulePath + "/" + testRelativePath + "/dao/BaseTest.java";
 			FileUtils.copyTo(metaPath + "BaseDaoTest.m4", baseDaoTestPath, new HashMap<String, String>(){{
 				put("package", projectConfig.getBasePackageName()+".dao");
+				put("date", date);
 			}});
 		}catch (Exception e) {
 			LOGGER.error("Construct meta components error", e);

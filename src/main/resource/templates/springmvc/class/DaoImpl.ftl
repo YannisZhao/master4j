@@ -1,3 +1,4 @@
+<#include "../../lib/declare.ftl"/>
 <#include "../../lib/data.ftl"/>
 <#macro type_wrapper type>
 <#if type=="Integer">

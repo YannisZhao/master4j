@@ -1,3 +1,4 @@
+<#include "../../lib/declare.ftl"/>
 package ${package};
 
 import org.junit.Test;

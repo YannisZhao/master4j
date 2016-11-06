@@ -71,8 +71,10 @@ public final class FileUtils {
             out.write(content.getBytes());
         } catch (FileNotFoundException e) {
             System.out.println("Generating file "+fileName+" error.");
+            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("Generating file "+fileName+" error.");
+            e.printStackTrace();
         }finally {
             if(out != null){
                 try {
