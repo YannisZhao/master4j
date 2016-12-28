@@ -25,6 +25,7 @@ public class Field {
     private String comment;
     private String defaultValue;
     private String comparedDefaultValue;
+    private String column;
     private boolean isPrimary;
     private boolean isNullable;
 
@@ -76,6 +77,14 @@ public class Field {
 
     public void setComparedDefaultValue(String comparedDefaultValue) {
         this.comparedDefaultValue = comparedDefaultValue;
+    }
+
+    public String getColumn() {
+        return column;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
     }
 
     public boolean isPrimary() {

@@ -9,11 +9,12 @@ Long
 ${type}
 </#if>
 </#macro>
+<#assign columnMetas = tableMeta.columnMetas />
 <#assign columns>
-<#list fields as field>${field.name}<#sep>, </#list>
+<#list columnMetas as columnMeta>${columnMeta.columnName}<#sep>, </#list>
 </#assign>
 <#assign idPrepared>
-<#list fields as field><#if field.primary>${field.name}=?<#if field_has_next>, <#else></#if></#if></#list>
+<#list columnMetas as columnMeta><#if columnMeta.primary>${columnMeta.columnName}=?<#if columnMeta_has_next>, <#else></#if></#if></#list>
 </#assign>
 <#assign select>
 SELECT ${columns} FROM ${tableMeta.tableName}
@@ -22,7 +23,7 @@ SELECT ${columns} FROM ${tableMeta.tableName}
 <#assign insert>
 <@compress_single_line>
 "INSERT INTO ${tableMeta.tableName}(${columns}) values(
-<#list fields as field>?<#sep>, </#list>
+<#list columnMetas as columnMeta>?<#sep>, </#list>
 )";
 </@compress_single_line>
 </#assign>
@@ -30,9 +31,9 @@ SELECT ${columns} FROM ${tableMeta.tableName}
 <@compress_single_line>
 <#assign space=" ">
 "UPDATE ${tableMeta.tableName} SET${space}
-<#list fields as field>
-<#if !field.primary>
-${field.name}=?<#if field_has_next>, <#else> </#if>
+<#list columnMetas as columnMeta>
+<#if !columnMeta.primary>
+${columnMeta.columnName}=?<#if columnMeta_has_next>, <#else> </#if>
 </#if>
 </#list>
 WHERE
@@ -144,7 +145,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
 
         <#list fields as field>
         if(obj.get${field.name?cap_first}() != ${field.comparedDefaultValue!"null"}){
-            insertion.append("${field.name},");
+            insertion.append("${field.column},");
             placeHolder.append("?,");
             values.add(obj.get${field.name?cap_first}());
         }
@@ -157,7 +158,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
 
         int affectedRows = 0;
         try {
-            affectedRows = jdbcTemplate.update(query, values);
+            affectedRows = jdbcTemplate.update(query, values.toArray());
         } catch (DuplicateKeyException e) {
             //throw new DaoException(ExceptionMeta.E40001);
         }
@@ -260,7 +261,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         <#list fields as field>
         <#if !field.primary>
         if(obj.get${field.name?cap_first}() != ${field.comparedDefaultValue!"null"}){
-            query.append(" ${field.name}=? AND");
+            query.append(" ${field.column}=?,");
             values.add(obj.get${field.name?cap_first}());
         }
         </#if>

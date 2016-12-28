@@ -9,10 +9,27 @@
 package ${package};
 
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring-*.xml"})
 public class BaseTest {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+
+    protected RequestMappingHandlerAdapter handlerAdapter;
+    protected MockHttpServletRequest request;
+    protected MockHttpServletResponse response;
+
+    public BaseTest() {
+        request = new MockHttpServletRequest();
+        request.setCharacterEncoding("UTF-8");
+        response = new MockHttpServletResponse();
+    }
 }

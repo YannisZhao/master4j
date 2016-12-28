@@ -63,6 +63,7 @@ public class FieldUtils {
             field.setComparedDefaultValue(getTypeDefault(field));
             field.setSize(Integer.toString(columnMeta.getColumnSize()));
             field.setComment(columnMeta.getComment());
+            field.setColumn(columnMeta.getColumnName());
             field.setPrimary(columnMeta.isPrimary());
             field.setNullable(columnMeta.isNullable());
             fields.add(field);

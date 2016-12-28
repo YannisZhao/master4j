@@ -48,8 +48,8 @@ public class AppTest
 
         /* configure project & output path information */
         projectConfig.setOutputPath("/home/yannis/Development");
-        projectConfig.setProjectName("snail");
-        projectConfig.setBasePackageName("org.yannis.snail");
+        projectConfig.setProjectName("uaas");
+        projectConfig.setBasePackageName("org.yannis.uaas");
 
         projectConfig.setDirConfig(new DirConfig(projectConfig.getOutputPath(),projectConfig.getProjectName(),projectConfig.getBasePackageName()));
 
