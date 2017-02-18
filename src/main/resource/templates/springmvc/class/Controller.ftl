@@ -38,7 +38,7 @@ public class ${className} extends ${baseClassName} {
     private static final Logger LOGGER = LoggerFactory.getLogger(${className}.class);
 
     @Autowired
-    public ${serviceName} ${serviceName?uncap_first};
+    private ${serviceName} ${serviceName?uncap_first};
 
     @RequestMapping("list")
     public PageBean<?> getList(JsonQueryAdapter adapter){
