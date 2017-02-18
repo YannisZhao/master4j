@@ -1,6 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    <parent>
+      <artifactId>${module}-parent</artifactId>
+      <groupId>${group}</groupId>
+      <version>${version}</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
 
