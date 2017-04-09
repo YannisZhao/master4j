@@ -17,7 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.yannis.commons.version>1.0-SNAPSHOT</org.yannis.commons.version>
-        <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
+        <org.springframework.version>4.2.4.RELEASE</org.springframework.version>
     </properties>
 
     <dependencies>
@@ -79,11 +79,29 @@
             <version>${r'${org.springframework.version}'}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <dependency>
+          <groupId>javax.validation</groupId>
+          <artifactId>validation-api</artifactId>
+          <version>1.1.0.Final</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.el/javax.el-api -->
+        <dependency>
+          <groupId>javax.el</groupId>
+          <artifactId>javax.el-api</artifactId>
+          <version>3.0.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.3.0.Final</version>
+        </dependency>
+
+        <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>1.3.2</version>
         </dependency>
 
         <dependency>

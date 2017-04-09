@@ -18,58 +18,43 @@
  */
 package org.yannis.master4j;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.core.GeneratorFactory;
+import org.yannis.master4j.core.GeneratorFactoryProvider;
 import org.yannis.master4j.core.generator.Generator;
 import org.yannis.master4j.meta.DatabaseMeta;
 import org.yannis.master4j.util.DBHelper;
-import org.yannis.master4j.util.DirecotryCreator;
+import org.yannis.master4j.util.DirectoryCreator;
 
 public class Motor {
 
-    private GeneratorFactory classGeneratorFactory;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Motor.class);
 
-    private GeneratorFactory viewGeneratorFactory;
+    private GeneratorFactoryProvider generatorFactoryProvider;
 
-    private GeneratorFactory configGeneratorFactory;
+    public Motor(GeneratorFactoryProvider generatorFactoryProvider) {
+        this.generatorFactoryProvider = generatorFactoryProvider;
+    }
 
     public void fire(ProjectConfig projectConfig){
 
-        DirecotryCreator.createDirs(projectConfig.getDirConfig());
+        DirectoryCreator.createDirs(projectConfig.getDirConfig());
 
         DatabaseMeta dbMeta = new DBHelper(projectConfig.getDbConfig()).getDatabaseMeta();
 
-        Generator springMVCGenerator = classGeneratorFactory.newInstance();
-        Generator viewGenerator = viewGeneratorFactory.newInstance();
-        Generator configGenerator = configGeneratorFactory.newInstance();
+        Generator classGenerator = generatorFactoryProvider.getClassGeneratorFactory().newInstance();
+        Generator viewGenerator = generatorFactoryProvider.getViewGeneratorFactory().newInstance();
+        Generator configGenerator = generatorFactoryProvider.getConfigGeneratorFactory().newInstance();
 
-        springMVCGenerator.generate(dbMeta, projectConfig);
-        viewGenerator.generate(dbMeta, projectConfig);
+        LOGGER.info("Starting code generating...");
+
         configGenerator.generate(dbMeta, projectConfig);
-    }
+        classGenerator.generate(dbMeta, projectConfig);
+        viewGenerator.generate(dbMeta, projectConfig);
 
-    public GeneratorFactory getClassGeneratorFactory() {
-        return classGeneratorFactory;
-    }
+        LOGGER.info("Code generated successful");
 
-    public void setClassGeneratorFactory(GeneratorFactory classGeneratorFactory) {
-        this.classGeneratorFactory = classGeneratorFactory;
-    }
-
-    public GeneratorFactory getViewGeneratorFactory() {
-        return viewGeneratorFactory;
-    }
-
-    public void setViewGeneratorFactory(GeneratorFactory viewGeneratorFactory) {
-        this.viewGeneratorFactory = viewGeneratorFactory;
-    }
-
-    public GeneratorFactory getConfigGeneratorFactory() {
-        return configGeneratorFactory;
-    }
-
-    public void setConfigGeneratorFactory(GeneratorFactory configGeneratorFactory) {
-        this.configGeneratorFactory = configGeneratorFactory;
     }
 
 }
