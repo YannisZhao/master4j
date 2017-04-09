@@ -36,6 +36,8 @@
             <tx:method name="batchSave*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="batchDelete*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="batchRemove*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="batchUpdate*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
             <tx:method name="modify*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
