@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <useDefaultDelimiters>false</useDefaultDelimiters>
-        <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
+        <org.springframework.version>4.2.4.RELEASE</org.springframework.version>
         <slf4j.version>1.7.5</slf4j.version>
         <org.yannis.commons.version>1.0-SNAPSHOT</org.yannis.commons.version>
     </properties>

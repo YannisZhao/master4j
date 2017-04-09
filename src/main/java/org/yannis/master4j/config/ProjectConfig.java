@@ -34,11 +34,7 @@ public class ProjectConfig {
     }
 
     public DirConfig getDirConfig() {
-        return dirConfig;
-    }
-
-    public void setDirConfig(DirConfig dirConfig) {
-        this.dirConfig = dirConfig;
+        return new DirConfig(outputPath, projectName, basePackageName);
     }
 
     public String getGroupName() {

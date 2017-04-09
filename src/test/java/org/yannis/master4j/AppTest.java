@@ -4,8 +4,9 @@ import junit.framework.TestCase;
 import org.yannis.master4j.config.DBConfig;
 import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.core.generator.ConfigGeneratorFactory;
-import org.yannis.master4j.core.generator.ViewGeneratorFactory;
+import org.yannis.master4j.core.SingleGeneratorFactoryProvider;
+import org.yannis.master4j.core.generator.config.ConfigGeneratorFactory;
+import org.yannis.master4j.core.generator.view.ViewGeneratorFactory;
 import org.yannis.master4j.core.generator.springmvc.SpringMVCGeneratorFactory;
 
 import java.util.Arrays;
@@ -29,10 +30,7 @@ public class AppTest
 
     public void test(){
 
-        Motor motor = new Motor();
-        motor.setClassGeneratorFactory(new SpringMVCGeneratorFactory());
-        motor.setConfigGeneratorFactory(new ConfigGeneratorFactory());
-        motor.setViewGeneratorFactory(new ViewGeneratorFactory());
+        Motor motor = new Motor(new SingleGeneratorFactoryProvider());
 
         ProjectConfig projectConfig = new ProjectConfig();
 
@@ -47,11 +45,9 @@ public class AppTest
         projectConfig.setDbConfig(dbConfig);
 
         /* configure project & output path information */
-        projectConfig.setOutputPath("/home/yannis/Development");
+        projectConfig.setOutputPath("/home/yannis/Development/master4j_gen");
         projectConfig.setProjectName("uaas");
         projectConfig.setBasePackageName("org.yannis.uaas");
-
-        projectConfig.setDirConfig(new DirConfig(projectConfig.getOutputPath(),projectConfig.getProjectName(),projectConfig.getBasePackageName()));
 
         /* bootstrap the app */
         motor.fire(projectConfig);

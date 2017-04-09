@@ -1,4 +1,5 @@
 <#include "../../lib/declare.ftl"/>
+<#assign daoObj>${domainName?uncap_first}Dao</#assign>
 package ${package};
 
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 public class ${className} extends BaseTest {
 
     @Autowired
-    private ${domainName}Dao ${domainName?uncap_first}Dao;
+    private ${domainName}Dao ${daoObj};
     
     @Test
     public void testFindById() throws Exception {

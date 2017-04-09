@@ -26,7 +26,7 @@
 		<property name="basenames">
 			<list>
 				<value>i18n/message/messages</value>
-                <value>i18n/label/labels</value>
+        <value>i18n/label/labels</value>
 			</list>
 		</property>
 	</bean>

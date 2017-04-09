@@ -18,20 +18,26 @@
  */
 package org.yannis.master4j.core.generator.springmvc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.core.engine.Builder;
-import org.yannis.master4j.core.engine.BuilderFacotry;
+import org.yannis.master4j.core.engine.BuilderFactory;
 import org.yannis.master4j.core.engine.springmvc.impl.SpringMVCBuilderImpl;
 import org.yannis.master4j.meta.DatabaseMeta;
 
 public class DefaultSpringMVCGenerator extends AbstractSpringMVCGenerator {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSpringMVCGenerator.class);
+
 	@Override
 	public boolean generate(DatabaseMeta meta, ProjectConfig config) {
-		System.out.println("[DefaultSpringMVCGenerator]code generating...");
+
+		LOGGER.info("[DefaultSpringMVCGenerator]code generating...");
+
 		Builder builder = null;
 		try {
-			BuilderFacotry facotry = new BuilderFacotry(meta, config);
+			BuilderFactory facotry = new BuilderFactory(meta, config);
 			builder = facotry.newInstance(SpringMVCBuilderImpl.class);
 		} catch (Throwable e) {
 			e.printStackTrace();

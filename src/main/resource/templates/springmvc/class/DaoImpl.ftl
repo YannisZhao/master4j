@@ -54,7 +54,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 
 import org.yannis.commons.web.page.Paginator;
@@ -170,8 +169,6 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         return false;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, timeout = 30, rollbackFor = {
-            RuntimeException.class, Exception.class })
     @Override
     public int batchSave(List<${domainName}> objs) {
     final List<${domainName}> ${domainName?uncap_first}s = objs;
@@ -209,8 +206,6 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         return false;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, timeout = 30, rollbackFor = {
-            RuntimeException.class, Exception.class })
     @Override
     <@compress_single_line>
     public int batchRemove(${batchRemoveParams}) {

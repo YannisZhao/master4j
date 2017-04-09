@@ -18,11 +18,18 @@
  */
 package org.yannis.master4j.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.DirConfig;
 
-public class DirecotryCreator {
+public class DirectoryCreator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryCreator.class);
+
     public static void createDirs(DirConfig dirConfig) {
-        System.out.println("start building directory...");
+
+        LOGGER.info("start building project directory...");
+
         FileUtils.mkdir(dirConfig.getBasePath());
 
         FileUtils.mkdir(dirConfig.getWebModulePath());
@@ -50,7 +57,7 @@ public class DirecotryCreator {
 
         FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getSrcRelativePath()+"/api");
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestRelativePath());
-        FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getResourceRelativePath());
+        //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getResourceRelativePath());
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
         FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getSrcRelativePath());

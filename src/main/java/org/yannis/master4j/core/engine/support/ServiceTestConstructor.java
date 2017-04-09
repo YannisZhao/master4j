@@ -37,6 +37,7 @@ public class ServiceTestConstructor {
                 put("classDoc",meta.getComment());
                 put("className", className);
                 put("domainName", className.substring(0,className.lastIndexOf("ServiceImplTest")));
+                put("dtoName", className.substring(0,className.lastIndexOf("ServiceImplTest"))+"DTO");
             }
         };
 

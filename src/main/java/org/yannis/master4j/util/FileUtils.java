@@ -26,6 +26,10 @@ import java.util.regex.Pattern;
 
 public final class FileUtils {
 
+    public static boolean exist(String path) {
+        return new File(path).exists();
+    }
+
     public static boolean mkdir(String path){
         File dir = new File(path);
         return (dir.exists() && dir.isDirectory())?true:dir.mkdir();
@@ -67,7 +71,14 @@ public final class FileUtils {
     public static void newFile(String fileName, String content) {
         FileOutputStream out =null;
         try {
-            out = new FileOutputStream(fileName);
+            File file = new File(fileName);
+            if(!file.exists()) {
+                File parent = file.getParentFile();
+                if(!parent.exists()){
+                    parent.mkdirs();
+                }
+            }
+            out = new FileOutputStream(file);
             out.write(content.getBytes());
         } catch (FileNotFoundException e) {
             System.out.println("Generating file "+fileName+" error.");

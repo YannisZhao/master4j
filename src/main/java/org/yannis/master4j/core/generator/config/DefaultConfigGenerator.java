@@ -18,21 +18,27 @@
  */
 package org.yannis.master4j.core.generator.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.core.engine.Builder;
-import org.yannis.master4j.core.engine.BuilderFacotry;
+import org.yannis.master4j.core.engine.BuilderFactory;
 import org.yannis.master4j.core.engine.config.impl.DefaultSpringConfigBuilderImpl;
 import org.yannis.master4j.meta.DatabaseMeta;
 
 public class DefaultConfigGenerator extends AbstractConfigGenerator {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigGenerator.class);
+
 	@Override
 	public boolean generate(DatabaseMeta meta, ProjectConfig config) {
-		System.out.println("[DefaultConfigGenerator]code generating...");
+
+		LOGGER.info("starting build configure...");
+
 		Builder builder = null;
 		try {
-			BuilderFacotry facotry = new BuilderFacotry(meta, config);
-			builder = facotry.newInstance(DefaultSpringConfigBuilderImpl.class);
+			BuilderFactory factory = new BuilderFactory(meta, config);
+			builder = factory.newInstance(DefaultSpringConfigBuilderImpl.class);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
