@@ -4,7 +4,7 @@
 
   <groupId>org.yannis</groupId>
   <artifactId>master4j</artifactId>
-  <version>0.9</version>
+  <version>0.9.1</version>
   <packaging>jar</packaging>
 
   <name>master4j</name>
