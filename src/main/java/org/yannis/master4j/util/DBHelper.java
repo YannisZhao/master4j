@@ -18,13 +18,6 @@
  */
 package org.yannis.master4j.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.yannis.master4j.config.DBConfig;
-import org.yannis.master4j.meta.ColumnMeta;
-import org.yannis.master4j.meta.DatabaseMeta;
-import org.yannis.master4j.meta.TableMeta;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -33,7 +26,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.yannis.master4j.config.DBConfig;
+import org.yannis.master4j.meta.ColumnMeta;
+import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.meta.TableMeta;
 
 public class DBHelper {
 
@@ -46,7 +44,8 @@ public class DBHelper {
     public DBHelper(DBConfig dbConfig) {
         this.dbConfig = dbConfig;
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Try to connect to database server: {}:{}, charset: {}", dbConfig.getIp(), dbConfig.getPort(), dbConfig.getCharset());
+            LOGGER.info("Try to connect to database server: {}:{}, charset: {}", dbConfig.getIp(), dbConfig.getPort(),
+                dbConfig.getCharset());
         }
         connection = createConnection(dbConfig);
     }
@@ -73,7 +72,8 @@ public class DBHelper {
         Connection connection = null;
         try {
             Class.forName(dbConfig.getDriverPackage());
-            url = dbConfig.getProtocalPrefix() + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig.getDatabase() + "?characterEncoding=" + dbConfig.getCharset();
+            url = dbConfig.getProtocalPrefix() + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig
+                .getDatabase() + "?characterEncoding=" + dbConfig.getCharset();
             connection = DriverManager.getConnection(url, dbConfig.getUsername(), dbConfig.getPassword());
         } catch (ClassNotFoundException e) {
             LOGGER.error("Cannot resolve driver class from {}, Class not found", dbConfig.getDriverPackage());
@@ -95,7 +95,15 @@ public class DBHelper {
     private TableMeta getTableMeta(String table) {
         TableMeta meta = new TableMeta();
 
-        meta.setTableName(table);
+        String tableName = table;
+        final String tablePrefix = dbConfig.getTablePrefix();
+        if (tablePrefix != null && !"".equals(tablePrefix)) {
+            if (table.startsWith(tablePrefix)) {
+                tableName = table.substring(table.indexOf(tablePrefix) + tablePrefix.length());
+            }
+        }
+
+        meta.setTableName(tableName);
         List<String> tablePrimaryKeys = getTablePrimaryKeys(table);
         meta.setColumnMetas(getColumnMetas(table, tablePrimaryKeys));
         meta.setComment(getTableComment(table));
@@ -206,8 +214,8 @@ public class DBHelper {
                 columnMeta.setNullable(isNullable > 0);
                 columnMeta.setComment(comment);
 
-                for(String pk : tablePrimaryKeys){
-                    if(columnName.equals(pk)){
+                for (String pk : tablePrimaryKeys) {
+                    if (columnName.equals(pk)) {
                         columnMeta.setPrimary(true);
                         break;
                     }
@@ -227,18 +235,19 @@ public class DBHelper {
     private String getTableComment(String table) {
         ResultSet resultSet = null;
         try {
-            PreparedStatement stmt = this.connection.prepareStatement("select table_comment from information_schema.tables where table_schema=? and TABLE_name =?");
-            stmt.setString(1,dbConfig.getDatabase());
-            stmt.setString(2,table);
+            PreparedStatement stmt = this.connection.prepareStatement(
+                "select table_comment from information_schema.tables where table_schema=? and TABLE_name =?");
+            stmt.setString(1, dbConfig.getDatabase());
+            stmt.setString(2, table);
             resultSet = stmt.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-          close(resultSet);
+            close(resultSet);
         }
         return null;
     }

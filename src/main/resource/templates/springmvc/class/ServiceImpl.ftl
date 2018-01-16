@@ -27,6 +27,7 @@ public class ${className} implements ${baseClassName} {
     @Autowired
     private ${daoName} ${daoName?uncap_first};
 
+    @Override
     <@compress_single_line>
     public ${dtoName} findById(${idParams}) {
     </@compress_single_line>
