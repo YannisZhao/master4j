@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class SqlTypeMapper {
 
-    private static Map<String,String> mapper = new HashMap<String,String>() {
+    private static Map<String, String> mapper = new HashMap<String, String>() {
         {
             put("BIT", "Integer");
             put("TINYINT", "Integer");
@@ -59,7 +59,7 @@ public class SqlTypeMapper {
 
     public static String getType(String columnType) {
         String type = mapper.get(columnType);
-        if(type == null){
+        if (type == null) {
             type = "String";
         }
         return type;

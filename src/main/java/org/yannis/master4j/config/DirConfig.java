@@ -30,11 +30,11 @@ public class DirConfig {
     private String pageModulePath;*/
 
 
-    public DirConfig(String savePath, String projectName, String basePackage){
+    public DirConfig(String savePath, String projectName, String basePackage) {
         basePath = savePath + "/" + projectName + "-parent";
-        webModulePath = basePath + "/"+projectName+"-web";
-        apiModulePath = basePath  + "/"+projectName+"-api";
-        implModulePath = basePath  + "/"+projectName;
+        webModulePath = basePath + "/" + projectName + "-web";
+        apiModulePath = basePath + "/" + projectName + "-api";
+        implModulePath = basePath + "/" + projectName;
 
         String packagePath = basePackage.replaceAll("\\.", "/");
         webinfPath = webModulePath + "/src/main/webapp/WEB-INF";

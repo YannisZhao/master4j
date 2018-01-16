@@ -18,13 +18,11 @@
  */
 package org.yannis.master4j.core.engine.config;
 
-import org.yannis.master4j.core.engine.AbstractBuilder;
-import org.yannis.master4j.core.engine.Builder;
-
 import java.io.IOException;
+import org.yannis.master4j.core.engine.AbstractBuilder;
 
 public abstract class AbstractConfigBuilder extends AbstractBuilder {
-	
-	public abstract boolean buildConfiguration() throws IOException;
+
+    public abstract boolean buildConfiguration() throws IOException;
 
 }

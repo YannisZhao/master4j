@@ -37,7 +37,7 @@ public class Motor {
         this.generatorFactoryProvider = generatorFactoryProvider;
     }
 
-    public void fire(ProjectConfig projectConfig){
+    public void fire(ProjectConfig projectConfig) {
 
         DirectoryCreator.createDirs(projectConfig.getDirConfig());
 

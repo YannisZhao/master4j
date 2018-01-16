@@ -18,21 +18,18 @@
  */
 package org.yannis.master4j.core.engine.support;
 
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
-import org.yannis.master4j.meta.ColumnMeta;
-import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
-import org.yannis.master4j.util.FieldUtils;
-import org.yannis.master4j.util.FileUtils;
-import org.yannis.master4j.util.TemplateUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.yannis.master4j.config.ProjectConfig;
+import org.yannis.master4j.entity.Field;
+import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.TemplateUtils;
 
 public class EntityConstructor {
+
     public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
         final List<Field> fields = FieldUtils.getFields(meta);
@@ -56,7 +53,7 @@ public class EntityConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName);
+        return ClassUtils.getCamelCaseName(tableName) + "Entity";
     }
 
 }

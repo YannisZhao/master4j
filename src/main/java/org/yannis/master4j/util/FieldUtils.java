@@ -18,14 +18,14 @@
  */
 package org.yannis.master4j.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.TableMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FieldUtils {
+
     public static String getCamelCaseName(String name) {
         StringBuilder builder = new StringBuilder();
 
@@ -127,8 +127,8 @@ public class FieldUtils {
 
     public static List<Field> getPKList(List<Field> fields) {
         List<Field> pkList = new ArrayList<>();
-        for (Field field : fields){
-            if(field.isPrimary()) {
+        for (Field field : fields) {
+            if (field.isPrimary()) {
                 pkList.add(field);
             }
         }

@@ -1,5 +1,4 @@
 <#include "../../lib/declare.ftl"/>
-<#assign daoObj>${domainName?uncap_first}Dao</#assign>
 package ${package};
 
 import org.junit.Test;
@@ -8,7 +7,7 @@ import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.data.QueryBean;
 import org.yannis.commons.web.request.http.GeneralQueryRequest;
 import ${basePackageName}.domain.${domainName};
-import ${basePackageName}.dao.${domainName}Dao;
+import ${basePackageName}.dao.${daoName};
 
 import ${basePackageName}.dao.BaseTest;
 
@@ -23,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class ${className} extends BaseTest {
 
     @Autowired
-    private ${domainName}Dao ${daoObj};
+    private ${daoName} ${daoName?uncap_first};
     
     @Test
     public void testFindById() throws Exception {

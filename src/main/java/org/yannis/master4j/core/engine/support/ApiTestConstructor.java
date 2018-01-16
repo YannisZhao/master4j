@@ -19,4 +19,5 @@
 package org.yannis.master4j.core.engine.support;
 
 public class ApiTestConstructor {
+
 }

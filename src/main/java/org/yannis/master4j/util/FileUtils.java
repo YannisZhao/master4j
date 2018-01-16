@@ -18,7 +18,15 @@
  */
 package org.yannis.master4j.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -30,14 +38,14 @@ public final class FileUtils {
         return new File(path).exists();
     }
 
-    public static boolean mkdir(String path){
+    public static boolean mkdir(String path) {
         File dir = new File(path);
-        return (dir.exists() && dir.isDirectory())?true:dir.mkdir();
+        return (dir.exists() && dir.isDirectory()) ? true : dir.mkdir();
     }
 
-    public static boolean mkdirs(String path){
+    public static boolean mkdirs(String path) {
         File dir = new File(path);
-        return (dir.exists() && dir.isDirectory())?true:dir.mkdirs();
+        return (dir.exists() && dir.isDirectory()) ? true : dir.mkdirs();
     }
 
     public static boolean copyTo(String src, String dist) throws IOException {
@@ -54,13 +62,13 @@ public final class FileUtils {
         File file = new File(src);
         Long size = file.length();
         byte[] bytes = new byte[size.intValue()];
-        try(FileInputStream is = new FileInputStream(src)) {
+        try (FileInputStream is = new FileInputStream(src)) {
             is.read(bytes);
         }
         String content = new String(bytes, "UTF-8");
 
-        for(String key : data.keySet()) {
-            content = Pattern.compile("\\$\\{"+key+"\\}").matcher(content).replaceAll(data.get(key));
+        for (String key : data.keySet()) {
+            content = Pattern.compile("\\$\\{" + key + "\\}").matcher(content).replaceAll(data.get(key));
         }
 
         newFile(dist, content);
@@ -69,25 +77,25 @@ public final class FileUtils {
     }
 
     public static void newFile(String fileName, String content) {
-        FileOutputStream out =null;
+        FileOutputStream out = null;
         try {
             File file = new File(fileName);
-            if(!file.exists()) {
+            if (!file.exists()) {
                 File parent = file.getParentFile();
-                if(!parent.exists()){
+                if (!parent.exists()) {
                     parent.mkdirs();
                 }
             }
             out = new FileOutputStream(file);
             out.write(content.getBytes());
         } catch (FileNotFoundException e) {
-            System.out.println("Generating file "+fileName+" error.");
+            System.out.println("Generating file " + fileName + " error.");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Generating file "+fileName+" error.");
+            System.out.println("Generating file " + fileName + " error.");
             e.printStackTrace();
-        }finally {
-            if(out != null){
+        } finally {
+            if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
@@ -103,7 +111,7 @@ public final class FileUtils {
             BufferedReader bufferedReader = new BufferedReader(reader);
             StringBuilder content = new StringBuilder();
             String line = null;
-            while((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
                 content.append(line);
             }
             reader.close();

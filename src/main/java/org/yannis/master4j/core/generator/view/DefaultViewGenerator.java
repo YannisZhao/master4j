@@ -28,22 +28,22 @@ import org.yannis.master4j.meta.DatabaseMeta;
 
 public class DefaultViewGenerator extends AbstractViewGenerator {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultViewGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultViewGenerator.class);
 
-	@Override
-	public boolean generate(DatabaseMeta meta, ProjectConfig config) {
+    @Override
+    public boolean generate(DatabaseMeta meta, ProjectConfig config) {
 
-		LOGGER.info("[DefaultViewGenerator]code generating...");
+        LOGGER.info("[DefaultViewGenerator]code generating...");
 
-		Builder builder = null;
-		try {
-			BuilderFactory facotry = new BuilderFactory(meta, config);
-			builder = facotry.newInstance(ViewBuilderImpl.class);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		builder.build();
-		return false;
-	}
+        Builder builder = null;
+        try {
+            BuilderFactory facotry = new BuilderFactory(meta, config);
+            builder = facotry.newInstance(ViewBuilderImpl.class);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        builder.build();
+        return false;
+    }
 
 }

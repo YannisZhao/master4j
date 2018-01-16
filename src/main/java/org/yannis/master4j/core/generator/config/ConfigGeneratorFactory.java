@@ -19,14 +19,12 @@
 package org.yannis.master4j.core.generator.config;
 
 import org.yannis.master4j.core.generator.AbstractGeneratorFactory;
-import org.yannis.master4j.core.generator.config.ConfigGenerator;
-import org.yannis.master4j.core.generator.config.DefaultConfigGenerator;
 
 public class ConfigGeneratorFactory extends AbstractGeneratorFactory<ConfigGenerator> {
 
-	@Override
-	public ConfigGenerator newInstance() {
-		return new DefaultConfigGenerator();
-	}
+    @Override
+    public ConfigGenerator newInstance() {
+        return new DefaultConfigGenerator();
+    }
 
 }

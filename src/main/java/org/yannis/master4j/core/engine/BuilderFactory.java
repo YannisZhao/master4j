@@ -23,23 +23,23 @@ import org.yannis.master4j.meta.DatabaseMeta;
 
 public class BuilderFactory {
 
-	private DatabaseMeta dbMeta;
-	private ProjectConfig config;
+    private DatabaseMeta dbMeta;
+    private ProjectConfig config;
 
-	public BuilderFactory(DatabaseMeta dbMeta, ProjectConfig config){
-		this.dbMeta = dbMeta;
-		this.config = config;
-	}
-	
-	public Builder newInstance(Class<? extends Builder> clazz) throws Throwable{
-		try {
-			Builder builder = clazz.newInstance();
-			builder.setDbMeta(dbMeta);
-			builder.setProjectConfig(config);
-			return builder;
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new Throwable(e);
-		}
-	}
+    public BuilderFactory(DatabaseMeta dbMeta, ProjectConfig config) {
+        this.dbMeta = dbMeta;
+        this.config = config;
+    }
+
+    public Builder newInstance(Class<? extends Builder> clazz) throws Throwable {
+        try {
+            Builder builder = clazz.newInstance();
+            builder.setDbMeta(dbMeta);
+            builder.setProjectConfig(config);
+            return builder;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new Throwable(e);
+        }
+    }
 
 }

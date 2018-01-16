@@ -28,22 +28,22 @@ import org.yannis.master4j.meta.DatabaseMeta;
 
 public class DefaultSpringMVCGenerator extends AbstractSpringMVCGenerator {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSpringMVCGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSpringMVCGenerator.class);
 
-	@Override
-	public boolean generate(DatabaseMeta meta, ProjectConfig config) {
+    @Override
+    public boolean generate(DatabaseMeta meta, ProjectConfig config) {
 
-		LOGGER.info("[DefaultSpringMVCGenerator]code generating...");
+        LOGGER.info("[DefaultSpringMVCGenerator]code generating...");
 
-		Builder builder = null;
-		try {
-			BuilderFactory facotry = new BuilderFactory(meta, config);
-			builder = facotry.newInstance(SpringMVCBuilderImpl.class);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		builder.build();
-		return false;
-	}
+        Builder builder = null;
+        try {
+            BuilderFactory facotry = new BuilderFactory(meta, config);
+            builder = facotry.newInstance(SpringMVCBuilderImpl.class);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        builder.build();
+        return false;
+    }
 
 }

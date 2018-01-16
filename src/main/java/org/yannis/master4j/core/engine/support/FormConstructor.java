@@ -18,6 +18,9 @@
  */
 package org.yannis.master4j.core.engine.support;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
@@ -25,11 +28,8 @@ import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class FormConstructor {
+
     public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
         final List<Field> fields = FieldUtils.getFields(meta);
@@ -41,7 +41,7 @@ public class FormConstructor {
                 put("classDoc", meta.getComment());
                 put("className", className);
                 put("fields", fields);
-                put("domainName", className.substring(0,className.lastIndexOf("Form")));
+                put("domainName", className.substring(0, className.lastIndexOf("Form")));
             }
         };
 
@@ -54,6 +54,6 @@ public class FormConstructor {
             tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName)+"Form";
+        return ClassUtils.getCamelCaseName(tableName) + "Form";
     }
 }

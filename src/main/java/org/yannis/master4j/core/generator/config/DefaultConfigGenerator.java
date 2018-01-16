@@ -28,22 +28,22 @@ import org.yannis.master4j.meta.DatabaseMeta;
 
 public class DefaultConfigGenerator extends AbstractConfigGenerator {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigGenerator.class);
 
-	@Override
-	public boolean generate(DatabaseMeta meta, ProjectConfig config) {
+    @Override
+    public boolean generate(DatabaseMeta meta, ProjectConfig config) {
 
-		LOGGER.info("starting build configure...");
+        LOGGER.info("starting build configure...");
 
-		Builder builder = null;
-		try {
-			BuilderFactory factory = new BuilderFactory(meta, config);
-			builder = factory.newInstance(DefaultSpringConfigBuilderImpl.class);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		builder.build();
-		return false;
-	}
+        Builder builder = null;
+        try {
+            BuilderFactory factory = new BuilderFactory(meta, config);
+            builder = factory.newInstance(DefaultSpringConfigBuilderImpl.class);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        builder.build();
+        return false;
+    }
 
 }

@@ -21,5 +21,6 @@ package org.yannis.master4j.core;
 import org.yannis.master4j.core.generator.Generator;
 
 public interface GeneratorFactory<T extends Generator> {
+
     T newInstance();
 }

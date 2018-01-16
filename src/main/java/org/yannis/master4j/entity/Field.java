@@ -19,6 +19,7 @@
 package org.yannis.master4j.entity;
 
 public class Field {
+
     private String type;
     private String name;
     private String size;
@@ -29,7 +30,8 @@ public class Field {
     private boolean isPrimary;
     private boolean isNullable;
 
-    public Field(){}
+    public Field() {
+    }
 
     public String getType() {
         return type;

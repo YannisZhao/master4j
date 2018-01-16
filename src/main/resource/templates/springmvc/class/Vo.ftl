@@ -18,8 +18,9 @@ public class ${className} implements Serializable {
     public ${field.type} get${field.name?cap_first}(){
         return ${field.name};
     }
-    public void set${field.name?cap_first}(${field.type} ${field.name}){
+    public ${className} set${field.name?cap_first}(${field.type} ${field.name}){
         this.${field.name} = ${field.name};
+        return this;
     }
     </#list>
 

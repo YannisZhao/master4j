@@ -50,20 +50,20 @@ public class DirectoryCreator {
         FileUtils.mkdir(dirConfig.getDaoModulePath());*/
 
         FileUtils.mkdirs(dirConfig.getWebinfPath());
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getSrcRelativePath()+"/web");
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestRelativePath()+"/web");
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getResourceRelativePath());
-        FileUtils.mkdirs(dirConfig.getWebModulePath()+"/"+dirConfig.getTestResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getWebModulePath() + "/" + dirConfig.getSrcRelativePath() + "/web");
+        FileUtils.mkdirs(dirConfig.getWebModulePath() + "/" + dirConfig.getTestRelativePath() + "/web");
+        FileUtils.mkdirs(dirConfig.getWebModulePath() + "/" + dirConfig.getResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getWebModulePath() + "/" + dirConfig.getTestResourceRelativePath());
 
-        FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getSrcRelativePath()+"/api");
+        FileUtils.mkdirs(dirConfig.getApiModulePath() + "/" + dirConfig.getSrcRelativePath() + "/api");
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestRelativePath());
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getResourceRelativePath());
         //FileUtils.mkdirs(dirConfig.getApiModulePath()+"/"+dirConfig.getTestResourceRelativePath());
 
-        FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getSrcRelativePath());
-        FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getTestRelativePath());
-        FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getResourceRelativePath());
-        FileUtils.mkdirs(dirConfig.getImplModulePath()+"/"+dirConfig.getTestResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getImplModulePath() + "/" + dirConfig.getSrcRelativePath());
+        FileUtils.mkdirs(dirConfig.getImplModulePath() + "/" + dirConfig.getTestRelativePath());
+        FileUtils.mkdirs(dirConfig.getImplModulePath() + "/" + dirConfig.getResourceRelativePath());
+        FileUtils.mkdirs(dirConfig.getImplModulePath() + "/" + dirConfig.getTestResourceRelativePath());
 
     }
 }

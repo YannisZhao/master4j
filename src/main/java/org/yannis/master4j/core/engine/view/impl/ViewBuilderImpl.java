@@ -23,40 +23,40 @@ import org.slf4j.LoggerFactory;
 import org.yannis.master4j.core.engine.view.AbstractViewBuilder;
 
 public class ViewBuilderImpl extends AbstractViewBuilder {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ViewBuilderImpl.class);
 
-	@Override
-	public boolean buildScripts() {
-		LOGGER.info("starting building scripts...");
-		return false;
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewBuilderImpl.class);
 
-	@Override
-	public boolean buildStyles() {
-		LOGGER.info("starting building styles...");
-		return false;
-	}
+    @Override
+    public boolean buildScripts() {
+        LOGGER.info("starting building scripts...");
+        return false;
+    }
 
-	@Override
-	public boolean buildPlugins() {
-		LOGGER.info("starting building plugins...");
-		return false;
-	}
+    @Override
+    public boolean buildStyles() {
+        LOGGER.info("starting building styles...");
+        return false;
+    }
 
-	@Override
-	public boolean buildImages() {
-		LOGGER.info("starting building images...");
-		return false;
-	}
+    @Override
+    public boolean buildPlugins() {
+        LOGGER.info("starting building plugins...");
+        return false;
+    }
 
-	@Override
-	public boolean build() {
-		buildScripts();
-		buildStyles();
-		buildPlugins();
-		buildImages();
-		return false;
-	}
+    @Override
+    public boolean buildImages() {
+        LOGGER.info("starting building images...");
+        return false;
+    }
+
+    @Override
+    public boolean build() {
+        buildScripts();
+        buildStyles();
+        buildPlugins();
+        buildImages();
+        return false;
+    }
 
 }

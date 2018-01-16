@@ -21,7 +21,7 @@ package org.yannis.master4j.core.engine;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.DatabaseMeta;
 
-public abstract class AbstractBuilder implements Builder{
+public abstract class AbstractBuilder implements Builder {
 
     protected DatabaseMeta dbMeta;
 

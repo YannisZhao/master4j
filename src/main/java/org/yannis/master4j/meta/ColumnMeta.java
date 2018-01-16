@@ -101,8 +101,9 @@ public class ColumnMeta {
     }
 
     @Override
-    public String toString(){
-        return String.format("columnName: %s, columnType: %s, columnSize: %s, isAutoIncrement: %s, isNullable: %s, comment: %s",
+    public String toString() {
+        return String
+            .format("columnName: %s, columnType: %s, columnSize: %s, isAutoIncrement: %s, isNullable: %s, comment: %s",
                 columnName, columnType, columnSize, isAutoIncrement, isNullable, comment);
     }
 }

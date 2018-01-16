@@ -18,22 +18,22 @@
  */
 package org.yannis.master4j.util;
 
+import java.util.List;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.DatabaseMeta;
 import org.yannis.master4j.meta.TableMeta;
 
-import java.util.List;
-
 public class ServiceBeanDefUtils {
+
     public static String getDef(ProjectConfig projectConfig, DatabaseMeta dbMeta) {
         String basePackage = projectConfig.getBasePackageName();
         List<TableMeta> tblMetas = dbMeta.getTableMetaList();
 
         StringBuilder serviceDefs = new StringBuilder();
 
-        for (TableMeta meta : tblMetas){
+        for (TableMeta meta : tblMetas) {
             String serviceShort = uncap(ClassUtils.getClassName(meta));
-            String serviceFullName = basePackage+".service.impl."+ClassUtils.getClassName(meta);
+            String serviceFullName = basePackage + ".service.impl." + ClassUtils.getClassName(meta);
             serviceDefs.append(String.format("\t<bean id=\"%s\" class=\"%s\" />\n", serviceShort, serviceFullName));
         }
 
@@ -41,6 +41,6 @@ public class ServiceBeanDefUtils {
     }
 
     private static String uncap(String className) {
-        return className.substring(0,1).toLowerCase()+className.substring(1);
+        return className.substring(0, 1).toLowerCase() + className.substring(1);
     }
 }

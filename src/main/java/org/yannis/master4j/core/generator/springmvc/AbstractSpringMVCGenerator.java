@@ -23,7 +23,7 @@ import org.yannis.master4j.meta.DatabaseMeta;
 
 public abstract class AbstractSpringMVCGenerator implements SpringMVCGenerator {
 
-	@Override
-	public abstract boolean generate(DatabaseMeta meta, ProjectConfig config);
+    @Override
+    public abstract boolean generate(DatabaseMeta meta, ProjectConfig config);
 
 }

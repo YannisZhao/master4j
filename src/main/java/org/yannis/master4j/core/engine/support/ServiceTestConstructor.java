@@ -18,26 +18,27 @@
  */
 package org.yannis.master4j.core.engine.support;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ServiceTestConstructor {
+
     public static void construct(final String servicePath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
-        Map<String,Object> root = new HashMap<String,Object>(){
+        Map<String, Object> root = new HashMap<String, Object>() {
             {
-                put("package", projectConfig.getBasePackageName()+".service.impl");
+                put("package", projectConfig.getBasePackageName() + ".service.impl");
                 put("basePackageName", projectConfig.getBasePackageName());
-                put("imports","");
-                put("classDoc",meta.getComment());
+                put("imports", "");
+                put("classDoc", meta.getComment());
                 put("className", className);
-                put("domainName", className.substring(0,className.lastIndexOf("ServiceImplTest")));
-                put("dtoName", className.substring(0,className.lastIndexOf("ServiceImplTest"))+"DTO");
+                put("domainName", className.substring(0, className.lastIndexOf("ServiceImplTest")) + "Entity");
+                put("dtoName", className.substring(0, className.lastIndexOf("ServiceImplTest")));
+                put("serviceName", className.substring(0, className.lastIndexOf("ServiceImplTest")) + "Service");
             }
         };
 

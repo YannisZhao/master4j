@@ -18,40 +18,38 @@
  */
 package org.yannis.master4j.core.engine.support;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.entity.Field;
-import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * This class generally used to builder the implementation of the Dao .java file
  */
 public class DaoImplConstructor {
+
     public static void construct(final String daoPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
-        Map<String,Object> root = new HashMap<String,Object>(){
+        Map<String, Object> root = new HashMap<String, Object>() {
             {
                 put("tableMeta", meta);
-                put("package", projectConfig.getBasePackageName()+".dao.impl");
+                put("package", projectConfig.getBasePackageName() + ".dao.impl");
                 put("basePackageName", projectConfig.getBasePackageName());
-                put("imports","");
+                put("imports", "");
                 List<Field> fields = FieldUtils.getFields(meta);
                 put("fields", fields);
                 put("pks", FieldUtils.getPKList(fields));
-                put("classDoc",meta.getComment());
+                put("classDoc", meta.getComment());
                 put("className", className);
-                put("baseClassName", className.substring(0,className.indexOf("Impl")));
-                put("domainName", className.substring(0,className.lastIndexOf("DaoImpl")));
-                put("dtoName", className.substring(0,className.lastIndexOf("DaoImpl"))+"DTO");
-                put("convertName", className.substring(0,className.lastIndexOf("DaoImpl"))+"Converter");
+                put("baseClassName", className.substring(0, className.indexOf("Impl")));
+                put("domainName", className.substring(0, className.lastIndexOf("DaoImpl")) + "Entity");
+                put("dtoName", className.substring(0, className.lastIndexOf("DaoImpl")));
+                put("convertName", className.substring(0, className.lastIndexOf("DaoImpl")) + "Converter");
             }
         };
 

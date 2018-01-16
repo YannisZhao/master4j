@@ -22,5 +22,6 @@ import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.TableMeta;
 
 public interface Constructor {
+
     void construct(final String targetPath, final ProjectConfig projectConfig, final TableMeta meta);
 }

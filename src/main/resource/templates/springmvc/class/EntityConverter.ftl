@@ -15,8 +15,9 @@ public class ${className} {
 
     public static ${entityName} dto2Entity(${dtoName} dto){
 
-        if(dto == null)
+        if (dto == null) {
             return null;
+        }
 
         ${entityName} entity = new ${entityName}();
 
@@ -29,20 +30,15 @@ public class ${className} {
 
     public static List<${entityName}> dto2Entity(List<${dtoName}> dtos){
 
-        if(dtos == null)
+        if (dtos == null) {
             return null;
+        }
 
         List<${entityName}> entities = new ArrayList<>();
 
         for(${dtoName} dto : dtos){
 
-            ${entityName} entity = new ${entityName}();
-
-            <#list fields as field>
-            entity.set${field.name?cap_first}(dto.get${field.name?cap_first}());
-            </#list>
-
-            entities.add(entity);
+            entities.add(dto2Entity(dto));
         }
 
         return entities;
@@ -50,8 +46,9 @@ public class ${className} {
 
     public static ${dtoName} entity2DTO(${entityName} entity){
 
-        if(entity == null)
+        if (entity == null) {
             return null;
+        }
 
         ${dtoName} dto = new ${dtoName}();
 
@@ -64,20 +61,15 @@ public class ${className} {
 
     public static List<${dtoName}> entity2DTO(List<${entityName}> entities){
 
-        if(entities == null)
+        if (entities == null) {
             return null;
+        }
 
         List<${dtoName}> dtos = new ArrayList<>();
 
         for(${entityName} entity : entities){
 
-            ${dtoName} dto = new ${dtoName}();
-
-            <#list fields as field>
-            dto.set${field.name?cap_first}(entity.get${field.name?cap_first}());
-            </#list>
-
-            dtos.add(dto);
+            dtos.add(entity2DTO(entity));
         }
 
         return dtos;

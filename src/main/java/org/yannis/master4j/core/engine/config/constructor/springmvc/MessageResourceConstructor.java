@@ -18,14 +18,13 @@
  */
 package org.yannis.master4j.core.engine.config.constructor.springmvc;
 
+import java.util.List;
 import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.DatabaseMeta;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
 import org.yannis.master4j.util.FileUtils;
-
-import java.util.List;
 
 /**
  * This class generally used to builder the POM file
@@ -34,7 +33,7 @@ public class MessageResourceConstructor {
 
     public static void construct(final String path, final DatabaseMeta dbMeta) {
         StringBuilder builder = new StringBuilder("");
-        for(TableMeta meta : dbMeta.getTableMetaList()) {
+        for (TableMeta meta : dbMeta.getTableMetaList()) {
             // Construct message resource
 
             String entityName = getClassName(meta).toLowerCase();
@@ -42,10 +41,11 @@ public class MessageResourceConstructor {
             builder.append("# " + entityName + "\n");
 
             List<Field> fields = FieldUtils.getFields(meta);
-            for(Field field : fields) {
-                if(!field.isNullable() && field.getDefaultValue()==null) {
-                    String pv = String.format("%s.%s.%s = %s must be not null", entityName, field.getName(), "empty", field.getName());
-                    builder.append(pv+"\n");
+            for (Field field : fields) {
+                if (!field.isNullable() && field.getDefaultValue() == null) {
+                    String pv = String.format("%s.%s.%s = %s must be not null", entityName, field.getName(), "empty",
+                        field.getName());
+                    builder.append(pv + "\n");
                 }
             }
 

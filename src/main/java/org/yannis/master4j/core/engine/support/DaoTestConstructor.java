@@ -18,25 +18,26 @@
  */
 package org.yannis.master4j.core.engine.support;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.TableMeta;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DaoTestConstructor {
+
     public static void construct(final String daoTestPath, final ProjectConfig projectConfig, final TableMeta meta) {
         final String className = getClassName(meta);
-        Map<String,Object> root = new HashMap<String,Object>(){
+        Map<String, Object> root = new HashMap<String, Object>() {
             {
-                put("package", projectConfig.getBasePackageName()+".dao.impl");
+                put("package", projectConfig.getBasePackageName() + ".dao.impl");
                 put("basePackageName", projectConfig.getBasePackageName());
-                put("imports","");
-                put("classDoc",meta.getComment());
+                put("imports", "");
+                put("classDoc", meta.getComment());
                 put("className", className);
-                put("domainName", className.substring(0,className.lastIndexOf("DaoImplTest")));
+                put("domainName", className.substring(0, className.lastIndexOf("DaoImplTest")) + "Entity");
+                put("daoName", className.substring(0, className.lastIndexOf("DaoImplTest")) + "Dao");
             }
         };
 

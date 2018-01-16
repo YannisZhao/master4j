@@ -96,9 +96,9 @@ public class TableMeta {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("tableName: %s, prefixName: %s, primaryKeys: %s, comment: %s, columnMetas: %s",
-                tableName, prefixName, comment, columnMetas);
+            tableName, prefixName, comment, columnMetas);
     }
 
 }
