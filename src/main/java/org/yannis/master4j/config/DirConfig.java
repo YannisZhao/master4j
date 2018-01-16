@@ -31,7 +31,7 @@ public class DirConfig {
 
 
     public DirConfig(String savePath, String projectName, String basePackage){
-        basePath = savePath + "/" + projectName + "_parent";
+        basePath = savePath + "/" + projectName + "-parent";
         webModulePath = basePath + "/"+projectName+"-web";
         apiModulePath = basePath  + "/"+projectName+"-api";
         implModulePath = basePath  + "/"+projectName;

@@ -22,16 +22,15 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TemplateUtils {
+public final class TemplateUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateUtils.class);
     private static final Configuration cfg = new Configuration();
@@ -41,10 +40,13 @@ public class TemplateUtils {
             cfg.setDirectoryForTemplateLoading(new File(getTemplateBasePath()));
             cfg.setObjectWrapper(new DefaultObjectWrapper());
         } catch (IOException e) {
-            LOGGER.info("Set template base path failed",e);
+            LOGGER.info("Set template base path failed", e);
         }
 
         cfg.setObjectWrapper(new DefaultObjectWrapper());
+    }
+
+    private TemplateUtils() {
     }
 
     public static String getTemplateBasePath() {
@@ -57,6 +59,9 @@ public class TemplateUtils {
             Template template = cfg.getTemplate(templatePath);
 
             File output = new File(savePath);
+            if (!output.exists() && output.isFile()) {
+                output.createNewFile();
+            }
             Writer writer = new FileWriter(output);
             template.process(root, writer);
             writer.close();

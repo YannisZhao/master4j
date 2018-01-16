@@ -36,18 +36,19 @@ public class AppTest
 
         /* configure database information */
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("snail");
+        dbConfig.setDatabase("zsxy_question");
         dbConfig.setIp("127.0.0.1");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
         dbConfig.setUsername("root");
         dbConfig.setPassword("111111");
         dbConfig.setExcludeTables(Arrays.asList("sys_resource","sys_role","sys_user","user_group"));
+        dbConfig.setTablePrefix("t_");
         projectConfig.setDbConfig(dbConfig);
 
         /* configure project & output path information */
-        projectConfig.setOutputPath("/home/yannis/Development/master4j_gen");
-        projectConfig.setProjectName("uaas");
-        projectConfig.setBasePackageName("org.yannis.uaas");
+        projectConfig.setOutputPath("/development/projects/master4j_gen");
+        projectConfig.setProjectName("zsxy-question");
+        projectConfig.setBasePackageName("com.ximalaya.zsxy.question");
 
         /* bootstrap the app */
         motor.fire(projectConfig);

@@ -11,7 +11,7 @@ ${type}
 </#macro>
 <#assign columnMetas = tableMeta.columnMetas />
 <#assign columns>
-<#list columnMetas as columnMeta>${columnMeta.columnName}<#sep>, </#list>
+<#list columnMetas as columnMeta>`${columnMeta.columnName}`<#sep>, </#list>
 </#assign>
 <#assign idPrepared>
 <#list columnMetas as columnMeta><#if columnMeta.primary>${columnMeta.columnName}=?<#if columnMeta_has_next>, <#else></#if></#if></#list>
@@ -33,7 +33,7 @@ SELECT ${columns} FROM ${tableMeta.tableName}
 "UPDATE ${tableMeta.tableName} SET${space}
 <#list columnMetas as columnMeta>
 <#if !columnMeta.primary>
-${columnMeta.columnName}=?<#if columnMeta_has_next>, <#else> </#if>
+`${columnMeta.columnName}`=?<#if columnMeta_has_next>, <#else> </#if>
 </#if>
 </#list>
 WHERE
@@ -144,7 +144,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
 
         <#list fields as field>
         if(obj.get${field.name?cap_first}() != ${field.comparedDefaultValue!"null"}){
-            insertion.append("${field.column},");
+            insertion.append("`${field.column}`,");
             placeHolder.append("?,");
             values.add(obj.get${field.name?cap_first}());
         }
@@ -176,11 +176,13 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         int[] result = null;
         try {
             result = jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
+                @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     <#list fields as field>
                     <@compress_single_line>ps.set<@type_wrapper type="${field.type}" />(${field_index+1}, ${domainName?uncap_first}s.get(i).get${field.name?cap_first}());</@compress_single_line>
                     </#list>
                 }
+                @Override
                 public int getBatchSize() {
                     return ${domainName?uncap_first}s.size();
                 }
@@ -256,7 +258,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         <#list fields as field>
         <#if !field.primary>
         if(obj.get${field.name?cap_first}() != ${field.comparedDefaultValue!"null"}){
-            query.append(" ${field.column}=?,");
+            query.append(" `${field.column}`=?,");
             values.add(obj.get${field.name?cap_first}());
         }
         </#if>
@@ -266,7 +268,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
 
         <#list fields as field>
         <#if field.primary>
-        query.append(" ${field.name}=?<#--<#sep> AND</#sep>-->");
+        query.append(" `${field.name}`=?<#--<#sep> AND</#sep>-->");
         values.add(obj.get${field.name?cap_first}());
         </#if>
         </#list>
@@ -287,6 +289,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
         int[] result = null;
         try {
             result = jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
+                @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                 <#assign i = 1 />
                 <#list fields as field>
@@ -302,6 +305,7 @@ public class ${className} extends BaseDao implements ${baseClassName} {
                     </#if>
                 </#list>
                 }
+                @Override
                 public int getBatchSize() {
                     return ${domainName?uncap_first}s.size();
                 }
