@@ -14,7 +14,7 @@ ${classDoc}
 */
 public class ${className} {
 
-    public static ${voName} toVO(${dtoName} dto){
+    public static ${voName} toVO(final ${dtoName} dto){
 
         if (dto == null) {
             return null;
@@ -29,7 +29,7 @@ public class ${className} {
         return vo;
     }
 
-    public static List<${voName}> toVO(List<${dtoName}> dtos){
+    public static List<${voName}> toVO(final List<${dtoName}> dtos){
 
         if (dtos == null) {
             return null;
@@ -45,7 +45,7 @@ public class ${className} {
         return vos;
     }
 
-    public static ${dtoName} parseForm(${formName} form){
+    public static ${dtoName} parseForm(final ${formName} form){
 
         if (form == null) {
             return null;
@@ -60,7 +60,7 @@ public class ${className} {
         return dto;
     }
 
-    public static List<${dtoName}> parseForm(List<${formName}> forms){
+    public static List<${dtoName}> parseForm(final List<${formName}> forms){
 
         if (forms == null) {
             return null;

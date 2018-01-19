@@ -26,9 +26,11 @@ public class SqlTypeMapper {
     private static Map<String, String> mapper = new HashMap<String, String>() {
         {
             put("BIT", "Integer");
+            put("TINYINT UNSIGNED", "Integer");
             put("TINYINT", "Integer");
             put("BOOL", "Boolean");
             put("SMALLINT", "Integer");
+            put("SMALLINT UNSIGNED", "Integer");
             put("MEDIUMINT", "Integer");
             put("MEDIUMINT UNSIGNED", "Long");
             put("INT", "Integer");
