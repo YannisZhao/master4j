@@ -24,6 +24,12 @@ public class TableMeta {
 
     private String tableName;
 
+    private Index primary;
+
+    private Index unique;
+
+    private Index normal;
+
     private List<ColumnMeta> columnMetas;
 
     private String prefixName;
@@ -36,6 +42,33 @@ public class TableMeta {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public Index getPrimary() {
+        return primary;
+    }
+
+    public TableMeta setPrimary(Index primary) {
+        this.primary = primary;
+        return this;
+    }
+
+    public Index getUnique() {
+        return unique;
+    }
+
+    public TableMeta setUnique(Index unique) {
+        this.unique = unique;
+        return this;
+    }
+
+    public Index getNormal() {
+        return normal;
+    }
+
+    public TableMeta setNormal(Index normal) {
+        this.normal = normal;
+        return this;
     }
 
     public List<ColumnMeta> getColumnMetas() {
@@ -93,6 +126,50 @@ public class TableMeta {
         }
 
         return null;
+    }
+
+    public static class Index {
+
+        public static final String PRIMARY = "primary";
+        public static final String UNIQUE = "unique";
+        public static final String NORMAL = "normal";
+
+        private String type;
+        private String name;
+        private List<String> columns;
+
+        public Index(String type, String name, List<String> columns) {
+            this.type = type;
+            this.name = name;
+            this.columns = columns;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public Index setType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Index setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public List<String> getColumns() {
+            return columns;
+        }
+
+        public Index setColumns(List<String> columns) {
+            this.columns = columns;
+            return this;
+        }
     }
 
     @Override

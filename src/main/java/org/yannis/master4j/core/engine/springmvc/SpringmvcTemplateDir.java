@@ -22,7 +22,7 @@ import org.yannis.master4j.config.TemplateDir;
 
 public interface SpringmvcTemplateDir extends TemplateDir {
 
-    String domainPath = springmvcBasePath + "/class/Domain.ftl";
+    String domainPath = springmvcBasePath + "/class/Entity.ftl";
     String controllerPath = springmvcBasePath + "/class/controller.ftl";
     String servicePath = springmvcBasePath + "/class/service.ftl";
     String daoPath = springmvcBasePath + "/class/dao.ftl";

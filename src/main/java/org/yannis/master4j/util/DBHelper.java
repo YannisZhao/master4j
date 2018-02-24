@@ -25,13 +25,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.DBConfig;
 import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.DatabaseMeta;
 import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.meta.TableMeta.Index;
 
 public class DBHelper {
 
@@ -95,16 +100,11 @@ public class DBHelper {
     private TableMeta getTableMeta(String table) {
         TableMeta meta = new TableMeta();
 
-        String tableName = table;
-        final String tablePrefix = dbConfig.getTablePrefix();
-        if (tablePrefix != null && !"".equals(tablePrefix)) {
-            if (table.startsWith(tablePrefix)) {
-                tableName = table.substring(table.indexOf(tablePrefix) + tablePrefix.length());
-            }
-        }
+        meta.setTableName(table);
+        meta.setPrefixName(dbConfig.getTablePrefix());
 
-        meta.setTableName(tableName);
-        List<String> tablePrimaryKeys = getTablePrimaryKeys(table);
+        fillIndexInfo(meta);
+        List<String> tablePrimaryKeys = meta.getPrimary().getColumns();
         meta.setColumnMetas(getColumnMetas(table, tablePrimaryKeys));
         meta.setComment(getTableComment(table));
 
@@ -203,11 +203,11 @@ public class DBHelper {
                 int isNullable = resultSet.getInt("NULLABLE");
                 boolean isAutoIncrement = resultSet.getBoolean("IS_AUTOINCREMENT");
                 String comment = resultSet.getString("REMARKS");
-                String defaultValue = null;
+                String defaultValue = resultSet.getString("COLUMN_DEF");
 
                 ColumnMeta columnMeta = new ColumnMeta();
                 columnMeta.setColumnName(columnName);
-                columnMeta.setColumnType(SqlTypeMapper.getType(columnType));
+                columnMeta.setColumnType(columnType);
                 columnMeta.setDefaultValue(defaultValue);
                 columnMeta.setAutoIncrement(isAutoIncrement);
                 columnMeta.setColumnSize(columnSize);
@@ -250,6 +250,54 @@ public class DBHelper {
             close(resultSet);
         }
         return null;
+    }
+
+    private void fillIndexInfo(TableMeta meta) {
+        ResultSet resultSet = null;
+        try {
+            DatabaseMetaData dbMetaData = connection.getMetaData();
+            resultSet = dbMetaData.getIndexInfo(null, "%", meta.getTableName(), false, false);
+
+            Map<String, List<Triple<String, String, Boolean>>> indexMap = new HashMap<>();
+
+            while (resultSet.next()) {
+                String indexType = resultSet.getString("TYPE");
+                String indexName = resultSet.getString("INDEX_NAME");
+                String column = resultSet.getString("COLUMN_NAME");
+                boolean unique = !resultSet.getBoolean("NON_UNIQUE");
+                List<Triple<String, String, Boolean>> indices = indexMap.get(indexName);
+                if (indices == null || indices.isEmpty()) {
+                    indices = new ArrayList<>();
+                    indexMap.put(indexName, indices);
+                }
+                indices.add(new ImmutableTriple<>(indexName, column, unique));
+            }
+
+            for (Map.Entry<String, List<Triple<String, String, Boolean>>> entry : indexMap.entrySet()) {
+                String indexName = entry.getKey();
+                List<Triple<String, String, Boolean>> indices = entry.getValue();
+                Boolean unique = indices.get(0).getRight();
+                List<String> columns = new ArrayList<>(indices.size());
+                for (Triple<String, String, Boolean> index : indices) {
+                    columns.add(index.getMiddle());
+                }
+                if (unique) {
+                    // Unique key
+                    if (indexName.startsWith("UK") || indexName.startsWith("uk")
+                        || indexName.startsWith("UNIQ") || indexName.startsWith("uniq")) {
+                        meta.setUnique(new Index(Index.UNIQUE, indexName, columns));
+                    } else { // Primary key
+                        meta.setPrimary(new Index(Index.PRIMARY, indexName, columns));
+                    }
+                } else { // Normal
+                    meta.setNormal(new Index(Index.NORMAL, indexName, columns));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet);
+        }
     }
 
     private static void close(ResultSet rs) {

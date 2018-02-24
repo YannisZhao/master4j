@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 public class ${className} extends BaseTest  {
 
     @Autowired
-    public ${domainName}Controller ${domainName?uncap_first}Controller;
+    public ${dtoName}Controller ${dtoName?uncap_first}Controller;
 
     @Test
     public void testGetList() throws Exception {
@@ -20,7 +20,7 @@ public class ${className} extends BaseTest  {
         String request = "{page:1, rows:10, sorts:\"\", queryBeanList:[]}";
 
         this.mockMvc
-        .perform(post("/${domainName?uncap_first}/list")
+        .perform(post("/${dtoName?uncap_first}/list")
         .accept(MediaType.APPLICATION_JSON)
         .param("actual", request)
         .param("expect", request))

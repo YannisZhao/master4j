@@ -18,18 +18,7 @@
  */
 package org.yannis.master4j.util;
 
-import org.yannis.master4j.meta.TableMeta;
-
 public class ClassUtils {
-
-    public static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
-        }
-
-        return ClassUtils.getCamelCaseName(tableName) + "ServiceImpl";
-    }
 
     public static String getCamelCaseName(String name) {
         StringBuilder builder = new StringBuilder();

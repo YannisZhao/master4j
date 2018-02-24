@@ -22,10 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 /**
@@ -33,36 +36,40 @@ import org.yannis.master4j.util.TemplateUtils;
  */
 public class DaoImplConstructor {
 
-    public static void construct(final String daoPath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("tableMeta", meta);
-                put("package", projectConfig.getBasePackageName() + ".dao.impl");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", "");
-                List<Field> fields = FieldUtils.getFields(meta);
-                put("fields", fields);
-                put("pks", FieldUtils.getPKList(fields));
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("baseClassName", className.substring(0, className.indexOf("Impl")));
-                put("domainName", className.substring(0, className.lastIndexOf("DaoImpl")) + "Entity");
-                put("dtoName", className.substring(0, className.lastIndexOf("DaoImpl")));
-                put("convertName", className.substring(0, className.lastIndexOf("DaoImpl")) + "Converter");
-            }
-        };
+    public static void construct(final Context context) {
+        String daoImplPath = (String) context.getAttribute("daoImplPath");
+        FileUtils.mkdirs(daoImplPath);
 
-        TemplateUtils.process("/springmvc/class/DaoImpl.ftl", root, daoPath + "/" + className + ".java");
-    }
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".dao.impl";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getDaoImplName();
+            final List<Field> fields = beanInfo.getFieldList();
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("tableMeta", tableMeta);
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("imports", "");
+                    put("fields", fields);
+                    put("pks", FieldUtils.getPKList(fields));
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("baseClassName", beanInfo.getDaoName());
+                    put("domainName", beanInfo.getEntityName());
+                    put("dtoName", beanInfo.getDtoName());
+                    put("convertName", beanInfo.getEntityConverterName());
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/DaoImpl.ftl",
+                root, daoImplPath + "/" + className + ".java");
         }
 
-        return ClassUtils.getCamelCaseName(tableName) + "DaoImpl";
     }
 
 }

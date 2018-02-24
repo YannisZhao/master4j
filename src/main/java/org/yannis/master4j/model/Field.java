@@ -16,7 +16,7 @@
  *
  * Also with any question can email zhaoyjun0222@gmail.com
  */
-package org.yannis.master4j.entity;
+package org.yannis.master4j.model;
 
 public class Field {
 
@@ -27,7 +27,10 @@ public class Field {
     private String defaultValue;
     private String comparedDefaultValue;
     private String column;
+    private String columnType;
+    private String jdbcType;
     private boolean isPrimary;
+    private boolean isAutoIncrement;
     private boolean isNullable;
 
     public Field() {
@@ -89,12 +92,39 @@ public class Field {
         this.column = column;
     }
 
+    public String getColumnType() {
+        return columnType;
+    }
+
+    public Field setColumnType(String columnType) {
+        this.columnType = columnType;
+        return this;
+    }
+
+    public String getJdbcType() {
+        return jdbcType;
+    }
+
+    public Field setJdbcType(String jdbcType) {
+        this.jdbcType = jdbcType;
+        return this;
+    }
+
     public boolean isPrimary() {
         return isPrimary;
     }
 
     public void setPrimary(boolean primary) {
         isPrimary = primary;
+    }
+
+    public boolean isAutoIncrement() {
+        return isAutoIncrement;
+    }
+
+    public Field setAutoIncrement(boolean autoIncrement) {
+        isAutoIncrement = autoIncrement;
+        return this;
     }
 
     public boolean isNullable() {

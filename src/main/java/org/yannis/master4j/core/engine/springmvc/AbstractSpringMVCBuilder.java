@@ -19,31 +19,26 @@
 package org.yannis.master4j.core.engine.springmvc;
 
 import org.yannis.master4j.core.engine.AbstractBuilder;
+import org.yannis.master4j.model.Context;
 
 public abstract class AbstractSpringMVCBuilder extends AbstractBuilder {
 
-    public abstract boolean buildMeta();
+    public AbstractSpringMVCBuilder(Context context) {
+        super(context);
+    }
 
-    public abstract boolean buildDomain();
+    public abstract void buildMeta();
 
-    public abstract boolean buildForm();
+    public abstract void buildController();
 
-    public abstract boolean buildDto();
+    public abstract void buildService();
 
-    public abstract boolean buildVo();
+    public abstract void buildServiceImpl();
 
-    public abstract boolean buildConverter();
+    public abstract void buildDao();
 
-    public abstract boolean buildController();
+    public abstract void buildDaoImpl();
 
-    public abstract boolean buildService();
-
-    public abstract boolean buildServiceImpl();
-
-    public abstract boolean buildDao();
-
-    public abstract boolean buildDaoImpl();
-
-    public abstract boolean buildTest();
+    public abstract void buildTest();
 
 }

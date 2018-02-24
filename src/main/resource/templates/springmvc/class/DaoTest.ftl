@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.data.QueryBean;
 import org.yannis.commons.web.request.http.GeneralQueryRequest;
-import ${basePackageName}.domain.${domainName};
+import ${basePackageName}.entity.${domainName};
 import ${basePackageName}.dao.${daoName};
 
 import ${basePackageName}.dao.BaseTest;

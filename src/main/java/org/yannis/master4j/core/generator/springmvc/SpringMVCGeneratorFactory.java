@@ -19,12 +19,13 @@
 package org.yannis.master4j.core.generator.springmvc;
 
 import org.yannis.master4j.core.generator.AbstractGeneratorFactory;
+import org.yannis.master4j.core.generator.Generator;
 
 public class SpringMVCGeneratorFactory extends
-    AbstractGeneratorFactory<SpringMVCGenerator> {
+    AbstractGeneratorFactory<Generator> {
 
     @Override
-    public SpringMVCGenerator newInstance() {
+    public Generator newInstance() {
         return new DefaultSpringMVCGenerator();
     }
 

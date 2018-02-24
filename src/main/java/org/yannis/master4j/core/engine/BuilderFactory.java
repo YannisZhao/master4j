@@ -18,24 +18,20 @@
  */
 package org.yannis.master4j.core.engine;
 
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.model.Context;
 
 public class BuilderFactory {
 
-    private DatabaseMeta dbMeta;
-    private ProjectConfig config;
+    private Context context;
 
-    public BuilderFactory(DatabaseMeta dbMeta, ProjectConfig config) {
-        this.dbMeta = dbMeta;
-        this.config = config;
+    public BuilderFactory(Context context) {
+        this.context = context;
     }
 
     public Builder newInstance(Class<? extends Builder> clazz) throws Throwable {
         try {
-            Builder builder = clazz.newInstance();
-            builder.setDbMeta(dbMeta);
-            builder.setProjectConfig(config);
+            java.lang.reflect.Constructor<? extends Builder> constructor = clazz.getConstructor(Context.class);
+            Builder builder = constructor.newInstance(context);
             return builder;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new Throwable(e);

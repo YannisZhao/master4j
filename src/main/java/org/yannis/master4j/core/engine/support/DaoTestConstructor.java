@@ -19,37 +19,45 @@
 package org.yannis.master4j.core.engine.support;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 public class DaoTestConstructor {
 
-    public static void construct(final String daoTestPath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".dao.impl");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", "");
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("domainName", className.substring(0, className.lastIndexOf("DaoImplTest")) + "Entity");
-                put("daoName", className.substring(0, className.lastIndexOf("DaoImplTest")) + "Dao");
-            }
-        };
+    public static void construct(final Context context) {
+        String daoPath = (String) context.getAttribute("daoTestPath");
+        FileUtils.mkdirs(daoPath);
 
-        TemplateUtils.process("/springmvc/class/DaoTest.ftl", root, daoTestPath + "/" + className + ".java");
-    }
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".dao.impl";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getDaoImplName() + "Test";
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("imports", "");
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("domainName", beanInfo.getEntityName());
+                    put("daoName", beanInfo.getDaoName());
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/DaoTest.ftl",
+                root, daoPath + "/" + className + ".java");
         }
 
-        return ClassUtils.getCamelCaseName(tableName) + "DaoImplTest";
     }
+
 }

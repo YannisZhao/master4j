@@ -1,22 +1,19 @@
 package org.yannis.master4j;
 
+import java.util.Arrays;
 import junit.framework.TestCase;
 import org.yannis.master4j.config.DBConfig;
-import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.config.ProjectConfig;
+import org.yannis.master4j.core.GeneratorFactoryProvider;
+import org.yannis.master4j.core.SSMGeneratorFactoryProvider;
 import org.yannis.master4j.core.SingleGeneratorFactoryProvider;
-import org.yannis.master4j.core.generator.config.ConfigGeneratorFactory;
-import org.yannis.master4j.core.generator.view.ViewGeneratorFactory;
-import org.yannis.master4j.core.generator.springmvc.SpringMVCGeneratorFactory;
-
-import java.util.Arrays;
+import org.yannis.master4j.enums.CodeStyle;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest
-    extends TestCase
-{
+    extends TestCase {
 
     static {
        /* Properties props = new Properties();
@@ -28,28 +25,41 @@ public class AppTest
         PropertyConfigurator.configure(props);*/
     }
 
-    public void test(){
-
-        Motor motor = new Motor(new SingleGeneratorFactoryProvider());
+    public void test() {
 
         ProjectConfig projectConfig = new ProjectConfig();
 
         /* configure database information */
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("snail");
+        dbConfig.setDatabase("co_paper");
         dbConfig.setIp("127.0.0.1");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
         dbConfig.setUsername("root");
         dbConfig.setPassword("111111");
-        dbConfig.setExcludeTables(Arrays.asList("sys_resource","sys_role","sys_user","user_group"));
+        dbConfig.setExcludeTables(Arrays.asList("sys_resource", "sys_role", "sys_user", "user_group"));
+        dbConfig.setTablePrefix("t_");
         projectConfig.setDbConfig(dbConfig);
 
         /* configure project & output path information */
-        projectConfig.setOutputPath("/home/yannis/Development/master4j_gen");
-        projectConfig.setProjectName("uaas");
-        projectConfig.setBasePackageName("org.yannis.uaas");
+        projectConfig.setOutputPath("/development/projects/master4j_gen");
+        projectConfig.setProjectName("co-paper");
+        projectConfig.setBasePackageName("com.ximalaya.corp.paper");
+        projectConfig.setCodeStyle(CodeStyle.SPRINGMVC);
 
         /* bootstrap the app */
+        GeneratorFactoryProvider provider = null;
+        switch (projectConfig.getCodeStyle()) {
+            case SPRINGMVC:
+                provider = new SingleGeneratorFactoryProvider();
+                break;
+            case SSM:
+                provider = new SSMGeneratorFactoryProvider();
+                break;
+            case SSH:
+                System.out.println("Not Support yet!");
+                return;
+        }
+        Motor motor = new Motor(provider);
         motor.fire(projectConfig);
     }
 }

@@ -22,10 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 /**
@@ -33,28 +35,40 @@ import org.yannis.master4j.util.TemplateUtils;
  */
 public class ServiceImplConstructor {
 
-    public static void construct(final String serviceImplPath, final ProjectConfig projectConfig,
-        final TableMeta meta) {
-        final String className = ClassUtils.getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".service.impl");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", "");
-                List<Field> fields = FieldUtils.getFields(meta);
-                put("fields", fields);
-                put("pks", FieldUtils.getPKList(fields));
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("baseClassName", className.substring(0, className.indexOf("Impl")));
-                put("daoName", className.substring(0, className.lastIndexOf("ServiceImpl")) + "Dao");
-                put("converterName", className.substring(0, className.lastIndexOf("ServiceImpl")) + "Converter");
-                put("dtoName", className.substring(0, className.lastIndexOf("ServiceImpl")));
-                put("domainName", className.substring(0, className.lastIndexOf("ServiceImpl")) + "Entity");
-            }
-        };
+    public static void construct(final Context context) {
+        String serviceImplPath = (String) context.getAttribute("serviceImplPath");
+        FileUtils.mkdirs(serviceImplPath);
 
-        TemplateUtils.process("/springmvc/class/ServiceImpl.ftl", root, serviceImplPath + "/" + className + ".java");
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".service.impl";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
+
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getServiceImplName();
+            final List<Field> fields = beanInfo.getFieldList();
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("imports", "");
+                    put("fields", fields);
+                    put("pks", FieldUtils.getPKList(fields));
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("baseClassName", beanInfo.getServiceName());
+                    put("bizServiceName", beanInfo.getBizServiceName());
+                    put("converterName", beanInfo.getEntityConverterName());
+                    put("dtoName", beanInfo.getDtoName());
+                    put("domainName", beanInfo.getEntityName());
+                    put("daoName", beanInfo.getDaoName());//For SpringMVC
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/ServiceImpl.ftl",
+                root, serviceImplPath + "/" + className + ".java");
+        }
     }
 
 }

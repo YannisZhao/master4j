@@ -47,7 +47,7 @@ public class DirConfig {
         serviceModulePath = apiModulePath + "/src/main/java//service";
         serviceImplModulePath = implModulePath + "/src/main/java//service";
         daoModulePath = implModulePath + "/src/main/java//dao";
-        entityModulerPath = implModulePath + "/src/main/java//entity";
+        entityModulerPath = implModulePath + "/src/main/java//model";
         voModulerPath = webModulePath + "/src/main/java//vo";
 
         imageModulePath = webModulePath + "/static/iamges";

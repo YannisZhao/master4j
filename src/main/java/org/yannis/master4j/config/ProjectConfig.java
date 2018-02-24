@@ -1,9 +1,13 @@
 package org.yannis.master4j.config;
 
+import org.yannis.master4j.enums.CodeStyle;
+
 /**
  * Created by yannis on 6/13/16.
  */
 public class ProjectConfig {
+
+    private CodeStyle codeStyle;
 
     private String outputPath;
 
@@ -16,6 +20,15 @@ public class ProjectConfig {
     private String projectName;
 
     private String basePackageName;
+
+    public CodeStyle getCodeStyle() {
+        return codeStyle;
+    }
+
+    public ProjectConfig setCodeStyle(CodeStyle codeStyle) {
+        this.codeStyle = codeStyle;
+        return this;
+    }
 
     public String getOutputPath() {
         return outputPath;

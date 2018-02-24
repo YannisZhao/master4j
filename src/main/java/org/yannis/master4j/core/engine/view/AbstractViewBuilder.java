@@ -19,8 +19,13 @@
 package org.yannis.master4j.core.engine.view;
 
 import org.yannis.master4j.core.engine.AbstractBuilder;
+import org.yannis.master4j.model.Context;
 
 public abstract class AbstractViewBuilder extends AbstractBuilder {
+
+    public AbstractViewBuilder(Context context) {
+        super(context);
+    }
 
     public abstract boolean buildScripts();
 

@@ -20,30 +20,28 @@ package org.yannis.master4j.core.generator.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.core.engine.Builder;
 import org.yannis.master4j.core.engine.BuilderFactory;
 import org.yannis.master4j.core.engine.view.impl.ViewBuilderImpl;
-import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.model.Context;
 
 public class DefaultViewGenerator extends AbstractViewGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultViewGenerator.class);
 
     @Override
-    public boolean generate(DatabaseMeta meta, ProjectConfig config) {
+    public void generate(Context context) {
 
         LOGGER.info("[DefaultViewGenerator]code generating...");
 
         Builder builder = null;
         try {
-            BuilderFactory facotry = new BuilderFactory(meta, config);
-            builder = facotry.newInstance(ViewBuilderImpl.class);
+            BuilderFactory factory = new BuilderFactory(context);
+            builder = factory.newInstance(ViewBuilderImpl.class);
         } catch (Throwable e) {
             e.printStackTrace();
         }
         builder.build();
-        return false;
     }
 
 }

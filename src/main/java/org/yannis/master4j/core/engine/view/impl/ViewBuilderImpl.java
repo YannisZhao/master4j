@@ -21,10 +21,15 @@ package org.yannis.master4j.core.engine.view.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yannis.master4j.core.engine.view.AbstractViewBuilder;
+import org.yannis.master4j.model.Context;
 
 public class ViewBuilderImpl extends AbstractViewBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewBuilderImpl.class);
+
+    public ViewBuilderImpl(Context context) {
+        super(context);
+    }
 
     @Override
     public boolean buildScripts() {
@@ -51,12 +56,11 @@ public class ViewBuilderImpl extends AbstractViewBuilder {
     }
 
     @Override
-    public boolean build() {
+    public void build() {
         buildScripts();
         buildStyles();
         buildPlugins();
         buildImages();
-        return false;
     }
 
 }

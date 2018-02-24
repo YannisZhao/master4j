@@ -9,7 +9,7 @@ import java.util.Map;
 import org.yannis.commons.web.page.Paginator;
 import org.yannis.commons.web.request.http.GeneralQueryRequest;
 
-import ${basePackageName}.domain.${domainName};
+import ${basePackageName}.entity.${domainName};
 ${imports}
 
 /**

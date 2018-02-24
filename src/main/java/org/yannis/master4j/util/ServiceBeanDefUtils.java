@@ -19,21 +19,20 @@
 package org.yannis.master4j.util;
 
 import java.util.List;
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.meta.DatabaseMeta;
-import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
 
 public class ServiceBeanDefUtils {
 
-    public static String getDef(ProjectConfig projectConfig, DatabaseMeta dbMeta) {
-        String basePackage = projectConfig.getBasePackageName();
-        List<TableMeta> tblMetas = dbMeta.getTableMetaList();
+    public static String getDef(Context context) {
+        String basePackage = context.getProjectConfig().getBasePackageName();
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
 
         StringBuilder serviceDefs = new StringBuilder();
 
-        for (TableMeta meta : tblMetas) {
-            String serviceShort = uncap(ClassUtils.getClassName(meta));
-            String serviceFullName = basePackage + ".service.impl." + ClassUtils.getClassName(meta);
+        for (BeanInfo beanInfo : beanInfoList) {
+            String serviceShort = uncap(beanInfo.getServiceName());
+            String serviceFullName = basePackage + ".service.impl." + beanInfo.getServiceImplName();
             serviceDefs.append(String.format("\t<bean id=\"%s\" class=\"%s\" />\n", serviceShort, serviceFullName));
         }
 

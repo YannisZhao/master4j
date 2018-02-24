@@ -18,10 +18,9 @@
  */
 package org.yannis.master4j.core.engine;
 
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.Context;
 
 public interface Constructor {
 
-    void construct(final String targetPath, final ProjectConfig projectConfig, final TableMeta meta);
+    void construct(final Context context);
 }

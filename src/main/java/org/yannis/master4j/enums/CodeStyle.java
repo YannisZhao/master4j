@@ -19,7 +19,17 @@
 package org.yannis.master4j.enums;
 
 public enum CodeStyle {
-    SPRINGMVC,
-    SSH,
-    SSM;
+    SPRINGMVC("springmvc"),
+    SSH(""),
+    SSM("ssm");
+
+    private String templateRoot;
+
+    CodeStyle(String templateRoot) {
+        this.templateRoot = templateRoot;
+    }
+
+    public String getTemplateRoot() {
+        return templateRoot;
+    }
 }

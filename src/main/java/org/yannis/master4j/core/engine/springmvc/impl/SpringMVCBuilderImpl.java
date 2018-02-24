@@ -23,23 +23,17 @@ import java.util.Date;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.core.engine.springmvc.AbstractSpringMVCBuilder;
 import org.yannis.master4j.core.engine.support.ControllerConstructor;
 import org.yannis.master4j.core.engine.support.ControllerTestConstructor;
 import org.yannis.master4j.core.engine.support.DaoConstructor;
 import org.yannis.master4j.core.engine.support.DaoImplConstructor;
 import org.yannis.master4j.core.engine.support.DaoTestConstructor;
-import org.yannis.master4j.core.engine.support.DtoConstructor;
-import org.yannis.master4j.core.engine.support.EntityConstructor;
-import org.yannis.master4j.core.engine.support.EntityConverterConstructor;
-import org.yannis.master4j.core.engine.support.FormConstructor;
 import org.yannis.master4j.core.engine.support.ServiceConstructor;
 import org.yannis.master4j.core.engine.support.ServiceImplConstructor;
 import org.yannis.master4j.core.engine.support.ServiceTestConstructor;
-import org.yannis.master4j.core.engine.support.VOConverterConstructor;
-import org.yannis.master4j.core.engine.support.VoConstructor;
 import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.Context;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
@@ -47,24 +41,12 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringMVCBuilderImpl.class);
 
-    private String webModulePath;
-    private String apiModulePath;
-    private String implModulePath;
-    private String srcRelativePath;
-    private String testRelativePath;
-
-    public void init() {
-        DirConfig dirConfig = projectConfig.getDirConfig();
-
-        webModulePath = dirConfig.getWebModulePath();
-        apiModulePath = dirConfig.getApiModulePath();
-        implModulePath = dirConfig.getImplModulePath();
-        srcRelativePath = dirConfig.getSrcRelativePath();
-        testRelativePath = dirConfig.getTestRelativePath();
+    public SpringMVCBuilderImpl(Context context) {
+        super(context);
     }
 
     @Override
-    public boolean buildMeta() {
+    public void buildMeta() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building meta components...");
         }
@@ -79,14 +61,14 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
             FileUtils.mkdirs(webModulePath + "/" + srcRelativePath + "/web/basis");
             String baseControllerPath = webModulePath + "/" + srcRelativePath + "/web/basis/BaseController.java";
             FileUtils.copyTo(metaPath + "BaseController.m4", baseControllerPath, new HashMap<String, String>() {{
-                put("package", projectConfig.getBasePackageName() + ".web.basis");
+                put("package", getProjectConfig().getBasePackageName() + ".web.basis");
                 put("date", date);
             }});
 
             // builder base dao
             String baseDaoPath = implModulePath + "/" + srcRelativePath + "/dao/BaseDao.java";
             FileUtils.copyTo(metaPath + "BaseDao.m4", baseDaoPath, new HashMap<String, String>() {{
-                put("package", projectConfig.getBasePackageName() + ".dao");
+                put("package", getProjectConfig().getBasePackageName() + ".dao");
                 put("date", date);
             }});
 
@@ -94,210 +76,88 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
             String baseControllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller/BaseTest.java";
             FileUtils
                 .copyTo(metaPath + "BaseControllerTest.m4", baseControllerTestPath, new HashMap<String, String>() {{
-                    put("package", projectConfig.getBasePackageName() + ".web.controller");
+                    put("package", getProjectConfig().getBasePackageName() + ".web.controller");
                     put("date", date);
                 }});
 
             // builder basis test of service
             String baseServiceTestPath = implModulePath + "/" + testRelativePath + "/service/BaseTest.java";
             FileUtils.copyTo(metaPath + "BaseServiceTest.m4", baseServiceTestPath, new HashMap<String, String>() {{
-                put("package", projectConfig.getBasePackageName() + ".service");
+                put("package", getProjectConfig().getBasePackageName() + ".service");
                 put("date", date);
             }});
 
             // builder basis test of dao
             String baseDaoTestPath = implModulePath + "/" + testRelativePath + "/dao/BaseTest.java";
             FileUtils.copyTo(metaPath + "BaseDaoTest.m4", baseDaoTestPath, new HashMap<String, String>() {{
-                put("package", projectConfig.getBasePackageName() + ".dao");
+                put("package", getProjectConfig().getBasePackageName() + ".dao");
                 put("date", date);
             }});
         } catch (Exception e) {
             LOGGER.error("Construct meta components error", e);
-            return false;
+            throw new RuntimeException(e);
         }
 
-        return false;
     }
 
     @Override
-    public boolean buildDomain() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Starting building domain objects...");
-        }
-
-        String domainPath = implModulePath + "/" + srcRelativePath + "/domain";
-        FileUtils.mkdir(domainPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct domain bean
-            EntityConstructor.construct(domainPath, projectConfig, meta);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean buildForm() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Starting building form objects...");
-        }
-
-        String formPath = webModulePath + "/" + srcRelativePath + "/web/form";
-        FileUtils.mkdir(formPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct form bean
-            FormConstructor.construct(formPath, projectConfig, meta);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean buildDto() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Starting building dto objects...");
-        }
-
-        String dtoPath = apiModulePath + "/" + srcRelativePath + "/api/dto";
-        FileUtils.mkdir(dtoPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct dto bean
-            DtoConstructor.construct(dtoPath, projectConfig, meta);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean buildVo() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Starting building vo objects...");
-        }
-
-        String voPath = webModulePath + "/" + srcRelativePath + "/web/vo";
-        FileUtils.mkdir(voPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct vo bean
-            VoConstructor.construct(voPath, projectConfig, meta);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean buildConverter() {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Starting building converter objects...");
-        }
-
-        String voConverterPath = webModulePath + "/" + srcRelativePath + "/web/converter";
-        FileUtils.mkdir(voConverterPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            VOConverterConstructor.construct(voConverterPath, projectConfig, meta);
-        }
-
-        String entityConverterPath = implModulePath + "/" + srcRelativePath + "/converter";
-        FileUtils.mkdir(entityConverterPath);
-
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            EntityConverterConstructor.construct(entityConverterPath, projectConfig, meta);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean buildController() {
+    public void buildController() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building controllers...");
         }
 
-        String controllerPath = webModulePath + "/" + srcRelativePath + "/web/controller";
-        FileUtils.mkdir(controllerPath);
+        // Construct Controller
+        ControllerConstructor.construct(context);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Controller
-            ControllerConstructor.construct(controllerPath, projectConfig, meta);
-        }
-
-        return false;
     }
 
     @Override
-    public boolean buildService() {
+    public void buildService() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building services...");
         }
 
-        String servicePath = apiModulePath + "/" + srcRelativePath + "/api/service";
-        FileUtils.mkdir(servicePath);
+        // Construct Service Api
+        ServiceConstructor.construct(context);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Service Api
-            ServiceConstructor.construct(servicePath, projectConfig, meta);
-        }
-
-        return false;
     }
 
 
     @Override
-    public boolean buildServiceImpl() {
+    public void buildServiceImpl() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building services impl...");
         }
 
-        String serviceImplPath = implModulePath + "/" + srcRelativePath + "/service/impl";
-        FileUtils.mkdirs(serviceImplPath);
+        // Construct Service Api Impl
+        ServiceImplConstructor.construct(context);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Service Api Impl
-            ServiceImplConstructor.construct(serviceImplPath, projectConfig, meta);
-        }
-
-        return false;
     }
 
     @Override
-    public boolean buildDao() {
+    public void buildDao() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building daos...");
         }
 
-        String daoPath = implModulePath + "/" + srcRelativePath + "/dao";
-        FileUtils.mkdir(daoPath);
+        // Construct Dao Interface
+        DaoConstructor.construct(context);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Dao Interface
-            DaoConstructor.construct(daoPath, projectConfig, meta);
-        }
-
-        return false;
     }
 
     @Override
-    public boolean buildDaoImpl() {
+    public void buildDaoImpl() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building dao impls...");
         }
 
-        String daoImplPath = implModulePath + "/" + srcRelativePath + "/dao/impl";
-        FileUtils.mkdirs(daoImplPath);
+        // Construct Dao Impl
+        DaoImplConstructor.construct(context);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Dao Impl
-            DaoImplConstructor.construct(daoImplPath, projectConfig, meta);
-        }
-
-        return false;
     }
 
     @Override
-    public boolean buildTest() {
+    public void buildTest() {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Starting building tests...");
         }
@@ -305,35 +165,30 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
         String daoTestPath = implModulePath + "/" + testRelativePath + "/dao/impl";
         FileUtils.mkdirs(daoTestPath);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Dao Test
-            DaoTestConstructor.construct(daoTestPath, projectConfig, meta);
-        }
+        // Construct Dao Test
+        DaoTestConstructor.construct(context);
 
         String serviceTestPath = implModulePath + "/" + testRelativePath + "/service/impl";
         FileUtils.mkdirs(serviceTestPath);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
-            // Construct Service Test
-            ServiceTestConstructor.construct(serviceTestPath, projectConfig, meta);
-        }
+        // Construct Service Test
+        ServiceTestConstructor.construct(context);
 
         String controllerTestPath = webModulePath + "/" + testRelativePath + "/web/controller";
         FileUtils.mkdirs(controllerTestPath);
 
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
+        for (TableMeta meta : getDatabaseMeta().getTableMetaList()) {
             // Construct Web Test
-            ControllerTestConstructor.construct(controllerTestPath, projectConfig, meta);
+            ControllerTestConstructor.construct(context);
         }
 
-        return false;
     }
 
     @Override
-    public boolean build() {
+    public void build() {
         init();
         buildMeta();
-        buildDomain();
+        buildEntity();
         buildForm();
         buildDto();
         buildVo();
@@ -344,7 +199,6 @@ public class SpringMVCBuilderImpl extends AbstractSpringMVCBuilder {
         buildDao();
         buildDaoImpl();
         buildTest();
-        return false;
     }
 
 }

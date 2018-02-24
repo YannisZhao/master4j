@@ -63,7 +63,7 @@ import org.yannis.commons.web.request.http.GeneralQueryRequest;
 ${imports}
 import ${basePackageName}.dao.BaseDao;
 import ${basePackageName}.dao.${baseClassName};
-import ${basePackageName}.domain.${domainName};
+import ${basePackageName}.entity.${domainName};
 
 /**
 ${classDoc}

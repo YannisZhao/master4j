@@ -25,28 +25,33 @@ import org.slf4j.LoggerFactory;
 import org.yannis.master4j.config.DBConfig;
 import org.yannis.master4j.config.DirConfig;
 import org.yannis.master4j.core.engine.config.AbstractConfigBuilder;
-import org.yannis.master4j.core.engine.config.constructor.springmvc.MessageResourceConstructor;
-import org.yannis.master4j.core.engine.config.constructor.springmvc.PomConstructor;
+import org.yannis.master4j.core.engine.config.constructor.MessageResourceConstructor;
+import org.yannis.master4j.core.engine.config.constructor.PomConstructor;
+import org.yannis.master4j.model.Context;
 import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.ServiceBeanDefUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
-public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
+public class DefaultSpringMVCConfigBuilderImpl extends AbstractConfigBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSpringConfigBuilderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSpringMVCConfigBuilderImpl.class);
+
+    public DefaultSpringMVCConfigBuilderImpl(Context context) {
+        super(context);
+    }
 
     @Override
-    public boolean buildConfiguration() throws IOException {
+    public void buildConfiguration() throws IOException {
         LOGGER.info("starting building configuration...");
         String metaPath = TemplateUtils.getTemplateBasePath() + "/springmvc/meta/";
-        DirConfig dirConfig = projectConfig.getDirConfig();
+        DirConfig dirConfig = getProjectConfig().getDirConfig();
         String resourceRelativePath = dirConfig.getResourceRelativePath();
         String testResourceRelativePath = dirConfig.getTestResourceRelativePath();
 //		String srcRelativePath = dirConfig.getSrcRelativePath();
 //		String testRelativePath = dirConfig.getTestRelativePath();
 
         // Build pom
-        PomConstructor.construct(projectConfig);
+        PomConstructor.construct(getProjectConfig());
 
         // Build web module configuration
         String webModulePath = dirConfig.getWebModulePath();
@@ -57,23 +62,24 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
         FileUtils.mkdir(webinfPath + "/pages");
         FileUtils.mkdirs(webModulePath + "/" + resourceRelativePath + "/i18n/message");
         MessageResourceConstructor
-            .construct(webModulePath + "/" + resourceRelativePath + "/i18n/message/messages.properties", dbMeta);
+            .construct(webModulePath + "/" + resourceRelativePath + "/i18n/message/messages.properties",
+                context);
         FileUtils.mkdirs(webModulePath + "/" + resourceRelativePath + "/i18n/label");
         FileUtils.newFile(webModulePath + "/" + resourceRelativePath + "/i18n/label/labels.properties", "");
 
         FileUtils.copyTo(metaPath + "web.xml.m4", webinfPath + "/web.xml");
-        //FileUtils.copyTo(metaPath+"spring-beans.m4", webModulePath+"/"+resourceRelativePath+"/spring-beans.xml");
+        //FileUtils.copyTo(metaPath+"application-context.m4", webModulePath+"/"+resourceRelativePath+"/spring-beans.xml");
         FileUtils
             .copyTo(metaPath + "spring-config.m4", webModulePath + "/" + resourceRelativePath + "/spring-config.xml",
                 new HashMap<String, String>() {{
-                    put("package", projectConfig.getBasePackageName() + ".web");
+                    put("package", getProjectConfig().getBasePackageName() + ".web");
                 }});
         FileUtils.copyTo(webModulePath + "/" + resourceRelativePath + "/spring-config.xml",
             webModulePath + "/" + testResourceRelativePath + "/spring-config.xml");
         //FileUtils.copyTo(metaPath+"db.m4", webModulePath+"/"+resourceRelativePath+"/db.properties");
         FileUtils.copyTo(metaPath + "log4j.m4", webModulePath + "/" + resourceRelativePath + "/log4j.properties",
             new HashMap<String, String>() {{
-                put("file", projectConfig.getProjectName() + "_web.log");
+                put("file", getProjectConfig().getProjectName() + "_web.log");
             }});
 
         FileUtils.mkdir(webModulePath + "/src/main/webapp/static");
@@ -101,20 +107,20 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
 
         FileUtils.copyTo(metaPath + "log4j.m4", implModulePath + "/" + resourceRelativePath + "/log4j.properties",
             new HashMap<String, String>() {{
-                put("file", projectConfig.getProjectName() + "_biz.log");
+                put("file", getProjectConfig().getProjectName() + "_biz.log");
             }});
         FileUtils.copyTo(implModulePath + "/" + resourceRelativePath + "/log4j.properties",
             implModulePath + "/" + testResourceRelativePath + "/log4j.properties");
         FileUtils
             .copyTo(metaPath + "spring-beans.m4", implModulePath + "/" + resourceRelativePath + "/spring-beans.xml",
                 new HashMap<String, String>() {{
-                    put("package", projectConfig.getBasePackageName() + "");
+                    put("package", getProjectConfig().getBasePackageName() + "");
                 }});
         FileUtils.copyTo(implModulePath + "/" + resourceRelativePath + "/spring-beans.xml",
             implModulePath + "/" + testResourceRelativePath + "/spring-beans.xml");
         FileUtils.copyTo(metaPath + "spring-config-service.m4",
             implModulePath + "/" + resourceRelativePath + "/spring-config.xml", new HashMap<String, String>() {{
-                DBConfig dbConfig = projectConfig.getDbConfig();
+                DBConfig dbConfig = getProjectConfig().getDbConfig();
                 String url = dbConfig.getProtocalPrefix() + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig
                     .getDatabase()
                     + "?useUnicode=true&amp;characterEncoding=" + dbConfig.getCharset()
@@ -122,12 +128,12 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
                 put("url", url);
                 put("username", dbConfig.getUsername());
                 put("password", dbConfig.getPassword());
-                put("package", projectConfig.getBasePackageName() + "");
+                put("package", getProjectConfig().getBasePackageName() + "");
             }});
         FileUtils.copyTo(implModulePath + "/" + resourceRelativePath + "/spring-config.xml",
             implModulePath + "/" + testResourceRelativePath + "/spring-config.xml");
 
-        final String serviceDefinitions = ServiceBeanDefUtils.getDef(projectConfig, dbMeta);
+        final String serviceDefinitions = ServiceBeanDefUtils.getDef(context);
         FileUtils.copyTo(metaPath + "spring-services.m4",
             implModulePath + "/" + resourceRelativePath + "/spring-services.xml", new HashMap<String, String>() {{
                 put("services", serviceDefinitions);
@@ -135,17 +141,15 @@ public class DefaultSpringConfigBuilderImpl extends AbstractConfigBuilder {
         FileUtils.copyTo(implModulePath + "/" + resourceRelativePath + "/spring-services.xml",
             implModulePath + "/" + testResourceRelativePath + "/spring-services.xml");
 
-        return false;
     }
 
     @Override
-    public boolean build() {
+    public void build() {
         try {
-            return buildConfiguration();
+            buildConfiguration();
         } catch (Exception e) {
             LOGGER.error("error build configure file(s)", e);
         }
-        return false;
     }
 
 }

@@ -22,5 +22,6 @@ import org.yannis.master4j.core.GeneratorFactory;
 
 public abstract class AbstractGeneratorFactory<T extends Generator> implements GeneratorFactory<Generator> {
 
+    @Override
     public abstract T newInstance();
 }

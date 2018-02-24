@@ -20,9 +20,9 @@ package org.yannis.master4j.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.ColumnMeta;
 import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.Field;
 
 public class FieldUtils {
 
@@ -58,13 +58,16 @@ public class FieldUtils {
         for (ColumnMeta columnMeta : meta.getColumnMetas()) {
             Field field = new Field();
             field.setName(FieldUtils.getCamelCaseName(columnMeta.getColumnName()));
-            field.setType(columnMeta.getColumnType());
+            field.setType(SqlTypeMapper.getJavaType(columnMeta.getColumnType()));
             field.setDefaultValue(columnMeta.getDefaultValue());
             field.setComparedDefaultValue(getTypeDefault(field));
             field.setSize(Integer.toString(columnMeta.getColumnSize()));
             field.setComment(columnMeta.getComment());
             field.setColumn(columnMeta.getColumnName());
+            field.setColumnType(columnMeta.getColumnType());
+            field.setJdbcType(getJdbcType(columnMeta));
             field.setPrimary(columnMeta.isPrimary());
+            field.setAutoIncrement(columnMeta.isAutoIncrement());
             field.setNullable(columnMeta.isNullable());
             fields.add(field);
         }
@@ -102,7 +105,7 @@ public class FieldUtils {
     }
 
     private static String getTypeDefault(Field field) {
-        /*switch (field.getType()) {
+        /*switch (field.getJavaType()) {
             case "String":
                 return "null";
             case "int":
@@ -133,6 +136,18 @@ public class FieldUtils {
             }
         }
         return pkList;
+    }
+
+    private static String getJdbcType(ColumnMeta columnMeta) {
+        String simpleType = columnMeta.getColumnType().replace("UNSIGNED", "").trim();
+        switch (simpleType) {
+            case "INT":
+                return "INTEGER";
+            case "DATETIME":
+                return "TIMESTAMP";
+            default:
+                return simpleType;
+        }
     }
 
 }

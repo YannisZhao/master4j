@@ -15,7 +15,7 @@ import org.yannis.commons.web.request.http.GeneralQueryRequest;
 
 import ${basePackageName}.api.service.${baseClassName};
 import ${basePackageName}.api.dto.${dtoName};
-import ${basePackageName}.domain.${domainName};
+import ${basePackageName}.entity.${domainName};
 import ${basePackageName}.dao.${daoName};
 import ${basePackageName}.converter.${converterName};
 

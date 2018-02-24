@@ -20,9 +20,14 @@ package org.yannis.master4j.core.engine.config;
 
 import java.io.IOException;
 import org.yannis.master4j.core.engine.AbstractBuilder;
+import org.yannis.master4j.model.Context;
 
 public abstract class AbstractConfigBuilder extends AbstractBuilder {
 
-    public abstract boolean buildConfiguration() throws IOException;
+    public AbstractConfigBuilder(Context context) {
+        super(context);
+    }
+
+    public abstract void buildConfiguration() throws IOException;
 
 }

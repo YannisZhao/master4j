@@ -22,10 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 /**
@@ -33,37 +35,39 @@ import org.yannis.master4j.util.TemplateUtils;
  */
 public class ControllerConstructor {
 
-    public static void construct(final String controllerPath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".web.controller");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", "");
-                List<Field> fields = FieldUtils.getFields(meta);
-                put("fields", fields);
-                put("pks", FieldUtils.getPKList(fields));
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("baseClassName", "BaseController");
-                put("serviceName", className.substring(0, className.lastIndexOf("Controller")) + "Service");
-                put("domainName", className.substring(0, className.lastIndexOf("Controller")));
-                put("formName", className.substring(0, className.lastIndexOf("Controller")) + "Form");
-                put("voName", className.substring(0, className.lastIndexOf("Controller")) + "VO");
-                put("beanConverter", className.substring(0, className.lastIndexOf("Controller")) + "Converter");
-            }
-        };
+    public static void construct(final Context context) {
 
-        TemplateUtils.process("/springmvc/class/Controller.ftl", root, controllerPath + "/" + className + ".java");
-    }
+        String controllerPath = (String) context.getAttribute("controllerPath");
+        FileUtils.mkdir(controllerPath);
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".web.controller";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getControllerName();
+            final List<Field> fields = beanInfo.getFieldList();
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("imports", "");
+                    put("fields", fields);
+                    put("pks", FieldUtils.getPKList(fields));
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("baseClassName", "BaseController");
+                    put("serviceName", beanInfo.getServiceName());
+                    put("dtoName", beanInfo.getDtoName());
+                    put("formName", beanInfo.getFormName());
+                    put("voName", beanInfo.getVoName());
+                    put("beanConverter", beanInfo.getVoConverterName());
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/Controller.ftl", root, controllerPath + "/" + className + ".java");
         }
-
-        return ClassUtils.getCamelCaseName(tableName) + "Controller";
     }
 
 }

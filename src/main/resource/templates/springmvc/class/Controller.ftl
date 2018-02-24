@@ -32,7 +32,7 @@ ${imports}
 ${classDoc}
 */
 @RestController
-@RequestMapping("/${domainName?uncap_first}")
+@RequestMapping("/${dtoName?uncap_first}")
 public class ${className} extends ${baseClassName} {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(${className}.class);

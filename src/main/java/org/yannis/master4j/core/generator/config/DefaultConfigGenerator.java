@@ -20,30 +20,41 @@ package org.yannis.master4j.core.generator.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.core.engine.Builder;
 import org.yannis.master4j.core.engine.BuilderFactory;
-import org.yannis.master4j.core.engine.config.impl.DefaultSpringConfigBuilderImpl;
-import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.core.engine.config.impl.DefaultSSMConfigBuilderImpl;
+import org.yannis.master4j.core.engine.config.impl.DefaultSpringMVCConfigBuilderImpl;
+import org.yannis.master4j.enums.CodeStyle;
+import org.yannis.master4j.model.Context;
 
 public class DefaultConfigGenerator extends AbstractConfigGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigGenerator.class);
 
     @Override
-    public boolean generate(DatabaseMeta meta, ProjectConfig config) {
+    public void generate(Context context) {
 
         LOGGER.info("starting build configure...");
 
         Builder builder = null;
         try {
-            BuilderFactory factory = new BuilderFactory(meta, config);
-            builder = factory.newInstance(DefaultSpringConfigBuilderImpl.class);
+            BuilderFactory factory = new BuilderFactory(context);
+            CodeStyle codeStyle = context.getProjectConfig().getCodeStyle();
+            switch (codeStyle) {
+                case SPRINGMVC:
+                    builder = factory.newInstance(DefaultSpringMVCConfigBuilderImpl.class);
+                    break;
+                case SSM:
+                    builder = factory.newInstance(DefaultSSMConfigBuilderImpl.class);
+                    break;
+                case SSH:
+                    System.out.println("Not Support yet!");
+                    return;
+            }
         } catch (Throwable e) {
             e.printStackTrace();
         }
         builder.build();
-        return false;
-    }
 
+    }
 }

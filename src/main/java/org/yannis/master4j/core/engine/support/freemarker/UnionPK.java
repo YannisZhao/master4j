@@ -4,7 +4,7 @@ import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateModelException;
 import java.util.ArrayList;
 import java.util.List;
-import org.yannis.master4j.entity.Field;
+import org.yannis.master4j.model.Field;
 
 public class UnionPK implements TemplateMethodModel {
 

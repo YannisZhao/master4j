@@ -59,7 +59,7 @@ public class SqlTypeMapper {
         }
     };
 
-    public static String getType(String columnType) {
+    public static String getJavaType(String columnType) {
         String type = mapper.get(columnType);
         if (type == null) {
             type = "String";

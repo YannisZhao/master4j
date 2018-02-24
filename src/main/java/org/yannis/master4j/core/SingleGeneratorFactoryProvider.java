@@ -15,14 +15,17 @@ public class SingleGeneratorFactoryProvider implements GeneratorFactoryProvider 
     private static GeneratorFactory configGeneratorFactory = new ConfigGeneratorFactory();
     private static GeneratorFactory viewGeneratorFactory = new ViewGeneratorFactory();
 
+    @Override
     public GeneratorFactory getClassGeneratorFactory() {
         return springMVCGeneratorFactory;
     }
 
+    @Override
     public GeneratorFactory getConfigGeneratorFactory() {
         return configGeneratorFactory;
     }
 
+    @Override
     public GeneratorFactory getViewGeneratorFactory() {
         return viewGeneratorFactory;
     }

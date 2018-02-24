@@ -22,38 +22,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 public class EntityConstructor {
 
-    public static void construct(final String domainPath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        final List<Field> fields = FieldUtils.getFields(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".domain");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", FieldUtils.getImportList(fields));
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("fields", fields);
-            }
-        };
+    public static void construct(final Context context) {
+        String entityPath = (String) context.getAttribute("entityPath");
+        FileUtils.mkdir(entityPath);
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".entity";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
 
-        TemplateUtils.process("/springmvc/class/Domain.ftl", root, domainPath + "/" + className + ".java");
-    }
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (BeanInfo beanInfo : beanInfoList) {
+            final String className = beanInfo.getEntityName();
+            final List<Field> fields = beanInfo.getFieldList();
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            Map<String, Object> root = new HashMap<String, Object>(5) {
+                {
+                    put("package", packageName);
+                    put("imports", FieldUtils.getImportList(fields));
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("fields", fields);
+                }
+            };
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+            TemplateUtils.process(templateRoot + "/class/Entity.ftl", root, entityPath + "/" + className + ".java");
         }
-
-        return ClassUtils.getCamelCaseName(tableName) + "Entity";
     }
 
 }

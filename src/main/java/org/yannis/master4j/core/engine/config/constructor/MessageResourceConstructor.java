@@ -16,12 +16,12 @@
  *
  * Also with any question can email zhaoyjun0222@gmail.com
  */
-package org.yannis.master4j.core.engine.config.constructor.springmvc;
+package org.yannis.master4j.core.engine.config.constructor;
 
 import java.util.List;
-import org.yannis.master4j.entity.Field;
-import org.yannis.master4j.meta.DatabaseMeta;
 import org.yannis.master4j.meta.TableMeta;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.ClassUtils;
 import org.yannis.master4j.util.FieldUtils;
 import org.yannis.master4j.util.FileUtils;
@@ -31,9 +31,10 @@ import org.yannis.master4j.util.FileUtils;
  */
 public class MessageResourceConstructor {
 
-    public static void construct(final String path, final DatabaseMeta dbMeta) {
+    public static void construct(final String path, final Context context) {
         StringBuilder builder = new StringBuilder("");
-        for (TableMeta meta : dbMeta.getTableMetaList()) {
+        List<TableMeta> tableMetaList = context.getDatabaseMeta().getTableMetaList();
+        for (TableMeta meta : tableMetaList) {
             // Construct message resource
 
             String entityName = getClassName(meta).toLowerCase();
@@ -57,9 +58,10 @@ public class MessageResourceConstructor {
     private static String getClassName(TableMeta meta) {
         String tableName = meta.getTableName();
         if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+            tableName = tableName.replace(meta.getPrefixName(), "");
         }
 
-        return ClassUtils.getCamelCaseName(tableName);
+//        return ClassUtils.getCamelCaseName(tableName);
+        return tableName;
     }
 }

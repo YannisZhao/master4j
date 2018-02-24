@@ -19,38 +19,52 @@
 package org.yannis.master4j.core.engine.support;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 public class ServiceTestConstructor {
 
-    public static void construct(final String servicePath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".service.impl");
-                put("basePackageName", projectConfig.getBasePackageName());
-                put("imports", "");
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("domainName", className.substring(0, className.lastIndexOf("ServiceImplTest")) + "Entity");
-                put("dtoName", className.substring(0, className.lastIndexOf("ServiceImplTest")));
-                put("serviceName", className.substring(0, className.lastIndexOf("ServiceImplTest")) + "Service");
-            }
-        };
+    public static void construct(final Context context) {
 
-        TemplateUtils.process("/springmvc/class/ServiceTest.ftl", root, servicePath + "/" + className + ".java");
-    }
+        String testServicePath = (String) context.getAttribute("serviceTestPath");
+        FileUtils.mkdirs(testServicePath);
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".service.impl";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
+
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getTestServiceName();
+            final List<Field> fields = beanInfo.getFieldList();
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("imports", "");
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("tableName", tableMeta.getTableName());
+                    put("fields", fields);
+                    put("domainName", beanInfo.getEntityName());
+                    put("dtoName", beanInfo.getDtoName());
+                    put("serviceName", beanInfo.getServiceName());
+                    put("serviceImplName", beanInfo.getServiceImplName());
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/ServiceTest.ftl",
+                root, testServicePath + "/" + className + ".java");
         }
 
-        return ClassUtils.getCamelCaseName(tableName) + "ServiceImplTest";
     }
+
 }

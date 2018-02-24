@@ -18,12 +18,12 @@
  */
 package org.yannis.master4j.core.generator.springmvc;
 
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.core.generator.Generator;
+import org.yannis.master4j.model.Context;
 
-public abstract class AbstractSpringMVCGenerator implements SpringMVCGenerator {
+public abstract class AbstractSpringMVCGenerator implements Generator {
 
     @Override
-    public abstract boolean generate(DatabaseMeta meta, ProjectConfig config);
+    public abstract void generate(Context context);
 
 }

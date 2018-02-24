@@ -18,11 +18,10 @@
  */
 package org.yannis.master4j.core.generator;
 
-import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.meta.DatabaseMeta;
+import org.yannis.master4j.model.Context;
 
 public interface Generator {
 
-    boolean generate(DatabaseMeta meta, ProjectConfig config);
+    void generate(Context context);
 
 }

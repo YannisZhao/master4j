@@ -22,10 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.yannis.master4j.config.ProjectConfig;
-import org.yannis.master4j.entity.Field;
 import org.yannis.master4j.meta.TableMeta;
-import org.yannis.master4j.util.ClassUtils;
+import org.yannis.master4j.model.BeanInfo;
+import org.yannis.master4j.model.Context;
+import org.yannis.master4j.model.Field;
 import org.yannis.master4j.util.FieldUtils;
+import org.yannis.master4j.util.FileUtils;
 import org.yannis.master4j.util.TemplateUtils;
 
 /**
@@ -33,31 +35,35 @@ import org.yannis.master4j.util.TemplateUtils;
  */
 public class ServiceConstructor {
 
-    public static void construct(final String servicePath, final ProjectConfig projectConfig, final TableMeta meta) {
-        final String className = getClassName(meta);
-        Map<String, Object> root = new HashMap<String, Object>() {
-            {
-                put("package", projectConfig.getBasePackageName() + ".api.service");
-                put("basePackageName", projectConfig.getBasePackageName());
-                List<Field> fields = FieldUtils.getFields(meta);
-                put("fields", fields);
-                put("pks", FieldUtils.getPKList(fields));
-                put("imports", "");
-                put("classDoc", meta.getComment());
-                put("className", className);
-                put("dtoName", className.substring(0, className.lastIndexOf("Service")));
-            }
-        };
+    public static void construct(final Context context) {
+        String servicePath = (String) context.getAttribute("servicePath");
+        FileUtils.mkdir(servicePath);
 
-        TemplateUtils.process("/springmvc/class/Service.ftl", root, servicePath + "/" + className + ".java");
-    }
+        final ProjectConfig projectConfig = context.getProjectConfig();
+        final String packageName = projectConfig.getBasePackageName() + ".api.service";
+        final String templateRoot = "/" + projectConfig.getCodeStyle().getTemplateRoot();
 
-    private static String getClassName(TableMeta meta) {
-        String tableName = meta.getTableName();
-        if (meta.getPrefixName() != null) {
-            tableName.replace(meta.getPrefixName(), "");
+        List<BeanInfo> beanInfoList = context.getBeanInfoList();
+        for (final BeanInfo beanInfo : beanInfoList) {
+            final TableMeta tableMeta = beanInfo.getTableMeta();
+            final String className = beanInfo.getServiceName();
+            final List<Field> fields = beanInfo.getFieldList();
+            Map<String, Object> root = new HashMap<String, Object>() {
+                {
+                    put("package", packageName);
+                    put("basePackageName", projectConfig.getBasePackageName());
+                    put("fields", fields);
+                    put("pks", FieldUtils.getPKList(fields));
+                    put("imports", "");
+                    put("classDoc", tableMeta.getComment());
+                    put("className", className);
+                    put("dtoName", beanInfo.getDtoName());
+                }
+            };
+
+            TemplateUtils.process(templateRoot + "/class/Service.ftl", root, servicePath + "/" + className + ".java");
         }
 
-        return ClassUtils.getCamelCaseName(tableName) + "Service";
     }
+
 }
