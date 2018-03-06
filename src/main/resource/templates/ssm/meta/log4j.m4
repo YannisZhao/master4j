@@ -10,5 +10,3 @@ log4j.appender.A2.MaxFileSize=10M
 log4j.appender.A2.MaxBackupIndex=3
 log4j.appender.A2.layout=org.apache.log4j.PatternLayout
 log4j.appender.A2.layout.ConversionPattern=%d{yyyy-MM--dd hh:mm:ss}:%p %t %c - %m%n
-
-log4j.logger.org.springframework.jdbc.core.JdbcTemplate=debug

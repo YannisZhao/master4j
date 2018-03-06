@@ -80,7 +80,7 @@ public class DefaultSSMConfigBuilderImpl extends AbstractConfigBuilder {
         //FileUtils.copyTo(metaPath+"db.m4", webModulePath+"/"+resourceRelativePath+"/db.properties");
         FileUtils.copyTo(metaPath + "log4j.m4", webModulePath + "/" + resourceRelativePath + "/log4j.properties",
             new HashMap<String, String>() {{
-                put("file", getProjectConfig().getProjectName() + "_web.log");
+                put("file", getProjectConfig().getProjectName() + "-web/app.log");
             }});
 
         FileUtils.mkdir(webModulePath + "/src/main/webapp/static");
@@ -107,7 +107,7 @@ public class DefaultSSMConfigBuilderImpl extends AbstractConfigBuilder {
 
         FileUtils.copyTo(metaPath + "log4j.m4", implModulePath + "/" + resourceRelativePath + "/log/log4j.properties",
             new HashMap<String, String>() {{
-                put("file", getProjectConfig().getProjectName() + ".log");
+                put("file", getProjectConfig().getProjectName() + "/app.log");
             }});
         FileUtils.mkdirs(implModulePath+"/"+testResourceRelativePath+"/log");
         FileUtils.copyTo(metaPath + "log4j-test.m4",
