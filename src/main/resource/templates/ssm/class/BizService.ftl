@@ -3,10 +3,6 @@
 package ${package};
 
 ${imports}
-import java.util.List;
-<#if pks?size gt 1>
-import java.util.Map;
-</#if>
 
 import java.util.Collections;
 import java.util.List;
@@ -93,26 +89,45 @@ public class ${className} {
         return ${dtoName?uncap_first};
     }
 
+    public Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> get${dtoName}ByIdsAsMap(List<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}Ids) {
+      Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> ${dtoName?uncap_first}Map = ${cacheServiceName?uncap_first}.batchGet${dtoName}s(${dtoName?uncap_first}Ids);
+      fillNonFetched${dtoName}(${dtoName?uncap_first}Map);
+
+      return ${dtoName?uncap_first}Map;
+    }
+
     public Pagination<${dtoName}> list${dtoName}ByOffset(Integer offset, Integer count) {
-        Pagination<Long> ${dtoName?uncap_first}IdPage = get${dtoName}IdsWithOffset(offset, count);
+        Pagination<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}IdPage = get${dtoName}IdsWithOffset(offset, count);
         long total = ${dtoName?uncap_first}IdPage.getTotal();
         if (total <= 0) {
             return new Pagination<>(0, Collections.emptyList());
         }
 
-        List<Long> ${dtoName?uncap_first}Ids = ${dtoName?uncap_first}IdPage.getData();
-        Map<Long, ${dtoName}> ${dtoName?uncap_first}Map = ${cacheServiceName?uncap_first}.batchGet${dtoName}s(${dtoName?uncap_first}Ids);
+        List<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}Ids = ${dtoName?uncap_first}IdPage.getData();
+        Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> ${dtoName?uncap_first}Map = ${cacheServiceName?uncap_first}.batchGet${dtoName}s(${dtoName?uncap_first}Ids);
         fillNonFetched${dtoName}(${dtoName?uncap_first}Map);
 
         return new Pagination<>(${dtoName?uncap_first}IdPage.getTotal(), returnSortedList(${dtoName?uncap_first}Ids, ${dtoName?uncap_first}Map));
     }
 
-    private Pagination<Long> get${dtoName}IdsWithOffset(Integer offset, Integer count) {
-        return null;
+    private Pagination<<#list pks as pk>${pk.type}</#list>> get${dtoName}IdsWithOffset(Integer offset, Integer count) {
+
+        Integer totalCount = ${mapperName?uncap_first}.count();
+        if (0 == totalCount) {
+            return new Pagination<>(0, Collections.emptyList());
+        }
+
+        if (offset >= totalCount) {
+            return new Pagination<>(0, Collections.emptyList());
+        }
+
+        List<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}Ids = ${dtoName?uncap_first}Mapper.selectIdsByOffset(offset, count);
+
+        return new Pagination<>(totalCount, ${dtoName?uncap_first}Ids);
     }
 
-    private void fillNonFetched${dtoName}(Map<Long, ${dtoName}> ${dtoName?uncap_first}Map) {
-        final List<Long> missed${dtoName}Ids = ${dtoName?uncap_first}Map.keySet().stream()
+    private void fillNonFetched${dtoName}(Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> ${dtoName?uncap_first}Map) {
+        final List<<#list pks as pk>${pk.type}</#list>> missed${dtoName}Ids = ${dtoName?uncap_first}Map.keySet().stream()
             .filter(${dtoName?uncap_first}Id -> ${dtoName?uncap_first}Map.get(${dtoName?uncap_first}Id) == null).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(missed${dtoName}Ids)) {
@@ -130,7 +145,7 @@ public class ${className} {
         ${cacheServiceName?uncap_first}.save${dtoName}s(${dtoName?uncap_first}s);
     }
 
-    private List<${dtoName}> returnSortedList(List<Long> ${dtoName?uncap_first}Ids, Map<Long, ${dtoName}> ${dtoName?uncap_first}Map) {
+    private List<${dtoName}> returnSortedList(List<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}Ids, Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> ${dtoName?uncap_first}Map) {
         return ${dtoName?uncap_first}Ids.stream().map(${dtoName?uncap_first}Map::get).collect(Collectors.toList());
     }
 }

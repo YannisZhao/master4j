@@ -38,6 +38,11 @@ public class ${className} extends BaseTest {
     }
 
     @Test
+    public void get${dtoName}ByIdsAsMap() {
+
+    }
+
+    @Test
     public void list${dtoName}ByOffset() {
 
     }

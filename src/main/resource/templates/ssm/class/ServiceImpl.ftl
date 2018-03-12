@@ -4,11 +4,11 @@ package ${package};
 
 ${imports}
 import java.util.List;
-<#if pks?size gt 1>
 import java.util.Map;
-</#if>
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +63,14 @@ public class ${className} implements ${baseClassName} {
         ${dtoName} ${dtoName?uncap_first} = ${dtoName?uncap_first}BizService.get${dtoName}ById(<#list pks as pk>${pk.name}</#list>);
 
         return ${dtoName?uncap_first};
+    }
+
+    @Override
+    public Map<<#list pks as pk>${pk.type}</#list>, ${dtoName}> get${dtoName}ByIdsAsMap(List<<#list pks as pk>${pk.type}</#list>> ${dtoName?uncap_first}Ids) {
+        if (CollectionUtils.isEmpty(${dtoName?uncap_first}Ids)) {
+            return Collections.emptyMap();
+        }
+        return ${dtoName?uncap_first}BizService.get${dtoName}ByIdsAsMap(${dtoName?uncap_first}Ids);
     }
 
     @Override

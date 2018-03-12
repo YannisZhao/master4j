@@ -48,11 +48,10 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
     </trim>
   </insert>
 
-  <delete id="deleteById" parameterType="java.lang.Long">
+  <delete id="deleteById" parameterType="java.lang.<#list fields as field><#if field.primary>${field.type}</#if></#list>">
     DELETE FROM
     <include refid="tbl_name"/>
-    WHERE <#list fields as field><#if field.primary>${field.column}=${r'#{'}${field.name}, jdbcType=${field.jdbcType}
-    }</#if></#list>
+    WHERE <#list fields as field><#if field.primary>${field.column}=${r'#{'}${field.name}, jdbcType=${field.jdbcType}}</#if></#list>
   </delete>
 
   <delete id="batchDeleteByIds" parameterType="list">
@@ -76,11 +75,10 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
       </#if>
     </#list>
     </set>
-    WHERE <#list fields as field><#if field.primary>${field.column}=${r'#{'}${field.name}, jdbcType=${field.jdbcType}
-    }</#if></#list>
+    WHERE <#list fields as field><#if field.primary>${field.column}=${r'#{'}${field.name}, jdbcType=${field.jdbcType}}</#if></#list>
   </update>
 
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.<#list fields as field><#if field.primary>${field.type}</#if></#list>">
     SELECT
     <include refid="full_columns"/>
     FROM
@@ -97,6 +95,19 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
     <foreach collection="list" item="id" open="(" close=")" separator=",">
       ${r'#{id}'}
     </foreach>
+  </select>
+
+  <select id="selectIdsByOffset" resultType="java.lang.<#list fields as field><#if field.primary>${field.type}</#if></#list>">
+    SELECT id
+    FROM
+    <include refid="tbl_name"/>
+    LIMIT ${r'#{offset}, #{count}'}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM
+    <include refid="tbl_name"/>
   </select>
 
 </mapper>

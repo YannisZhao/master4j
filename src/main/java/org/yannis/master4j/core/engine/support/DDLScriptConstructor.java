@@ -48,8 +48,8 @@ public class DDLScriptConstructor {
         StringBuilder script = new StringBuilder("CREATE TABLE `").append(tableMeta.getTableName()).append("` (\n");
         for (Field field : fields) {
             //`id` bigint(20) NOT NULL AUTO_INCREMENT,
-            script.append("\t`").append(field.getName()).append("` ")
-                .append(field.getColumnType()).append("(").append(field.getSize()).append(")")
+            script.append("\t`").append(field.getColumn()).append("` ")
+                .append(field.getJdbcType()).append("(").append(field.getSize()).append(")")
                 .append(field.isNullable() ? " NULL " : " NOT NULL")
                 .append(field.isAutoIncrement() ? " AUTO_INCREMENT" : "")
                 .append(field.getDefaultValue() != null ? " DEFAULT '" + field.getDefaultValue() + "'" : "")
@@ -60,7 +60,7 @@ public class DDLScriptConstructor {
         StringBuilder primaryStmt = new StringBuilder();
         Index primary = tableMeta.getPrimary();
         if (primary != null) {
-            primaryStmt.append("PRIMARY KEY `").append(primary.getName()).append("` (");
+            primaryStmt.append("PRIMARY KEY").append(" (");
             List<String> primaryColumns = primary.getColumns();
             for (String primaryColumn : primaryColumns) {
                 primaryStmt.append("`").append(primaryColumn).append("`,");

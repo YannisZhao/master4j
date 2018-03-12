@@ -31,19 +31,20 @@ public class AppTest
 
         /* configure database information */
         DBConfig dbConfig = new DBConfig();
-        dbConfig.setDatabase("snail");
+        dbConfig.setDatabase("co_paper");
         dbConfig.setIp("127.0.0.1");
         dbConfig.setDriverPackage("com.mysql.jdbc.Driver");
         dbConfig.setUsername("root");
         dbConfig.setPassword("111111");
         dbConfig.setExcludeTables(Arrays.asList("sys_resource", "sys_role", "sys_user", "user_group"));
+        dbConfig.setTablePrefix("t_");
         projectConfig.setDbConfig(dbConfig);
 
         /* configure project & output path information */
         projectConfig.setOutputPath("/development/projects/master4j_gen");
-        projectConfig.setProjectName("snail");
-        projectConfig.setBasePackageName("org.yannis.snail");
-        projectConfig.setCodeStyle(CodeStyle.SPRINGMVC);
+        projectConfig.setProjectName("co-paper");
+        projectConfig.setBasePackageName("com.ximalaya.corp.paper");
+        projectConfig.setCodeStyle(CodeStyle.SSM);
 
         /* bootstrap the app */
         GeneratorFactoryProvider provider = null;

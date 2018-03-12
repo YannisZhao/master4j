@@ -80,6 +80,16 @@ public class ${className} extends BaseTest {
         assertTrue(2 == ${dtoName?uncap_first}s.size());
     }
 
+    @Test
+    public void selectIdsByOffset() throws Exception {
+
+    }
+
+    @Test
+    public void count() throws Exception {
+
+    }
+
     private ${entityName} mock${dtoName}() {
        ${mockBeanScript}
     }

@@ -16,51 +16,66 @@ ${classDoc}
 public interface ${className} {
 
     /**
-    * Insert new record
-    *
-    * @param entity record
-    * @return  the new record id
-    */
+     * Insert new record
+     *
+     * @param entity record
+     * @return  the new record id
+     */
     <#list pks as pk>${pk.type}</#list> insert(${entityName} entity);
 
     /**
-    * Delete record by the records primary key
-    *
-    * @param id primary key value
-    * @return  the affected rows count
-    */
+     * Delete record by the records primary key
+     *
+     * @param id primary key value
+     * @return  the affected rows count
+     */
     Integer deleteById(<#list pks as pk>@Param("${pk.name}") ${pk.type} ${pk.name}<#sep>, </#list>);
 
     /**
-    * Batch delete by primary key value list
-    *
-    * @param ids
-    * @return the affected rows count
-    */
+     * Batch delete by primary key value list
+     *
+     * @param ids
+     * @return the affected rows count
+     */
     Integer batchDeleteByIds(List<<#list pks as pk>${pk.type}</#list>> ids);
 
     /**
-    * Update record by primary key
-    *
-    * @param entity new data to update
-    * @return  the affected rows count
-    */
+     * Update record by primary key
+     *
+     * @param entity new data to update
+     * @return  the affected rows count
+     */
     Integer updateById(${entityName} entity);
 
     /**
-    * Fetch record with specified primary key value
-    *
-    * @param id the record primary key value
-    * @return  the fetched data
-    */
+     * Fetch record with specified primary key value
+     *
+     * @param id the record primary key value
+     * @return  the fetched data
+     */
     ${entityName} selectById(<#list pks as pk>@Param("${pk.name}") ${pk.type} ${pk.name}<#sep>, </#list>);
 
     /**
-    * Batch select data with specified primary keys
-    *
-    * @param ids the primary keys to fetch
-    * @return the fetched data
-    */
+     * Batch select data with specified primary keys
+     *
+     * @param ids the primary keys to fetch
+     * @return the fetched data
+     */
     List<${entityName}> selectByIds(List<<#list pks as pk>${pk.type}</#list>> ids);
+
+    /**
+     * Fetch record id list by offset
+     *
+     * @param offset start record offset
+     * @param count fetch size
+     * @return the record id list
+     */
+    List<<#list pks as pk>${pk.type}</#list>> selectIdsByOffset(Integer offset, Integer count);
+
+    /**
+     * Get total count
+     * @return Total count of records
+     */
+    Integer count();
 
 }
