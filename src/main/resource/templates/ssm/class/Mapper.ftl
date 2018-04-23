@@ -11,8 +11,8 @@ import ${basePackageName}.entity.${entityName};
 ${imports}
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public interface ${className} {
 
     /**
@@ -70,12 +70,12 @@ public interface ${className} {
      * @param count fetch size
      * @return the record id list
      */
-    List<<#list pks as pk>${pk.type}</#list>> selectIdsByOffset(Integer offset, Integer count);
+    List<<#list pks as pk>${pk.type}</#list>> selectIdsByOffset(@Param("offset") Integer offset, @Param("count") Integer count);
 
     /**
      * Get total count
      * @return Total count of records
      */
-    Integer count();
+    Long count();
 
 }

@@ -19,7 +19,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
   <sql id="tbl_name">${tableMeta.tableName}</sql>
 
   <sql id="full_columns">
-  <@compress_single_line>${columns}</@compress_single_line>
+  <@compress_single_line>`${columns}`</@compress_single_line>
   </sql>
 
   <insert id="insert" parameterType="${entityName}">
@@ -35,7 +35,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
     <trim prefix="(" suffix=")" suffixOverrides=",">
     <#list fields as field>
       <if test="${field.name} != null">
-        ${field.column},
+        `${field.column}`,
       </if>
     </#list>
     </trim>
@@ -70,7 +70,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
     <#list fields as field>
       <#if !field.primary>
         <if test="${field.name} != null">
-          ${field.column} = ${r'#{'}${field.name}, jdbcType=${field.jdbcType}},
+          `${field.column}` = ${r'#{'}${field.name}, jdbcType=${field.jdbcType}},
         </if>
       </#if>
     </#list>
@@ -97,14 +97,14 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
     </foreach>
   </select>
 
-  <select id="selectIdsByOffset" resultType="java.lang.<#list fields as field><#if field.primary>${field.type}</#if></#list>">
+  <select id="selectIdsByOffset" resultMap="BaseResultMap">
     SELECT id
     FROM
     <include refid="tbl_name"/>
     LIMIT ${r'#{offset}, #{count}'}
   </select>
 
-  <select id="count" resultType="java.lang.Integer">
+  <select id="count" resultType="java.lang.Long">
     SELECT COUNT(*)
     FROM
     <include refid="tbl_name"/>

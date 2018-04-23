@@ -112,7 +112,7 @@ public class ${className} {
 
     private Pagination<<#list pks as pk>${pk.type}</#list>> get${dtoName}IdsWithOffset(Integer offset, Integer count) {
 
-        Integer totalCount = ${mapperName?uncap_first}.count();
+        Long totalCount = ${mapperName?uncap_first}.count();
         if (0 == totalCount) {
             return new Pagination<>(0, Collections.emptyList());
         }

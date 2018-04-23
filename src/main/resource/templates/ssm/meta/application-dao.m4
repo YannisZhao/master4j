@@ -62,6 +62,7 @@
             <tx:method name="query*" propagation="SUPPORTS" read-only="true" />
             <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
             <tx:method name="load*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true" />
         </tx:attributes>
     </tx:advice>
 
