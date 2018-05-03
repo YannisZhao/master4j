@@ -10,8 +10,8 @@ import ${basePackageName}.api.common.Pagination;
 import ${basePackageName}.api.dto.${dtoName};
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public interface ${className} {
 
     /**

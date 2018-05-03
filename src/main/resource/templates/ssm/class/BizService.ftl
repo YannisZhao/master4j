@@ -23,8 +23,8 @@ import ${basePackageName}.cache.${cacheServiceName};
 import ${basePackageName}.mapper.${mapperName};
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 @Service
 public class ${className} {
 

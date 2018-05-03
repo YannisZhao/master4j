@@ -10,8 +10,8 @@ import ${basePackageName}.web.form.${formName};
 ${imports}
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public class ${className} {
 
     public static ${voName} toVO(final ${dtoName} dto){

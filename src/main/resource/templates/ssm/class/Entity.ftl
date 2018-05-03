@@ -4,8 +4,8 @@ package ${package};
 ${imports}
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public class ${className} {
 
 <#list fields as field>

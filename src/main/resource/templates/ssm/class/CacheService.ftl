@@ -12,7 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -26,8 +26,8 @@ import redis.clients.jedis.ShardedJedisPool;
 import ${basePackageName}.api.dto.${dtoName};
 
 /**
-* ${dtoName} cache service
-*/
+ * ${dtoName} cache service
+ */
 @Service
 public class ${className} {
 
@@ -125,7 +125,7 @@ public class ${className} {
     
             pipelined.sync();
     
-            Map<Long, ${dtoName}> cacheMap = new HashMap<>(size);
+            Map<Long, ${dtoName}> cacheMap = new LinkedHashMap<>(size);
             for (int i = 0; i < responses.size(); i++) {
                 cacheMap.put(${dtoName?uncap_first}Ids.get(i), deserialize(responses.get(i).get()));
             }

@@ -19,7 +19,7 @@ ${r'<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis
   <sql id="tbl_name">${tableMeta.tableName}</sql>
 
   <sql id="full_columns">
-  <@compress_single_line>`${columns}`</@compress_single_line>
+  <@compress_single_line><#list fields as field>`${field.column}`<#sep>, </#list></@compress_single_line>
   </sql>
 
   <insert id="insert" parameterType="${entityName}">

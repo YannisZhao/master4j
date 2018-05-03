@@ -6,8 +6,8 @@ ${imports}
 import javax.validation.constraints.NotNull;
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public class ${className} implements Serializable {
 
 <#list fields as field>

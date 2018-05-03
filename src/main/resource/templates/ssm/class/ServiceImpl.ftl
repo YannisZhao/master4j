@@ -18,8 +18,8 @@ import ${basePackageName}.api.dto.${dtoName};
 import ${basePackageName}.service.biz.${bizServiceName};
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public class ${className} implements ${baseClassName} {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(${className}.class);

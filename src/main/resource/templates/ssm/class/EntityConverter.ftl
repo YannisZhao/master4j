@@ -9,8 +9,8 @@ import ${basePackageName}.entity.${entityName};
 ${imports}
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 public class ${className} {
 
     public static ${entityName} dto2Entity(final ${dtoName} dto){

@@ -5,7 +5,7 @@ import java.io.Serializable;
 ${imports}
 
 /**
-${classDoc}
+ * ${classDoc}
  */
 public class ${className} implements Serializable {
 

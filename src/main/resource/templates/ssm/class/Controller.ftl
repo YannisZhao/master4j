@@ -31,8 +31,8 @@ import ${basePackageName}.web.vo.${voName};
 ${imports}
 
 /**
-${classDoc}
-*/
+ * ${classDoc}
+ */
 @RestController
 @RequestMapping("/api/${dtoName?uncap_first}")
 public class ${className} extends ${baseClassName} {
